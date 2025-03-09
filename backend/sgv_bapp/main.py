@@ -15,6 +15,7 @@ from sgv_bapp.config import (
 )
 
 from sgv_bapp.car import car_router
+from sgv_bapp.notification.router import notify_router
 
 
 @asynccontextmanager
@@ -30,6 +31,7 @@ app = FastAPI(title=get_app_settings().APP_NAME, lifespan=lifespan)
 register_exception_handlers(app)
 
 app.include_router(car_router)
+app.include_router(notify_router)
 
 
 async def run_app():

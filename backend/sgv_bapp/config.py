@@ -18,6 +18,11 @@ class BaseConfig(BaseSettings):
         extra = 'ignore'
 
 
+class BotSettings(BaseConfig):
+    TOKEN: str
+    CHAT_ID: int
+
+
 class MinioSettings(BaseConfig):
     BUCKET_NAME: str
     ENDPOINT: str
@@ -84,3 +89,8 @@ def get_app_settings() -> AppSettings:
 @lru_cache
 def get_minio_settings() -> MinioSettings:
     return MinioSettings()
+
+
+@lru_cache
+def get_bot_settings() -> BotSettings:
+    return BotSettings()
