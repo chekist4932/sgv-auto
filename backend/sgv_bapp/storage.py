@@ -17,12 +17,12 @@ class MinIOSessionManager:
         """Инициализация с параметрами MinIO."""
         self.session = aioboto3.Session()
         self.client_params = {
-            "endpoint_url": client_settings.ENDPOINT,
-            "aws_access_key_id": client_settings.ACCESS_KEY,
-            "aws_secret_access_key": client_settings.SECRET_KEY,
+            "endpoint_url": client_settings.S3_ENDPOINT,
+            "aws_access_key_id": client_settings.S3_ACCESS_KEY,
+            "aws_secret_access_key": client_settings.S3_SECRET_KEY,
             "region_name": region_name,
         }
-        self.bucket_name = client_settings.BUCKET_NAME
+        self.bucket_name = client_settings.S3_BUCKET_NAME
 
         await self._check_bucket_exist()
 

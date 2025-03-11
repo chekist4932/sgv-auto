@@ -24,10 +24,10 @@ class BotSettings(BaseConfig):
 
 
 class MinioSettings(BaseConfig):
-    BUCKET_NAME: str
-    ENDPOINT: str
-    ACCESS_KEY: str
-    SECRET_KEY: str
+    S3_BUCKET_NAME: str
+    S3_ENDPOINT: str
+    S3_ACCESS_KEY: str
+    S3_SECRET_KEY: str
 
 
 # noinspection PyNestedDecorators
