@@ -6,7 +6,6 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from sgv_bapp.base import Base
 
-
 ERROR_MSG = "DatabaseSessionManager is not initialized"
 
 
@@ -58,6 +57,22 @@ class DatabaseSessionManager:
     @staticmethod
     async def drop_all_conn(connection: AsyncConnection):
         await connection.run_sync(Base.metadata.drop_all)
+
+    def get_engine(self) -> AsyncEngine:
+
+        """Позволяет использовать общий движок в SQLAdmin"""
+
+        if self._engine is None:
+            raise SQLAlchemyError("Engine not initialized")
+        return self._engine
+
+    def get_sessionmaker(self) -> async_sessionmaker[AsyncSession]:
+
+        """Позволяет SQLAdmin использовать общий sessionmaker"""
+
+        if self._sessionmaker is None:
+            raise SQLAlchemyError("Sessionmaker not initialized")
+        return self._sessionmaker
 
 
 session_manager = DatabaseSessionManager()

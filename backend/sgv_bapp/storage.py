@@ -1,12 +1,8 @@
-import asyncio
-from typing import Optional, AsyncIterator, AsyncGenerator
+from typing import Optional, AsyncIterator
 from contextlib import asynccontextmanager
 
 import aioboto3
-import boto3
 from botocore.exceptions import BotoCoreError, NoCredentialsError, ClientError
-
-from sgv_bapp.config import get_minio_settings
 
 ERROR_MSG = "MinIOSessionManager is not initialized"
 
@@ -17,7 +13,7 @@ class MinIOSessionManager:
         self.client_params: Optional[dict] = None
         self.bucket_name = None
 
-    def init(self, client_settings, region_name: str = "us-east-1") -> None:
+    async def init(self, client_settings, region_name: str = "us-east-1") -> None:
         """Инициализация с параметрами MinIO."""
         self.session = aioboto3.Session()
         self.client_params = {
@@ -27,6 +23,8 @@ class MinIOSessionManager:
             "region_name": region_name,
         }
         self.bucket_name = client_settings.BUCKET_NAME
+
+        await self._check_bucket_exist()
 
     @asynccontextmanager
     async def client(self) -> AsyncIterator:
@@ -39,6 +37,13 @@ class MinIOSessionManager:
                 yield client
             except (BotoCoreError, NoCredentialsError) as e:
                 raise RuntimeError(f"MinIO client error: {e}")
+
+    async def _check_bucket_exist(self):
+        async with self.client() as client:
+            try:
+                await client.head_bucket(Bucket=self.bucket_name)
+            except ClientError as e:
+                print(e)  # Logging in future
 
 
 minio_manager = MinIOSessionManager()
