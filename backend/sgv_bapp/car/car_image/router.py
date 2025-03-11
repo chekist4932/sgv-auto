@@ -18,7 +18,7 @@ from sgv_bapp.car.car_image.schemas import (
 
 from sgv_bapp.base import PaginatedResponse
 
-car_image_router = APIRouter(prefix='/car/{car_id}/image', tags=['image'])
+car_image_router = APIRouter(prefix='/{car_id}/image', tags=['image'])
 
 
 @car_image_router.get('/{image_id}', response_model=CarImageSchema)
@@ -44,16 +44,15 @@ async def get_car_image_all(filters: Annotated[CarImageFilter, Query()] = None,
 @car_image_router.post('/', response_model=CarImageSchema)
 async def create_car_image(car_id: int,
                            car_image: UploadFile,
+                           image_uuid=str(uuid.uuid4()),
                            s3_storage: S3Storage = Depends(get_s3_storage),
                            mapper: CarImageMapper = Depends(GetCarImageMapper(CarImageSchema)),
                            service: CarImageService = Depends(GetCarImageService())
                            ) -> CarImageSchema:
-    # Сгенерировать uuid4 для фото
-    image_uuid = str(uuid.uuid4())
-
     # Загрузить фото в MinIO
     binary_image = await car_image.read()
-    image_url = await s3_storage.upload_file(image_uuid, binary_image)
+    s3_file_name = f'{car_id}/{image_uuid}'
+    image_url = await s3_storage.upload_file(s3_file_name, binary_image)
 
     # Сделать запись в бд
     car_image_data = CarImageCreate(car_id=car_id,
@@ -69,6 +68,55 @@ async def delete_car(car_id: int,
                      service: CarImageService = Depends(GetCarImageService())
                      ) -> None:
     # удалить из MinIO
-    await s3_storage.delete_file(image_uuid)
+    s3_file_name = f'{car_id}/{image_uuid}'
+
+    await s3_storage.delete_file(s3_file_name)
 
     return await service.delete(car_id)
+
+# import uuid
+# import asyncio
+#
+# from uvicorn import Config, Server
+# from fastapi import FastAPI, UploadFile
+#
+# from fastapi_storages import S3Storage
+#
+# app = FastAPI()
+#
+#
+# class PublicAssetS3Storage(S3Storage):
+#     AWS_ACCESS_KEY_ID = "minioadmin"
+#     AWS_SECRET_ACCESS_KEY = "minioadmin"
+#     AWS_S3_BUCKET_NAME = "car-image"
+#     AWS_S3_ENDPOINT_URL = "localhost:9000"
+#     AWS_S3_USE_SSL = False
+#
+#
+# storage = PublicAssetS3Storage(
+# )
+#
+#
+# @app.post("/upload/")
+# async def create_upload_file(file: UploadFile,
+#                              image_uuid=str(uuid.uuid4())
+#                              ):
+#     contents = file.file.read()
+#     file.file.seek(0)
+#     storage.write(file.file, image_uuid)
+#
+#
+# async def run_app():
+#     config = Config(
+#         app="sgv_bapp.car.car_image.router:app",
+#         host='localhost',
+#         port=11000,
+#         reload=True,
+#         proxy_headers=True,
+#     )
+#     server = Server(config)
+#     await server.serve()
+#
+#
+# if __name__ == "__main__":
+#     asyncio.run(run_app())
