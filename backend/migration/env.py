@@ -9,6 +9,7 @@ from sgv_bapp.config import get_db_settings
 from sgv_bapp.base import Base
 from sgv_bapp.car.model import Car
 from sgv_bapp.car.car_image.model import CarImage
+from sgv_bapp.admin.model import User
 
 from alembic import context
 

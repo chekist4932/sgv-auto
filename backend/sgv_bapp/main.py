@@ -2,6 +2,8 @@ import asyncio
 
 from uvicorn import Config, Server
 
+from sqladmin import Admin
+
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
@@ -16,13 +18,21 @@ from sgv_bapp.config import (
 
 from sgv_bapp.car import car_router
 from sgv_bapp.notification.router import notify_router
+from sgv_bapp.admin.views import UserAdmin, CarAdmin, CarImageAdmin
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     session_manager.init(get_db_settings().DATABASE_URI.unicode_string())
-    minio_manager.init(get_minio_settings())
+    await minio_manager.init(get_minio_settings())
+
+    admin = Admin(app, engine=session_manager.get_engine(), session_maker=session_manager.get_sessionmaker())
+    admin.add_view(UserAdmin)
+    admin.add_view(CarAdmin)
+    admin.add_view(CarImageAdmin)
+
     yield
+
     await session_manager.close()
 
 
