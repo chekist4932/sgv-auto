@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, DateTime, UniqueConstraint, String, Numeric, Text, func
+from sqlalchemy.orm import relationship
 
 from sgv_bapp.base import Base
 
@@ -16,7 +17,10 @@ class Car(Base):
     transmission = Column(String, nullable=False)
     description = Column(Text, nullable=False)
 
-    main_image = Column(String, nullable=True)
-
     created_at = Column(DateTime, server_default=func.now(), nullable=False)
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
+
+    car_image = relationship('CarImage', back_populates='car')
+
+    def __str__(self):
+        return f'ID Авто: {self.id}'
