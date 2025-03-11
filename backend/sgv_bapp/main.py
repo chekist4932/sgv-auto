@@ -46,15 +46,12 @@ app.include_router(notify_router)
 
 async def run_app():
     config = Config(
-        app="sgv_bapp.main:app",
-        host=get_app_settings().APP_IP,
-        port=get_app_settings().APP_PORT,
-        reload=True,
-        proxy_headers=True,
+        **get_app_settings().model_dump(exclude={"APP_NAME"})
     )
     server = Server(config)
     await server.serve()
 
 
 if __name__ == "__main__":
+    print()
     asyncio.run(run_app())

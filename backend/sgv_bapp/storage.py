@@ -13,16 +13,11 @@ class MinIOSessionManager:
         self.client_params: Optional[dict] = None
         self.bucket_name = None
 
-    async def init(self, client_settings, region_name: str = "us-east-1") -> None:
+    async def init(self, client_settings) -> None:
         """Инициализация с параметрами MinIO."""
         self.session = aioboto3.Session()
-        self.client_params = {
-            "endpoint_url": client_settings.S3_ENDPOINT,
-            "aws_access_key_id": client_settings.S3_ACCESS_KEY,
-            "aws_secret_access_key": client_settings.S3_SECRET_KEY,
-            "region_name": region_name,
-        }
-        self.bucket_name = client_settings.S3_BUCKET_NAME
+        self.client_params = client_settings.model_dump(exclude={'bucket_name'})
+        self.bucket_name = client_settings.model_dump()['bucket_name']
 
         await self._check_bucket_exist()
 
