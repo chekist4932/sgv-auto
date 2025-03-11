@@ -12,7 +12,7 @@ BASE_DIR: Path = Path(__file__).resolve().parent.parent
 
 class BaseConfig(BaseSettings):
     class Config:
-        env_file = BASE_DIR / ".env"
+        env_file = BASE_DIR.parent / ".env"
         case_sensitive = True
         env_file_encoding = "utf-8"
         extra = 'ignore'
