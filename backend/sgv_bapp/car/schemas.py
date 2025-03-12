@@ -12,7 +12,6 @@ class CarBase(BaseModel):
     engine: str
     transmission: str
     description: str
-    main_image: str
 
 
 class CarUpdate(CarBase):
@@ -23,7 +22,6 @@ class CarUpdate(CarBase):
     engine: str | None = None
     transmission: str | None = None
     description: str | None = None
-    main_image: str | None = None
 
 
 class CarCreate(CarBase):
@@ -41,11 +39,13 @@ class CarSchema(CarBase):
 
 
 class CarFilter(BaseFilter):
-    name: str | None = None
-    mileage: str | None = None
-    engine: str | None = None
-    transmission: str | None = None
-    year: ConditionsInt | None = None
+    name: str | None = Field(None)
+    mileage: str | None = Field(None)
+    engine: str | None = Field(None)
+    transmission: str | None = Field(None)
+    # year: ConditionsInt
+    limit: int = Field(100, gt=0, le=100)
+    offset: int = Field(0, ge=0)
 
 # class ExpenseItem(BaseModel):
 #     id: int

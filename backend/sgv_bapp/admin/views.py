@@ -20,6 +20,9 @@ class UserAdmin(ModelView, model=User):
 
     column_sortable_list = [User.id]
 
+    form_create_rules = ['name']
+    form_edit_rules = ['name']
+
 
 class CarAdmin(ModelView, model=Car):
     column_list = [Car.id,

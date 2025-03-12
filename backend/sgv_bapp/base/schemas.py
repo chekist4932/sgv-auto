@@ -15,12 +15,12 @@ class Conditions(BaseModel):
 
 
 class ConditionsInt(Conditions):
-    gt: int | None = None
+    gt: int | None = Field(None)
     lt: int | None
 
 
 class ConditionsFloat(Conditions):
-    gt: float | None = None
+    gt: float | None = Field(None)
     lt: float | None
 
 
@@ -37,7 +37,7 @@ class BaseFilter(BaseModel):
         if origin_annotation is Union or origin_annotation is UnionType:
             field_type = next((arg for arg in get_args(field_type) if issubclass(arg, Conditions)), None)
 
-        if field_type:
+        if field_type and isinstance(field_type, type) and issubclass(field_type, Conditions):
             return field_type.validate_operand_field(field_value)
 
         return field_value
