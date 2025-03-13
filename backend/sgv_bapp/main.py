@@ -5,6 +5,7 @@ from uvicorn import Config, Server
 from sqladmin import Admin
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 from sgv_bapp.exceptions import register_exception_handlers
@@ -43,6 +44,19 @@ register_exception_handlers(app)
 app.include_router(car_router)
 app.include_router(notify_router)
 
+origins = [
+    "*"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "OPTIONS", "DELETE", "PATCH", "PUT"],
+    allow_headers=["Content-Type", "Set-Cookie", "Access-Control-Allow-Headers", "Access-Control-Allow-Origin",
+                   "Authorization"],
+)
+
 
 async def run_app():
     config = Config(
@@ -53,5 +67,4 @@ async def run_app():
 
 
 if __name__ == "__main__":
-    print()
     asyncio.run(run_app())
