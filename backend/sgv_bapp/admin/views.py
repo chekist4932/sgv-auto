@@ -40,18 +40,24 @@ class CarAdmin(ModelView, model=Car):
                             Car.created_at,
                             Car.year]
 
+    form_edit_rules = [col.name for col in Car.__table__.c if col.name not in ['id', 'created_at', 'updated_at']]
+    form_create_rules = [col.name for col in Car.__table__.c if col.name not in ['id', 'created_at', 'updated_at']]
+
 
 class CarImageAdmin(ModelView, model=CarImage):
 
     async def on_model_change(self, data, model, is_created, request):
         # Perform some other action
-        s3_file_name = f"{data['car']}/{data['image_uuid']}"
-        binary_image = await data['image_url'].read()
-        s3_storage = await get_s3_storage()
+        if is_created:
+            s3_file_name = f"{data['car']}/{data['image_uuid']}"
+            binary_image = await data['image_url'].read()
+            s3_storage = await get_s3_storage()
 
-        # Загружаем в MinIO
-        image_url = await s3_storage.upload_file(s3_file_name, binary_image)
-        data['image_url'] = image_url
+            # Загружаем в MinIO
+            image_url = await s3_storage.upload_file(s3_file_name, binary_image)
+            data['image_url'] = image_url
+        else:
+            model.is_main = data['is_main']
 
     async def on_model_delete(self, model, request):
         s3_file_name = f'{model.car_id}/{model.image_uuid}'
