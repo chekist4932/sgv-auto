@@ -1,7 +1,10 @@
+from typing import Literal
+
 from pydantic import BaseModel, Field
 from datetime import datetime
 
 from sgv_bapp.base import BaseFilter, ConditionsInt
+from sgv_bapp.car.model import CarStatus
 
 
 class CarBase(BaseModel):
@@ -12,6 +15,7 @@ class CarBase(BaseModel):
     engine: str
     transmission: str
     description: str
+    status: CarStatus
 
 
 class CarUpdate(CarBase):
@@ -22,6 +26,7 @@ class CarUpdate(CarBase):
     engine: str | None = None
     transmission: str | None = None
     description: str | None = None
+    status: CarStatus | None = None
 
 
 class CarCreate(CarBase):
@@ -43,6 +48,7 @@ class CarFilter(BaseFilter):
     mileage: str | None = Field(None)
     engine: str | None = Field(None)
     transmission: str | None = Field(None)
+    status: str | None = Field(None)
     # year: ConditionsInt
     limit: int = Field(100, gt=0, le=100)
     offset: int = Field(0, ge=0)
