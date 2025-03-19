@@ -15,7 +15,12 @@ class CarBase(BaseModel):
     engine: str
     transmission: str
     description: str
+
     status: CarStatus
+
+    drivetrain: str
+    acceleration: float
+    power: int
 
 
 class CarUpdate(CarBase):
@@ -26,7 +31,12 @@ class CarUpdate(CarBase):
     engine: str | None = None
     transmission: str | None = None
     description: str | None = None
+
     status: CarStatus | None = None
+
+    power: int | None = None
+    drivetrain: str | None = None
+    acceleration: float | None = None
 
 
 class CarCreate(CarBase):
