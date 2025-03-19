@@ -4,10 +4,11 @@ from uvicorn import Config, Server
 
 from sqladmin import Admin
 
-from fastapi import FastAPI
+from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
+import review.router
 from sgv_bapp.exceptions import register_exception_handlers
 from sgv_bapp.database import session_manager
 from sgv_bapp.storage import minio_manager
@@ -19,7 +20,12 @@ from sgv_bapp.config import (
 
 from sgv_bapp.car import car_router
 from sgv_bapp.notification.router import notify_router
-from sgv_bapp.admin.views import UserAdmin, CarAdmin, CarImageAdmin
+from sgv_bapp.review.router import review_router
+from sgv_bapp.admin.views import (
+    UserAdmin,
+    CarAdmin,
+    CarImageAdmin,
+    ReviewAdmin)
 
 
 @asynccontextmanager
@@ -31,18 +37,26 @@ async def lifespan(app: FastAPI):
     admin.add_view(UserAdmin)
     admin.add_view(CarAdmin)
     admin.add_view(CarImageAdmin)
+    admin.add_view(ReviewAdmin)
 
     yield
 
     await session_manager.close()
 
 
-app = FastAPI(title=get_app_settings().APP_NAME, lifespan=lifespan)
+app = FastAPI(title=get_app_settings().APP_NAME,
+              lifespan=lifespan)
+
+api_router = APIRouter(prefix="/api")
+
+api_router.include_router(car_router)
+api_router.include_router(review_router)
+api_router.include_router(notify_router)
+
+app.include_router(api_router)
 
 register_exception_handlers(app)
 
-app.include_router(car_router)
-app.include_router(notify_router)
 
 origins = [
     "*"
