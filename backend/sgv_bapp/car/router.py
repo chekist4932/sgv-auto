@@ -25,11 +25,9 @@ car_router.include_router(car_image_router)
 async def get_car_all(filters: Annotated[CarFilter, Query()] = None,
                       service: CarService = Depends(GetCarService()),
                       mapper: CarMapper = Depends(GetCarMapper(CarSchema)),
-                      condition_builder: CarConditionBuilder = Depends(get_condition_builder),
-                      limit: int = Query(100, ge=0),
-                      offset: int = Query(0, ge=0)
+                      condition_builder: CarConditionBuilder = Depends(get_condition_builder)
                       ) -> PaginatedResponse[CarSchema]:
-    return await service.get_all(condition_builder, mapper, filters, limit, offset)
+    return await service.get_all(condition_builder, mapper, filters, filters.limit, filters.offset)
 
 
 @car_router.get('/{car_id}', response_model=CarSchema)
@@ -40,31 +38,30 @@ async def get_car_by_id(
 ) -> CarSchema:
     return await service.get_by_id(car_id, mapper)
 
-
-@car_router.post('/', response_model=CarSchema)
-async def create_car(car: CarCreate,
-                     mapper: CarMapper = Depends(GetCarMapper(CarSchema)),
-                     service: CarService = Depends(GetCarService())
-                     ) -> CarSchema:
-    return await service.create(car, mapper)
-
-
-@car_router.patch('/{car_id}', status_code=204)
-async def update_car(car_id: int, car: CarUpdate,
-                     service: CarService = Depends(GetCarService())
-                     ) -> None:
-    return await service.update(car_id, car)
-
-
-@car_router.put('/{car_id}', status_code=204)
-async def update_car_full(car_id: int, car: CarCreate,
-                          service: CarService = Depends(GetCarService())
-                          ) -> None:
-    return await service.update(car_id, car)
-
-
-@car_router.delete('/{car_id}', status_code=204)
-async def delete_car(car_id: int,
-                     service: CarService = Depends(GetCarService())
-                     ) -> None:
-    return await service.delete(car_id)
+# @car_router.post('/', response_model=CarSchema)
+# async def create_car(car: CarCreate,
+#                      mapper: CarMapper = Depends(GetCarMapper(CarSchema)),
+#                      service: CarService = Depends(GetCarService())
+#                      ) -> CarSchema:
+#     return await service.create(car, mapper)
+#
+#
+# @car_router.patch('/{car_id}', status_code=204)
+# async def update_car(car_id: int, car: CarUpdate,
+#                      service: CarService = Depends(GetCarService())
+#                      ) -> None:
+#     return await service.update(car_id, car)
+#
+#
+# @car_router.put('/{car_id}', status_code=204)
+# async def update_car_full(car_id: int, car: CarCreate,
+#                           service: CarService = Depends(GetCarService())
+#                           ) -> None:
+#     return await service.update(car_id, car)
+#
+#
+# @car_router.delete('/{car_id}', status_code=204)
+# async def delete_car(car_id: int,
+#                      service: CarService = Depends(GetCarService())
+#                      ) -> None:
+#     return await service.delete(car_id)

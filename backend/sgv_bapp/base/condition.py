@@ -9,7 +9,7 @@ class ConditionBuilder(Generic[Model]):
 
     async def build_condition(self, filters: FilterSchema) -> list[BinaryExpression] | list:
         conditions = []
-        for field, value in filters.model_dump(exclude_none=True).items():
+        for field, value in filters.model_dump(exclude_none=True, exclude={'limit', 'offset'}).items():
             if isinstance(value, dict):
                 column = getattr(self.model, field)
                 for operand, val in value.items():

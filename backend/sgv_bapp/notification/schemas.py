@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 class ReqDataSchema(BaseModel):
     name: str
-    phone_number: str
+    phone: str
     email: str
     budget: int
-    city_name: str
-    messanger: str
+    city: str
+    contactMethod: str
