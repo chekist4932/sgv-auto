@@ -10,6 +10,7 @@ from sgv_bapp.base import Base
 from sgv_bapp.car.model import Car
 from sgv_bapp.car.car_image.model import CarImage
 from sgv_bapp.admin.model import User
+from sgv_bapp.review.model import Review
 
 from alembic import context
 

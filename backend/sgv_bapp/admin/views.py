@@ -7,16 +7,22 @@ from sgv_bapp.car.car_image.s3_storage import get_s3_storage
 
 from sgv_bapp.admin.model import User
 from sgv_bapp.car.model import Car
+from sgv_bapp.review.model import Review
 from sgv_bapp.car.car_image.model import CarImage
 
 
-class UserAdmin(ModelView, model=User):
+class PageView(ModelView):
+    icon = "fa-solid fa-user"
+    page_size = 100
+    page_size_options = [25, 50, 100, 200]
+
+
+class UserAdmin(PageView, model=User):
     column_list = [User.id, User.name]
 
     can_delete = False
     name = 'Пользователь'
     name_plural = 'Пользователи'
-    icon = "fa-solid fa-user"
 
     column_sortable_list = [User.id]
 
@@ -24,17 +30,16 @@ class UserAdmin(ModelView, model=User):
     form_edit_rules = ['name']
 
 
-class CarAdmin(ModelView, model=Car):
+class CarAdmin(PageView, model=Car):
     column_list = [Car.id,
                    Car.name,
                    Car.price,
+                   Car.year,
                    Car.updated_at,
-                   Car.created_at,
-                   Car.year]
+                   Car.created_at]
 
     name = 'Авто'
     name_plural = 'Авто'
-    icon = "fa-solid fa-user"
 
     column_sortable_list = [Car.id, Car.updated_at,
                             Car.created_at,
@@ -44,7 +49,7 @@ class CarAdmin(ModelView, model=Car):
     form_create_rules = [col.name for col in Car.__table__.c if col.name not in ['id', 'created_at', 'updated_at']]
 
 
-class CarImageAdmin(ModelView, model=CarImage):
+class CarImageAdmin(PageView, model=CarImage):
 
     async def on_model_change(self, data, model, is_created, request):
         # Perform some other action
@@ -72,7 +77,7 @@ class CarImageAdmin(ModelView, model=CarImage):
 
     name = 'Фото авто'
     name_plural = 'Фото авто'
-    icon = "fa-solid fa-user"
+
     form_include_pk = True
     form_overrides = dict(image_url=FileField)
 
@@ -87,5 +92,16 @@ class CarImageAdmin(ModelView, model=CarImage):
                             CarImage.car_id,
                             CarImage.is_main,
                             CarImage.image_uuid,
-                            CarImage.image_url
-                            ]
+                            CarImage.image_url]
+
+
+class ReviewAdmin(PageView, model=Review):
+    column_list = [col.name for col in Review.__table__.c]
+
+    name = 'Отзыв'
+    name_plural = 'Отзывы'
+
+    column_sortable_list = [col.name for col in Review.__table__.c]
+
+    form_edit_rules = [col.name for col in Review.__table__.c if col.name not in ['id']]
+    form_create_rules = [col.name for col in Review.__table__.c if col.name not in ['id']]
