@@ -8,7 +8,6 @@ from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
-import review.router
 from sgv_bapp.exceptions import register_exception_handlers
 from sgv_bapp.database import session_manager
 from sgv_bapp.storage import minio_manager
