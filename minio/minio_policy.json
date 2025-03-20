@@ -3,16 +3,26 @@
     "Statement": [
         {
             "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "*"
+                ]
+            },
             "Action": [
                 "s3:GetBucketLocation",
                 "s3:ListBucket"
             ],
             "Resource": [
-                "arn:aws:s3:::car-image/*"
+                "arn:aws:s3:::car-image"
             ]
         },
         {
             "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "*"
+                ]
+            },
             "Action": [
                 "s3:GetObject"
             ],
