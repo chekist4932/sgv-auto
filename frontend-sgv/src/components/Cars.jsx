@@ -24,7 +24,7 @@ async function fetchCarImages(cars) {
                 const response = await fetch(`${API_URL}/car/${car.id}/image/`, requestOptions);
 
                 if (response.status === 404) {
-                    console.info(`Изображения для авто ${car.id} не найдены`);
+                    // console.info(`Изображения для авто ${car.id} не найдены`);
                     return { ...car, images: [] }; // Если 404, просто пустой массив изображений
                 }
 
@@ -35,7 +35,7 @@ async function fetchCarImages(cars) {
 
                 return { ...car, images }; // Добавляем список изображений к машине
             } catch (error) {
-                console.error("error", error);
+                // console.error("error", error);
                 return { ...car, images: [] }; // Если ошибка, оставляем пустой массив изображений
             }
         })
@@ -66,10 +66,10 @@ export default function Cars() {
             const carsWithImages = await fetchCarImages(cars);
             if (response.ok) {
                 setCars(carsWithImages);
-                console.log(carsWithImages) // Вывод в консоль
+                // console.log(carsWithImages) // Вывод в консоль
             }
         } catch (error) {
-            console.error("Error fetching cars:", error);
+            // console.error("Error fetching cars:", error);
         } finally {
             setLoading(false);
         }

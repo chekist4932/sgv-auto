@@ -13,7 +13,7 @@ export default function CurrencyRates() {
                 const { USD, EUR, CNY, JPY, KRW } = response.data.Valute;
                 setRates([USD, EUR, CNY, JPY, KRW]);
             } catch (error) {
-                console.error('Error fetching rates:', error);
+                // console.error('Error fetching rates:', error);
             } finally {
                 setLoading(false);
             }

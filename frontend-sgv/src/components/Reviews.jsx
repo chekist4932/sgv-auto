@@ -206,7 +206,7 @@ export default function Reviews() {
             const response = await fetch(`${API_URL}/review/`, requestOptions);
 
             if (response.status === 404) {
-                console.info(`Отзывов нет`);
+                // console.info(`Отзывов нет`);
                 throw new Error(`Отзывов нет`);
             }
 
@@ -215,7 +215,7 @@ export default function Reviews() {
 
             setReviews(reviews || []); // Добавляем список изображений к машине
         } catch (error) {
-            console.error('Error fetching reviews:', error); // Если ошибка, оставляем пустой массив изображений
+            // console.error('Error fetching reviews:', error); // Если ошибка, оставляем пустой массив изображений
         } finally {
             setLoading(false);
         }

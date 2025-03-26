@@ -6,6 +6,6 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true, // Разрешает внешние подключения
-    port: 3000, // Указывает порт (должен совпадать с EXPOSE)
+    // port: 3000, // Указывает порт (должен совпадать с EXPOSE)
   },
 })

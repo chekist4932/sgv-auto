@@ -125,12 +125,12 @@ export default function CarModal({ car, onClose }) {
                                         <span>Привод: {spec.drivetrain}</span>
                                     </div>
                                 )}
-                                {spec.acceleration && (
+                                {/* {spec.acceleration && (
                                     <div className="flex items-center text-gray-600 dark:text-gray-300">
                                         <Gauge className="w-5 h-5 mr-3 text-red-500" />
                                         <span>Разгон до 100 км/ч: {spec.acceleration} сек</span>
                                     </div>
-                                )}
+                                )} */}
                             </div>
 
                             {/* Description */}
