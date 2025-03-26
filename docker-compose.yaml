@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  app:
+  backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -10,6 +10,7 @@ services:
     ports:
       - ${APP_PORT}:${APP_PORT}
     environment:
+      - DOMAIN_NAME=${DOMAIN_NAME}
       - APP_NAME=${APP_NAME}
       - APP_IP=${APP_IP}
       - APP_PORT=${APP_PORT}
@@ -18,14 +19,17 @@ services:
       - RELOAD=${RELOAD}
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
+
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
+
       - S3_BUCKET_NAME=${S3_BUCKET_NAME}
       - S3_REGION_NAME=${S3_REGION_NAME}
       - S3_ENDPOINT=${S3_ENDPOINT}
       - S3_ACCESS_KEY=${S3_ACCESS_KEY}
       - S3_SECRET_KEY=${S3_SECRET_KEY}
+
       - TOKEN=${TOKEN}
       - CHAT_ID=${CHAT_ID}
       
@@ -37,6 +41,7 @@ services:
 
   db_postgresql:
     image: postgres:16-alpine
+    container_name: db_postgresql
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -51,20 +56,42 @@ services:
 
   minio:
     image: minio/minio
+    container_name: minio
     restart: always
     volumes:
       - minio_data:/data
+      - ./minio/scripts/init_minio.sh:/scripts/init_minio.sh:ro
+      - ./minio/minio_policy.json:/scripts/minio_policy.json:ro
     environment:
       - MINIO_ROOT_USER=${S3_ACCESS_KEY}
       - MINIO_ROOT_PASSWORD=${S3_SECRET_KEY}
       - MINIO_DEFAULT_BUCKETS=${S3_BUCKET_NAME}
+      - MINIO_CONSOLE_USER=minio
+      - MINIO_CONSOLE_PASSWORD=minio123
+      - S3_PORT=${S3_PORT}
+      - S3_CONSOLE_PORT=${S3_CONSOLE_PORT}
     ports:
-      # - ${APP_PORT}:${APP_PORT}
-      - 9000:9000
-      - 9001:9001
-    command: server /data --console-address ":9001"
+      - ${S3_PORT}:${S3_PORT}
+      - ${S3_CONSOLE_PORT}:${S3_CONSOLE_PORT}
+    entrypoint: ["/bin/sh", "/scripts/init_minio.sh"]
     depends_on:
       - db_postgresql
+    networks:
+      - app_network
+
+  frontend:
+    build:
+      context: ./frontend-sgv
+      dockerfile: Dockerfile
+      args:
+      - VITE_APP_API_URL=${VITE_APP_API_URL}
+    container_name: frontend
+    restart: always
+    
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
     networks:
       - app_network
 
