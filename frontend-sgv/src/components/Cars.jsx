@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import CarModal from './CarModal';
 import CarCard from './CarCard';
 import axios from 'axios';
+import noResultImage from '../../public/no-results.png'
 
 import { API_URL } from '../config';
 
@@ -104,7 +105,7 @@ export default function Cars() {
             price: `${car.price.toLocaleString()} ₽`,
             description: car.description,
             images: [
-                { url: mainImage.image_url || 'http://localhost:9000/car-image/HEART.jpg', alt: car.name },
+                { url: mainImage.image_url || noResultImage, alt: car.name },
                 ...otherImages.map((img) => ({ url: img.image_url, alt: car.name })),
             ],
             specs: {
@@ -148,7 +149,7 @@ export default function Cars() {
             price: `${car.price.toLocaleString()} ₽`,
             description: car.description,
             images: [
-                { url: mainImage.image_url || 'http://localhost:9000/car-image/HEART.jpg', alt: car.name },
+                { url: mainImage.image_url || noResultImage, alt: car.name },
                 ...otherImages.map((img) => ({ url: img.image_url, alt: car.name })),
             ],
             status: car.status,
