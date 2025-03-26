@@ -32,7 +32,7 @@ services:
 
       - TOKEN=${TOKEN}
       - CHAT_ID=${CHAT_ID}
-      
+
     depends_on:
       - db_postgresql
       - minio
@@ -73,7 +73,7 @@ services:
     ports:
       - ${S3_PORT}:${S3_PORT}
       - ${S3_CONSOLE_PORT}:${S3_CONSOLE_PORT}
-    entrypoint: ["/bin/sh", "/scripts/init_minio.sh"]
+    entrypoint: [ "/bin/sh", "/scripts/init_minio.sh" ]
     depends_on:
       - db_postgresql
     networks:
@@ -84,21 +84,38 @@ services:
       context: ./frontend-sgv
       dockerfile: Dockerfile
       args:
-      - VITE_APP_API_URL=${VITE_APP_API_URL}
+        - VITE_APP_API_URL=${VITE_APP_API_URL}
     container_name: frontend
     restart: always
-    
-    ports:
-      - "3000:3000"
+    # ports:
+    #   - "3000:3000"
     depends_on:
+      - db_postgresql
+      - minio
       - backend
     networks:
       - app_network
 
+  proxy-nginx:
+    image: nginx:stable-alpine
+    container_name: proxy-nginx
+    volumes:
+      - ./nginx/proxy.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "80:80" # Локальная проверка без SSL
+    restart: always
+    depends_on:
+      - db_postgresql
+      - minio
+      - backend
+      - frontend
+    networks:
+      - app_network
 
 volumes:
   postgres_data:
   minio_data:
+
 
 networks:
   app_network:
