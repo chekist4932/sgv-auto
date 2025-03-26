@@ -7,8 +7,8 @@ services:
       dockerfile: Dockerfile
     container_name: backend
     restart: always
-    # ports:
-    #   - ${APP_PORT}:${APP_PORT}
+    ports:
+      - ${APP_PORT}:${APP_PORT}
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME}
       - APP_NAME=${APP_NAME}
@@ -70,9 +70,11 @@ services:
       - MINIO_CONSOLE_PASSWORD=minio123
       - S3_PORT=${S3_PORT}
       - S3_CONSOLE_PORT=${S3_CONSOLE_PORT}
-    # ports:
-    #   - ${S3_PORT}:${S3_PORT}
-    #   - ${S3_CONSOLE_PORT}:${S3_CONSOLE_PORT}
+    # expose:
+    #   - ${S3_PORT}
+    ports:
+      - ${S3_PORT}:${S3_PORT}
+      - ${S3_CONSOLE_PORT}:${S3_CONSOLE_PORT}
     entrypoint: [ "/bin/sh", "/scripts/init_minio.sh" ]
     depends_on:
       - db_postgresql
@@ -85,6 +87,7 @@ services:
       dockerfile: Dockerfile
       args:
         - VITE_APP_API_URL=${VITE_APP_API_URL}
+        - VITE_APP_PORT=${VITE_APP_PORT}
     container_name: frontend
     restart: always
     # ports:
