@@ -73,7 +73,7 @@ app.add_middleware(
 
 async def run_app():
     config = Config(
-        **get_app_settings().model_dump(exclude={"APP_NAME"})
+        **get_app_settings().model_dump(exclude={"APP_NAME", 'DOMAIN_NAME'})
     )
     server = Server(config)
     await server.serve()

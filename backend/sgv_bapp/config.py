@@ -34,6 +34,7 @@ class MinioSettings(BaseConfig):
 # noinspection PyNestedDecorators
 class AppSettings(BaseConfig):
     APP_NAME: str = Field(alias="APP_NAME")
+    DOMAIN_NAME: str = Field(alias="DOMAIN_NAME")
     host: str = Field(alias="APP_IP")
     port: int = Field(alias="APP_PORT")
     app: str = Field(alias="APP_PATH")
