@@ -134,7 +134,7 @@ export default function CustomsCalculator() {
     const calculateShippingCost = (countryInfo, priceInCurrency) => {
         if (countryInfo.sanctioned) {
             const { fob, freight } = calculateSanctionedJPShipping(priceInCurrency);
-            console.log(priceInCurrency)
+            // console.log(priceInCurrency)
             const totalUSD = fob + freight;
             // const totalUSD = 100000000000;
             return {
