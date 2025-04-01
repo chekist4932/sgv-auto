@@ -90,8 +90,8 @@ services:
         - VITE_APP_PORT=${VITE_APP_PORT}
     container_name: frontend
     restart: always
-    # ports:
-    #   - "3000:3000"
+    ports:
+      - "3000:3000"
     depends_on:
       - db_postgresql
       - minio
@@ -104,8 +104,14 @@ services:
     container_name: proxy-nginx
     volumes:
       - ./nginx/proxy.conf:/etc/nginx/conf.d/default.conf:ro
+      # - ./nginx/sgv-auto.ru.conf:/etc/nginx/sites-available/sgv-auto.ru:ro
+
+      - /etc/letsencrypt/live/sgv-auto.ru:/etc/letsencrypt/live/sgv-auto.ru:ro
+      - /etc/letsencrypt/archive/sgv-auto.ru:/etc/letsencrypt/archive/sgv-auto.ru:ro
+      - /etc/letsencrypt/renewal/sgv-auto.ru.conf:/etc/letsencrypt/renewal/sgv-auto.ru.conf:ro
     ports:
       - "80:80" # Локальная проверка без SSL
+      - "443:443"
     restart: always
     depends_on:
       - db_postgresql
@@ -114,6 +120,7 @@ services:
       - frontend
     networks:
       - app_network
+
 
 volumes:
   postgres_data:
