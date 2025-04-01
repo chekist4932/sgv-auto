@@ -289,7 +289,7 @@ export default function Reviews() {
                                                     </div>
                                                 </div>
                                                 <a href="#" className="text-red-500 hover:text-red-600 flex items-center">
-                                                    <MessageSquare className="w-4 h-4 mr-1" />
+                                                    <MessageSquare className="w-4 h-4 mr-1" href={review.source_url} />
                                                     {review.source}
                                                 </a>
                                             </div>
