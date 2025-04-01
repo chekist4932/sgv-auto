@@ -91,7 +91,7 @@ services:
     container_name: frontend
     restart: always
     ports:
-      - "3000:3000"
+      - ${VITE_APP_PORT}:${VITE_APP_PORT}
     depends_on:
       - db_postgresql
       - minio
