@@ -44,7 +44,7 @@ export default function ContactForm() {
 
             };
 
-            const response = await fetch(`${API_URL}/notification`, requestOptions);
+            const response = await fetch(`${API_URL}/notification/`, requestOptions);
 
             setSuccess(true);
             reset();
