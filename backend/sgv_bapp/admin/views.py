@@ -17,6 +17,7 @@ class PageView(ModelView):
     icon = "fa-solid fa-user"
     page_size = 100
     page_size_options = [25, 50, 100, 200]
+    
 
 
 class UserAdmin(PageView, model=User):
@@ -54,6 +55,8 @@ class CarAdmin(PageView, model=Car):
 class CarImageAdmin(PageView, model=CarImage):
 
     async def on_model_change(self, data, model, is_created, request):
+        self.form_widget_args = {"image_uuid": {"value": uuid.uuid4()}}
+        
         # Perform some other action
         if is_created:
             s3_file_name = f"{data['car']}/{data['image_uuid']}"
