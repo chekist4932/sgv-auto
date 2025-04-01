@@ -121,7 +121,7 @@ function ReviewModal({ review, onClose }) {
 
                     <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
                         <span>{new Date(review.created_at).toLocaleDateString()}</span>
-                        <a href="#" className="text-red-500 hover:text-red-600 flex items-center">
+                        <a href={review.source_url} target="_blank" className="text-red-500 hover:text-red-600 flex items-center">
                             <MessageSquare className="w-4 h-4 mr-1" />
                             {review.source}
                         </a>
@@ -289,7 +289,7 @@ export default function Reviews() {
                                                     </div>
                                                 </div>
                                                 <a href="#" className="text-red-500 hover:text-red-600 flex items-center">
-                                                    <MessageSquare className="w-4 h-4 mr-1" href={review.source_url} />
+                                                    <MessageSquare className="w-4 h-4 mr-1"/>
                                                     {review.source}
                                                 </a>
                                             </div>
