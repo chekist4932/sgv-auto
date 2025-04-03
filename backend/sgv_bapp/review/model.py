@@ -17,6 +17,6 @@ class Review(Base):
     text = Column(Text, nullable=False)
     source = Column(String, nullable=False)
     source_url = Column(String, nullable=False)
-    image_url = Column(String, nullable=False)
+    image_url = Column(String)
 
     created_at = Column(DateTime, nullable=False)

@@ -17,7 +17,6 @@ class PageView(ModelView):
     icon = "fa-solid fa-user"
     page_size = 100
     page_size_options = [25, 50, 100, 200]
-    
 
 
 class UserAdmin(PageView, model=User):
@@ -48,19 +47,22 @@ class CarAdmin(PageView, model=Car):
                             Car.created_at,
                             Car.year]
 
-    form_edit_rules = [col.name for col in Car.__table__.c if col.name not in ['id', 'created_at', 'updated_at']]
-    form_create_rules = [col.name for col in Car.__table__.c if col.name not in ['id', 'created_at', 'updated_at']]
+    form_edit_rules = [col.name for col in Car.__table__.c if
+                       col.name not in ['id', 'created_at', 'updated_at', 'acceleration']]
+    form_create_rules = [col.name for col in Car.__table__.c if
+                         col.name not in ['id', 'created_at', 'updated_at', 'acceleration']]
 
 
 class CarImageAdmin(PageView, model=CarImage):
 
     async def on_model_change(self, data, model, is_created, request):
         self.form_widget_args = {"image_uuid": {"value": uuid.uuid4()}}
-        
+
         # Perform some other action
         if is_created:
             s3_file_name = f"{data['car']}/{data['image_uuid']}"
-            binary_image = await data['image_url'].read() # В админке был изменен тип поля для записи image_url. В бд - строка, в форме - изображение
+            binary_image = await data[
+                'image_url'].read()  # В админке был изменен тип поля для записи image_url. В бд - строка, в форме - изображение
             s3_storage = await get_s3_storage()
 
             # Загружаем в MinIO

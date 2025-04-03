@@ -19,7 +19,6 @@ class CarBase(BaseModel):
     status: CarStatus
 
     drivetrain: str
-    acceleration: float
     power: int
 
 
@@ -48,6 +47,8 @@ class CarSchema(CarBase):
 
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+    acceleration: float | None = None
 
     class Config:
         from_attributes = True
