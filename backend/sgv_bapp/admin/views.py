@@ -83,6 +83,7 @@ class CarImageAdmin(PageView, model=CarImage):
 
     column_list = [CarImage.id,
                    CarImage.car_id,
+                   CarImage.is_main,
                    CarImage.image_uuid,
                    CarImage.image_url
                    ] + [CarImage.car]
