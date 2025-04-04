@@ -65,7 +65,9 @@ export default function Cars() {
             const cars = data.items || []; // Достаем массив машин
             const carsWithImages = await fetchCarImages(cars);
             if (response.ok) {
-                setCars(carsWithImages);
+                const sortedCarsWithImages = carsWithImages.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+                setCars(sortedCarsWithImages);
                 // console.log(carsWithImages) // Вывод в консоль
             }
         } catch (error) {

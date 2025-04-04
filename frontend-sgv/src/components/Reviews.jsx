@@ -212,8 +212,12 @@ export default function Reviews() {
 
             const data = await response.json();
             const reviews = data.items
+            
+                    // Сортировка по дате (сначала новые)
+            const sortedReviews = reviews.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
-            setReviews(reviews || []); // Добавляем список изображений к машине
+            setReviews(sortedReviews || []);
+
         } catch (error) {
             // console.error('Error fetching reviews:', error); // Если ошибка, оставляем пустой массив изображений
         } finally {
