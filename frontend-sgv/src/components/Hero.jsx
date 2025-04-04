@@ -12,6 +12,7 @@ export default function Hero() {
 
     return (
         <div className="pt-20 relative">
+            <section id='hero'>
             {/* Background Image */}
             <div className="absolute inset-0 z-0">
                 <img
@@ -60,6 +61,7 @@ export default function Hero() {
                     </div>
                 </div>
             </div>
+            </section>
         </div>
     );
 }
