@@ -20,7 +20,7 @@ const Header = () => {
                     <div className="flex items-center space-x-2">
                         <span
                             style={{
-                                fontFamily: 'SutroW01-BoldExtended, sans-serif',
+                                fontFamily: 'SutroW01-BoldExtended',
                                 fontSize: '24px',
                                 letterSpacing: '0.02em',
                                 textTransform: 'uppercase'
