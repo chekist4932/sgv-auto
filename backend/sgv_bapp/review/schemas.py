@@ -7,10 +7,8 @@ from datetime import datetime
 class ReviewBase(BaseModel):
     author: str
     rating: int
-    text: str
     source: str
     source_url: str
-    image_url: str
 
     created_at: datetime
 
@@ -32,6 +30,9 @@ class ReviewCreate(ReviewBase):
 
 class ReviewSchema(ReviewBase):
     id: int
+
+    text: str | None = None
+    image_url: str | None = None
 
     class Config:
         from_attributes = True
