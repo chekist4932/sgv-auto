@@ -58,6 +58,7 @@ register_exception_handlers(app)
 
 
 origins = [
+    "*",
     "http://localhost",
     "http://127.0.0.1"
 ]

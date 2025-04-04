@@ -3,6 +3,7 @@ import uuid
 from sqladmin import ModelView
 from wtforms.fields import FileField
 
+from admin.utils import optimize_image_bytes
 from sgv_bapp.config import get_app_settings, get_minio_settings
 
 from sgv_bapp.car.car_image.s3_storage import get_s3_storage
@@ -63,6 +64,9 @@ class CarImageAdmin(PageView, model=CarImage):
             s3_file_name = f"{data['car']}/{data['image_uuid']}"
             binary_image = await data[
                 'image_url'].read()  # В админке был изменен тип поля для записи image_url. В бд - строка, в форме - изображение
+
+            binary_image = optimize_image_bytes(binary_image, quality=70)
+
             s3_storage = await get_s3_storage()
 
             # Загружаем в MinIO
