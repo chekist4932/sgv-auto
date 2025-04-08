@@ -109,6 +109,10 @@ services:
       - /etc/letsencrypt/live/sgv-auto.ru:/etc/letsencrypt/live/sgv-auto.ru:ro
       - /etc/letsencrypt/archive/sgv-auto.ru:/etc/letsencrypt/archive/sgv-auto.ru:ro
       - /etc/letsencrypt/renewal/sgv-auto.ru.conf:/etc/letsencrypt/renewal/sgv-auto.ru.conf:ro
+
+      - /etc/letsencrypt/live//sgvauto.ru:/etc/letsencrypt/live/sgvauto.ru:ro
+      - /etc/letsencrypt/archive/sgvauto.ru:/etc/letsencrypt/archive/sgvauto.ru:ro
+      - /etc/letsencrypt/renewal/sgvauto.ru.conf:/etc/letsencrypt/renewal/sgvauto.ru.conf:ro
     ports:
       - "80:80" # Локальная проверка без SSL
       - "443:443"
