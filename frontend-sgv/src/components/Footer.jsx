@@ -11,6 +11,25 @@ export default function Footer() {
                         <p className="text-gray-300">
                             Профессиональный импорт автомобилей из Азии с полным циклом услуг
                         </p>
+                        <a
+                            href="/docs/user-agreement.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-400 hover:text-white transition-colors inline-block"
+                        >
+                            Пользовательское соглашение
+                        </a>
+                        <br />
+                        <a
+                            href="/docs/privacy-policy.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-400 hover:text-white transition-colors inline-block"
+                        >
+                            Политика в отношении обработки персональных данных
+                        </a>
+                        <br />
+
                     </div>
                     <div>
                         <h3 className="text-xl font-bold mb-4 text-white">Контакты</h3>
