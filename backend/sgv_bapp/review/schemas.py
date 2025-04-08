@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field
 
+from uuid import UUID
+
 from sgv_bapp.base import BaseFilter
 from datetime import datetime
 
@@ -10,16 +12,21 @@ class ReviewBase(BaseModel):
     source: str
     source_url: str
 
+    text: str | None = None
+    image_url: str | None = None
+
+    review_uuid: UUID
+
     created_at: datetime
 
 
 class ReviewUpdate(ReviewBase):
     author: str | None = None
     rating: int | None = None
-    text: str | None = None
     source: str | None = None
     source_url: str | None = None
-    image_url: str | None = None
+
+    review_uuid: UUID | None = None
 
     created_at: datetime | None = None
 
@@ -30,9 +37,6 @@ class ReviewCreate(ReviewBase):
 
 class ReviewSchema(ReviewBase):
     id: int
-
-    text: str | None = None
-    image_url: str | None = None
 
     class Config:
         from_attributes = True

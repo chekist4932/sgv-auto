@@ -1,9 +1,10 @@
 import uuid
 
 from sqladmin import ModelView
-from wtforms.fields import FileField
+from wtforms.fields import FileField, StringField
+from wtforms.validators import Optional
+from markupsafe import Markup
 
-from sgv_bapp.admin.utils import optimize_image_bytes
 from sgv_bapp.config import get_app_settings, get_minio_settings
 
 from sgv_bapp.car.car_image.s3_storage import get_s3_storage
@@ -56,16 +57,20 @@ class CarAdmin(PageView, model=Car):
 
 class CarImageAdmin(PageView, model=CarImage):
 
+    async def scaffold_form(self, *args, **kwargs):
+        form_class = await super().scaffold_form(*args, **kwargs)
+        form_class.upload_image = FileField(validators=[Optional()])
+
+        return form_class
+
     async def on_model_change(self, data, model, is_created, request):
         self.form_widget_args = {"image_uuid": {"value": uuid.uuid4()}}
 
         # Perform some other action
         if is_created:
-            s3_file_name = f"{data['car']}/{data['image_uuid']}"
+            s3_file_name = f"car/{data['car']}/{data['image_uuid']}"
             binary_image = await data[
-                'image_url'].read()  # В админке был изменен тип поля для записи image_url. В бд - строка, в форме - изображение
-
-            binary_image = optimize_image_bytes(binary_image, quality=70)
+                'upload_image'].read()  # В админке был изменен тип поля для записи image_url. В бд - строка, в форме - изображение
 
             s3_storage = await get_s3_storage()
 
@@ -74,10 +79,18 @@ class CarImageAdmin(PageView, model=CarImage):
             image_url = image_url.replace(get_minio_settings().endpoint_url, get_app_settings().DOMAIN_NAME)
             data['image_url'] = image_url
         else:
-            model.is_main = data['is_main']
+            if str(model.image_uuid) not in data['image_url']:
+                raise ValueError('Uuid in url different with image_uuid attribute')
+
+            binary_image = await data['upload_image'].read()
+            if binary_image:
+                s3_file_name = f"car/{model.car_id}/{model.image_uuid}"
+                s3_storage = await get_s3_storage()
+                # Загружаем в MinIO
+                await s3_storage.upload_file(s3_file_name, binary_image)
 
     async def on_model_delete(self, model, request):
-        s3_file_name = f'{model.car_id}/{model.image_uuid}'
+        s3_file_name = f'car/{model.car_id}/{model.image_uuid}'
         s3_storage = await get_s3_storage()
         await s3_storage.delete_file(s3_file_name)
 
@@ -92,13 +105,21 @@ class CarImageAdmin(PageView, model=CarImage):
     name_plural = 'Фото авто'
 
     form_include_pk = True
-    form_overrides = dict(image_url=FileField)
-
-    form_columns = [CarImage.car, CarImage.image_url, CarImage.image_uuid, CarImage.is_main]
-    form_edit_rules = ['is_main']
-
+    form_overrides = dict(upload_image=FileField)
     form_widget_args = {
         "image_uuid": {"value": uuid.uuid4()}
+    }
+
+    form_columns = [CarImage.car, CarImage.image_url, CarImage.image_uuid, CarImage.is_main]
+
+    form_create_rules = [col.name for col in CarImage.__table__.c if col.name
+                         not in ['id', 'image_url']] + ['car', 'upload_image']
+    form_edit_rules = [col.name for col in CarImage.__table__.c if col.name
+                       not in ['id', 'car_id', 'image_uuid']] + ["upload_image"]
+
+    column_formatters = {
+        "image_url": lambda m, a: Markup(
+            f'<img src="{m.image_url}" style="max-height: 100px;">') if m.image_url else "-"
     }
 
     column_sortable_list = [CarImage.id,
@@ -109,12 +130,59 @@ class CarImageAdmin(PageView, model=CarImage):
 
 
 class ReviewAdmin(PageView, model=Review):
+
+    async def scaffold_form(self, *args, **kwargs):
+        form_class = await super().scaffold_form(*args, **kwargs)
+        form_class.upload_image = FileField(validators=[Optional()])
+
+        return form_class
+
+    async def on_model_change(self, data, model, is_created, request):
+        self.form_widget_args = {"review_uuid": {"value": uuid.uuid4()}}
+        if is_created:
+            s3_file_name = f"review/{data['review_uuid']}"
+            binary_image = await data[
+                'upload_image'].read()  # В админке был изменен тип поля для записи image_url. В бд - строка, в форме - изображение
+
+            s3_storage = await get_s3_storage()
+
+            # Загружаем в MinIO
+            image_url = await s3_storage.upload_file(s3_file_name, binary_image)
+            image_url = image_url.replace(get_minio_settings().endpoint_url, get_app_settings().DOMAIN_NAME)
+            data['image_url'] = image_url
+        else:
+            if str(model.review_uuid) not in data['image_url']:
+                raise ValueError('Uuid in url different with image_uuid attribute')
+
+            binary_image = await data['upload_image'].read()
+            if binary_image:
+                s3_file_name = f"review/{model.review_uuid}"
+                s3_storage = await get_s3_storage()
+                # Загружаем в MinIO
+                await s3_storage.upload_file(s3_file_name, binary_image)
+
+    async def on_model_delete(self, model, request):
+        s3_file_name = f'review/{model.review_uuid}'
+        s3_storage = await get_s3_storage()
+        await s3_storage.delete_file(s3_file_name)
+
+    column_formatters = {
+        "image_url": lambda m, a: Markup(
+            f'<img src="{m.image_url}" style="max-height: 100px;">') if m.image_url else "-"
+    }
+
     column_list = [col.name for col in Review.__table__.c]
 
     name = 'Отзыв'
     name_plural = 'Отзывы'
 
+    form_overrides = dict(upload_image=FileField)
+    form_widget_args = {
+        "review_uuid": {"value": uuid.uuid4()}
+    }
     column_sortable_list = [col.name for col in Review.__table__.c]
 
-    form_edit_rules = [col.name for col in Review.__table__.c if col.name not in ['id']]
-    form_create_rules = [col.name for col in Review.__table__.c if col.name not in ['id']]
+    form_edit_rules = [col.name for col in Review.__table__.c if col.name not in ['id', 'review_uuid']] + [
+        "upload_image"]
+
+    form_create_rules = [col.name for col in Review.__table__.c if col.name not in ['id', 'image_url']]

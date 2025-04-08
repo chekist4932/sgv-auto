@@ -2,6 +2,8 @@ from typing import Optional
 
 from sgv_bapp.storage import get_s3_manager, MinIOSessionManager
 
+from sgv_bapp.utils import optimize_image_bytes
+
 
 class S3Storage:
     def __init__(self, minio_manager: MinIOSessionManager):
@@ -13,6 +15,7 @@ class S3Storage:
                           file_data: bytes,
                           content_type: str = "image/jpeg"
                           ) -> Optional[str]:
+        file_data = optimize_image_bytes(file_data, quality=70)
         """Загрузка файла в S3 и возврат его URL."""
         async with self.minio_manager.client() as client:
             await client.put_object(

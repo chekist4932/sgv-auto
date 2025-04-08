@@ -1,11 +1,15 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Uuid, UniqueConstraint, Boolean, Index
 from sqlalchemy.orm import relationship
 
+from typing import ClassVar, Optional
+from fastapi import UploadFile
+
 from sgv_bapp.base import Base
 
 
 class CarImage(Base):
     __tablename__ = "car_image"
+    __allow_unmapped__ = True
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
@@ -21,6 +25,8 @@ class CarImage(Base):
         UniqueConstraint("image_uuid", "car_id", name="uq_image_uuid_car"),
         Index("idx_unique_main_image_per_car", "car_id", unique=True, postgresql_where=is_main.is_(True))
     )
+
+    upload_image: ClassVar[Optional[UploadFile]] = None
 
     def __str__(self):
         return f'ID Фото авто: {self.id}'
