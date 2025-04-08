@@ -11,6 +11,7 @@ services:
       - ${APP_PORT}:${APP_PORT}
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME}
+      - SECOND_DOMAIN_NAME=${SECOND_DOMAIN_NAME}
       - APP_NAME=${APP_NAME}
       - APP_IP=${APP_IP}
       - APP_PORT=${APP_PORT}
