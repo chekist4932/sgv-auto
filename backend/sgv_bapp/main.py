@@ -58,6 +58,8 @@ register_exception_handlers(app)
 
 
 origins = [
+    get_app_settings().DOMAIN_NAME,
+    get_app_settings().SECOND_DOMAIN_NAME,
     "http://localhost",
     "http://127.0.0.1"
 ]
@@ -73,7 +75,7 @@ app.add_middleware(
 
 async def run_app():
     config = Config(
-        **get_app_settings().model_dump(exclude={"APP_NAME", 'DOMAIN_NAME'})
+        **get_app_settings().model_dump(exclude={"APP_NAME", 'DOMAIN_NAME', 'SECOND_DOMAIN_NAME'})
     )
     server = Server(config)
     await server.serve()
