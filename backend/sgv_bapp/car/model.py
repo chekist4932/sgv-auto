@@ -26,7 +26,8 @@ class Car(Base):
     transmission = Column(String, nullable=False)
     description = Column(Text, nullable=False)
 
-    status = Column(PgEnum(CarStatus, name="car_status_enum", create_type=False), nullable=False, default=CarStatus.in_stock)
+    status = Column(PgEnum(CarStatus, name="car_status_enum", create_type=False), nullable=False,
+                    default=CarStatus.in_stock)
 
     power = Column(Integer)
     drivetrain = Column(String)
@@ -38,4 +39,4 @@ class Car(Base):
     car_image = relationship('CarImage', back_populates='car')
 
     def __str__(self):
-        return f'ID Авто: {self.id}'
+        return f'ID Авто: {self.id} | Name: {self.name}'
