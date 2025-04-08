@@ -56,9 +56,7 @@ app.include_router(api_router)
 
 register_exception_handlers(app)
 
-
 origins = [
-    get_app_settings().DOMAIN_NAME,
     get_app_settings().SECOND_DOMAIN_NAME,
     "http://localhost",
     "http://127.0.0.1"
