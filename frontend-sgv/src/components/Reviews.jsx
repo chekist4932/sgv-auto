@@ -79,9 +79,11 @@ function ReviewModal({ review, onClose }) {
                 </div>
 
                 <div className="p-6">
-                    <div className="prose dark:prose-invert max-w-none mb-4">
+                    {/* <div className="prose dark:prose-invert max-w-none mb-4"> */}
+                    <p className="text-gray-600 dark:text-gray-300 whitespace-pre-line">
                         {renderWordPressContent(review.text)}
-                    </div>
+                    </p>
+                    {/* </div> */}
 
                     {images.length > 0 && (
                         <div className="relative mb-4">
@@ -314,7 +316,9 @@ export default function Reviews() {
                                             )}
 
                                             <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-4">
-                                                {getPlainTextFromWordPress(review.text)}
+                                            {/* <p className="text-gray-600 dark:text-gray-300 whitespace-pre-line"> */}
+                                                {/* {getPlainTextFromWordPress(review.text)} */}
+                                                {review.text}
                                             </p>
                                             <div className="text-sm text-gray-500 dark:text-gray-400">
                                                 {new Date(review.created_at).toLocaleDateString()}
