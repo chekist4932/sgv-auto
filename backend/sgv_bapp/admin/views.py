@@ -143,15 +143,15 @@ class ReviewAdmin(PageView, model=Review):
             s3_file_name = f"review/{data['review_uuid']}"
             binary_image = await data[
                 'upload_image'].read()  # В админке был изменен тип поля для записи image_url. В бд - строка, в форме - изображение
+            if binary_image:
+                s3_storage = await get_s3_storage()
 
-            s3_storage = await get_s3_storage()
-
-            # Загружаем в MinIO
-            image_url = await s3_storage.upload_file(s3_file_name, binary_image)
-            image_url = image_url.replace(get_minio_settings().endpoint_url, get_app_settings().DOMAIN_NAME)
-            data['image_url'] = image_url
+                # Загружаем в MinIO
+                image_url = await s3_storage.upload_file(s3_file_name, binary_image)
+                image_url = image_url.replace(get_minio_settings().endpoint_url, get_app_settings().DOMAIN_NAME)
+                data['image_url'] = image_url
         else:
-            if str(model.review_uuid) not in data['image_url']:
+            if data['image_url'] and str(model.review_uuid) not in data['image_url']:
                 raise ValueError('Uuid in url different with image_uuid attribute')
 
             binary_image = await data['upload_image'].read()
@@ -159,7 +159,7 @@ class ReviewAdmin(PageView, model=Review):
                 s3_file_name = f"review/{model.review_uuid}"
                 s3_storage = await get_s3_storage()
                 # Загружаем в MinIO
-                await s3_storage.upload_file(s3_file_name, binary_image)
+                data['image_url'] = await s3_storage.upload_file(s3_file_name, binary_image)
 
     async def on_model_delete(self, model, request):
         s3_file_name = f'review/{model.review_uuid}'
