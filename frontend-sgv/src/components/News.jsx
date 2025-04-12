@@ -95,7 +95,6 @@ function News() {
             }
 
             const data = await response.json();
-            console.log(data, 'ddd')
 
             const news = data.items
 

@@ -12,7 +12,6 @@ const Header = (navIsActive) => {
             contactSection.scrollIntoView({ behavior: 'smooth' });
         }
     };
-    console.log(navIsActive, ' navIsActive')
     return (
         <header className="bg-white dark:bg-gray-900 shadow-md fixed w-full top-0 z-50 transition-colors duration-200">
             <div className="container mx-auto px-4">
