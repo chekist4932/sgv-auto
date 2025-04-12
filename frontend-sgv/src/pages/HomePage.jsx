@@ -17,7 +17,7 @@ const HomePage = () => {
 
     return (
         <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-200">
-            <Header />
+            <Header navIsActive={true}/>
             <Hero />
             <HowToBuy />
             <Benefits />

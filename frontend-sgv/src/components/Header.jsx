@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Phone, Sun, Moon, Menu, X } from 'lucide-react';
 import { useTheme } from '../lib/theme';
 
-const Header = () => {
+const Header = (navIsActive) => {
     const { theme, toggleTheme } = useTheme();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -12,7 +12,7 @@ const Header = () => {
             contactSection.scrollIntoView({ behavior: 'smooth' });
         }
     };
-
+    console.log(navIsActive, ' navIsActive')
     return (
         <header className="bg-white dark:bg-gray-900 shadow-md fixed w-full top-0 z-50 transition-colors duration-200">
             <div className="container mx-auto px-4">
@@ -31,8 +31,8 @@ const Header = () => {
 
                         </span>
                     </div>
-
-                    <nav className={`
+                    {navIsActive.navIsActive && (
+                        <nav className={`
             md:flex md:space-x-8
             ${isMenuOpen ? 'flex' : 'hidden'}
             fixed md:relative
@@ -47,12 +47,16 @@ const Header = () => {
             border-gray-200 dark:border-gray-700
             shadow-lg md:shadow-none
           `}>
-                        <a href="#services" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => setIsMenuOpen(false)}>Услуги</a>
-                        <a href="#reviews" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => setIsMenuOpen(false)}>Отзывы</a>
-                        {/* <a href="#faq" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => setIsMenuOpen(false)}>FAQ</a> */}
-                        <a href="/news" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => setIsMenuOpen(false)}>Новости</a>
-                        <a href="#contact" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => { setIsMenuOpen(false); scrollToContact(); }}>Контакты</a>
-                    </nav>
+
+
+                            <a href="#services" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => setIsMenuOpen(false)}>Услуги</a>
+                            <a href="#reviews" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => setIsMenuOpen(false)}>Отзывы</a>
+                            <a href="#news" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => setIsMenuOpen(false)}>Новости</a>
+                            <a href="#contact" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => { setIsMenuOpen(false); scrollToContact(); }}>Контакты</a>
+
+
+                        </nav>
+                    )}
 
                     <div className="flex items-center space-x-4">
                         <button

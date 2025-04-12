@@ -130,10 +130,10 @@ function News() {
     };
 
     return (
-        <section className="py-8 md:py-12 bg-gray-50 dark:bg-gray-900">
+        <section id="news" className="py-8 md:py-12 bg-gray-50 dark:bg-gray-900">
             <div className="container mx-auto px-4">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                    Новости
+                <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
+                <a href='/news'>Новости</a>
                 </h2>
 
                 {loading ? (
