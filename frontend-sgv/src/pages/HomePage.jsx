@@ -11,6 +11,7 @@ import Cars from "../components/Cars";
 import ContactForm from "../components/ContactForm";
 import Reviews from "../components/Reviews";
 import News from "../components/News";
+import FAQ from "../components/FAQ";
 
 
 const HomePage = () => {
@@ -29,6 +30,7 @@ const HomePage = () => {
             <Services />
             <News />
             <Consultation />
+            <FAQ />
             <ContactForm />
             <Footer />
         </div>
