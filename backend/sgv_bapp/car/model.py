@@ -11,6 +11,7 @@ class CarStatus(Enum):
     on_order = "on_order"
     in_stock = "in_stock"
     in_transit = "in_transit"
+    sold = 'sold'
 
 
 class Car(Base):
@@ -39,4 +40,4 @@ class Car(Base):
     car_image = relationship('CarImage', back_populates='car')
 
     def __str__(self):
-        return f'ID Авто: {self.id} | Name: {self.name}'
+        return f'Авто[{self.id}]: {self.name} / {self.year}'

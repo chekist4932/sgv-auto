@@ -17,8 +17,6 @@ class ReviewBase(BaseModel):
 
     review_uuid: UUID
 
-    created_at: datetime
-
 
 class ReviewUpdate(ReviewBase):
     author: str | None = None
@@ -28,8 +26,6 @@ class ReviewUpdate(ReviewBase):
 
     review_uuid: UUID | None = None
 
-    created_at: datetime | None = None
-
 
 class ReviewCreate(ReviewBase):
     ...
@@ -37,6 +33,8 @@ class ReviewCreate(ReviewBase):
 
 class ReviewSchema(ReviewBase):
     id: int
+
+    created_at: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         from_attributes = True

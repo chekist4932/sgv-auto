@@ -11,8 +11,9 @@ from sgv_bapp.car.car_image.s3_storage import get_s3_storage
 
 from sgv_bapp.admin.model import User
 from sgv_bapp.car.model import Car
-from sgv_bapp.review.model import Review
 from sgv_bapp.car.car_image.model import CarImage
+from sgv_bapp.review.model import Review
+from sgv_bapp.news.model import News
 
 
 class PageView(ModelView):
@@ -186,3 +187,62 @@ class ReviewAdmin(PageView, model=Review):
         "upload_image"]
 
     form_create_rules = [col.name for col in Review.__table__.c if col.name not in ['id', 'image_url']]
+
+
+class NewsAdmin(PageView, model=News):
+
+    async def scaffold_form(self, *args, **kwargs):
+        form_class = await super().scaffold_form(*args, **kwargs)
+        form_class.upload_image = FileField(validators=[Optional()])
+
+        return form_class
+
+    async def on_model_change(self, data, model, is_created, request):
+        self.form_widget_args = {"news_uuid": {"value": uuid.uuid4()}}
+        if is_created:
+            s3_file_name = f"news/{data['news_uuid']}"
+            binary_image = await data[
+                'upload_image'].read()  # В админке был изменен тип поля для записи image_url. В бд - строка, в форме - изображение
+            if binary_image:
+                s3_storage = await get_s3_storage()
+
+                # Загружаем в MinIO
+                image_url = await s3_storage.upload_file(s3_file_name, binary_image)
+                image_url = image_url.replace(get_minio_settings().endpoint_url, get_app_settings().DOMAIN_NAME)
+                data['image_url'] = image_url
+        else:
+            if data['image_url'] and str(model.news_uuid) not in data['image_url']:
+                raise ValueError('Uuid in url different with image_uuid attribute')
+
+            binary_image = await data['upload_image'].read()
+            if binary_image:
+                s3_file_name = f"news/{model.news_uuid}"
+                s3_storage = await get_s3_storage()
+                # Загружаем в MinIO
+                data['image_url'] = await s3_storage.upload_file(s3_file_name, binary_image)
+
+    async def on_model_delete(self, model, request):
+        s3_file_name = f'news/{model.news_uuid}'
+        s3_storage = await get_s3_storage()
+        await s3_storage.delete_file(s3_file_name)
+
+    column_formatters = {
+        "image_url": lambda m, a: Markup(
+            f'<img src="{m.image_url}" style="max-height: 100px;">') if m.image_url else "-"
+    }
+
+    column_list = [col.name for col in News.__table__.c]
+    column_sortable_list = [col.name for col in News.__table__.c]
+
+    name = 'Новость'
+    name_plural = 'Новости'
+
+    form_overrides = dict(upload_image=FileField)
+    form_widget_args = {
+        "news_uuid": {"value": uuid.uuid4()}
+    }
+
+    form_edit_rules = [col.name for col in News.__table__.c if col.name not in ['id', 'news_uuid']] + [
+        "upload_image"]
+
+    form_create_rules = [col.name for col in News.__table__.c if col.name not in ['id', 'image_url']]

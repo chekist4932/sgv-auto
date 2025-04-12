@@ -11,6 +11,7 @@ from sgv_bapp.car.model import Car
 from sgv_bapp.car.car_image.model import CarImage
 from sgv_bapp.admin.model import User
 from sgv_bapp.review.model import Review
+from sgv_bapp.news.model import News
 
 from alembic import context
 

@@ -20,11 +20,14 @@ from sgv_bapp.config import (
 from sgv_bapp.car import car_router
 from sgv_bapp.notification.router import notify_router
 from sgv_bapp.review.router import review_router
+from sgv_bapp.news.router import news_router
+
 from sgv_bapp.admin.views import (
     UserAdmin,
     CarAdmin,
     CarImageAdmin,
-    ReviewAdmin)
+    ReviewAdmin,
+    NewsAdmin)
 
 
 @asynccontextmanager
@@ -37,6 +40,7 @@ async def lifespan(app: FastAPI):
     admin.add_view(CarAdmin)
     admin.add_view(CarImageAdmin)
     admin.add_view(ReviewAdmin)
+    admin.add_view(NewsAdmin)
 
     yield
 
@@ -51,12 +55,14 @@ api_router = APIRouter(prefix="/api")
 api_router.include_router(car_router)
 api_router.include_router(review_router)
 api_router.include_router(notify_router)
+api_router.include_router(news_router)
 
 app.include_router(api_router)
 
 register_exception_handlers(app)
 
 origins = [
+    # "*"
     get_app_settings().SECOND_DOMAIN_NAME,
     "http://localhost",
     "http://127.0.0.1"
