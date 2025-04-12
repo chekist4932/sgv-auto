@@ -27,7 +27,7 @@ const Header = () => {
                             }}
                             className="text-gray-900 dark:text-white transition-colors duration-200"
                         >
-                            <a href="#hero">SGV auto</a>
+                            <a href="/">SGV auto</a>
 
                         </span>
                     </div>
@@ -50,6 +50,7 @@ const Header = () => {
                         <a href="#services" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => setIsMenuOpen(false)}>Услуги</a>
                         <a href="#reviews" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => setIsMenuOpen(false)}>Отзывы</a>
                         {/* <a href="#faq" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => setIsMenuOpen(false)}>FAQ</a> */}
+                        <a href="/news" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => setIsMenuOpen(false)}>Новости</a>
                         <a href="#contact" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => { setIsMenuOpen(false); scrollToContact(); }}>Контакты</a>
                     </nav>
 

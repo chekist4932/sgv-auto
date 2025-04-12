@@ -20,6 +20,8 @@ const CarCard = ({
                 return 'bg-green-500 text-white';
             case 'on_order':
                 return 'bg-yellow-500 text-white';
+            case 'sold':
+                return 'bg-red-500 text-white';
             case 'in_transit':
                 return 'bg-blue-500 text-white';
             default:
@@ -33,6 +35,8 @@ const CarCard = ({
                 return 'В наличии';
             case 'on_order':
                 return 'Под заказ';
+            case 'sold':
+                return 'Продано';
             case 'in_transit':
                 return 'В пути';
             default:
