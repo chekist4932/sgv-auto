@@ -63,7 +63,8 @@ register_exception_handlers(app)
 
 origins = [
     # "*"
-    get_app_settings().SECOND_DOMAIN_NAME,
+    "https://" + get_app_settings().SECOND_DOMAIN_NAME,
+    "www." + get_app_settings().SECOND_DOMAIN_NAME,
     "http://localhost",
     "http://127.0.0.1"
 ]
