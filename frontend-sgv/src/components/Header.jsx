@@ -3,6 +3,7 @@ import { Phone, Sun, Moon, Menu, X } from 'lucide-react';
 import { useTheme } from '../lib/theme';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const navLinks = [
     { to: 'services', label: 'Услуги' },
@@ -15,6 +16,16 @@ export default function Header({ navIsActive }) {
     const { theme, toggleTheme } = useTheme();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef(null);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const handleLogoClick = () => {
+        if (location.pathname === '/') {
+            scroll.scrollToTop();
+        } else {
+            navigate('/');
+        }
+    };
 
     // Закрытие меню по клику вне его
     useEffect(() => {
@@ -39,10 +50,11 @@ export default function Header({ navIsActive }) {
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between h-20">
                     <div
-                        className="text-gray-900 dark:text-white transition-colors text-2xl font-bold uppercase tracking-wide"
+                        className="text-gray-900 dark:text-white transition-colors text-2xl font-bold uppercase tracking-wide cursor-pointer"
                         style={{ fontFamily: 'SutroW01-BoldExtended' }}
+                        onClick={handleLogoClick}
                     >
-                        <a onClick={() => scroll.scrollToTop()} className="cursor-pointer">SGV auto</a>
+                        SGV auto
                     </div>
 
                     {navIsActive && (
