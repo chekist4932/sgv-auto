@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 import { Phone, Sun, Moon, Menu, X } from 'lucide-react';
 import { useTheme } from '../lib/theme';
 
-const Header = (navIsActive) => {
+const navLinks = [
+    { href: '#services', label: 'Услуги' },
+    { href: '#reviews', label: 'Отзывы' },
+    { href: '#news', label: 'Новости' },
+    { href: '#contact', label: 'Контакты', isContact: true },
+];
+
+export default function Header({ navIsActive }) {
     const { theme, toggleTheme } = useTheme();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -12,48 +19,35 @@ const Header = (navIsActive) => {
             contactSection.scrollIntoView({ behavior: 'smooth' });
         }
     };
+
+    const handleLinkClick = (isContact = false) => {
+        setIsMenuOpen(false);
+        if (isContact) scrollToContact();
+    };
+
     return (
         <header className="bg-white dark:bg-gray-900 shadow-md fixed w-full top-0 z-50 transition-colors duration-200">
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between h-20">
-                    <div className="flex items-center space-x-2">
-                        <span
-                            style={{
-                                fontFamily: 'SutroW01-BoldExtended',
-                                fontSize: '24px',
-                                letterSpacing: '0.02em',
-                                textTransform: 'uppercase'
-                            }}
-                            className="text-gray-900 dark:text-white transition-colors duration-200"
-                        >
-                            <a href="/">SGV auto</a>
-
-                        </span>
+                    <div className="text-gray-900 dark:text-white transition-colors duration-200 text-2xl font-bold uppercase tracking-wide" style={{ fontFamily: 'SutroW01-BoldExtended' }}>
+                        <a href="/">SGV auto</a>
                     </div>
-                    {navIsActive.navIsActive && (
-                        <nav className={`
-            md:flex md:space-x-8
-            ${isMenuOpen ? 'flex' : 'hidden'}
-            fixed md:relative
-            inset-x-0 top-20 md:top-0
-            bg-white dark:bg-gray-900
-            md:bg-transparent
-            flex-col md:flex-row
-            items-center
-            py-4 md:py-0
-            space-y-4 md:space-y-0
-            border-t md:border-t-0
-            border-gray-200 dark:border-gray-700
-            shadow-lg md:shadow-none
-          `}>
 
-
-                            <a href="#services" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => setIsMenuOpen(false)}>Услуги</a>
-                            <a href="#reviews" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => setIsMenuOpen(false)}>Отзывы</a>
-                            <a href="#news" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => setIsMenuOpen(false)}>Новости</a>
-                            <a href="#contact" className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors" onClick={() => { setIsMenuOpen(false); scrollToContact(); }}>Контакты</a>
-
-
+                    {navIsActive && (
+                        <nav
+                            className={`${isMenuOpen ? 'flex' : 'hidden'
+                                } md:flex fixed md:relative inset-x-0 top-20 md:top-0 bg-white dark:bg-gray-900 md:bg-transparent flex-col md:flex-row items-center py-4 md:py-0 space-y-4 md:space-y-0 md:space-x-8 border-t md:border-t-0 border-gray-200 dark:border-gray-700 shadow-lg md:shadow-none`}
+                        >
+                            {navLinks.map(({ href, label, isContact }) => (
+                                <a
+                                    key={href}
+                                    href={href}
+                                    className="text-gray-700 dark:text-gray-200 hover:text-red-500 dark:hover:text-red-400 transition-colors"
+                                    onClick={() => handleLinkClick(isContact)}
+                                >
+                                    {label}
+                                </a>
+                            ))}
                         </nav>
                     )}
 
@@ -64,6 +58,7 @@ const Header = (navIsActive) => {
                         >
                             {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                         </button>
+
                         <button
                             onClick={scrollToContact}
                             className="hidden md:flex items-center space-x-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
@@ -71,22 +66,16 @@ const Header = (navIsActive) => {
                             <Phone className="w-5 h-5" />
                             <span>Связаться с нами</span>
                         </button>
+
                         <button
                             className="md:hidden text-gray-700 dark:text-gray-200"
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                         >
-                            {isMenuOpen ? (
-                                <X className="w-6 h-6" />
-                            ) : (
-                                <Menu className="w-6 h-6" />
-                            )}
+                            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                         </button>
                     </div>
                 </div>
             </div>
         </header>
     );
-}
-
-
-export default Header;
+};
