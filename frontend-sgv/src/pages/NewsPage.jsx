@@ -44,19 +44,19 @@ export default function NewsPage() {
     };
 
     useEffect(() => {
-        console.log('⏳ Компонент смонтирован, вызываем fetchNews()');
+        // console.log('⏳ Компонент смонтирован, вызываем fetchNews()');
         fetchNews();
     }, []);
 
     async function fetchNews() {
         setLoading(true);
         try {
-            console.log('🔄 Отправка запроса на сервер...');
+            // console.log('🔄 Отправка запроса на сервер...');
             const response = await fetch(`${API_URL}/news/`, requestOptions);
             if (!response.ok) throw new Error(`Ошибка запроса: ${response.status}`);
 
             const data = await response.json();
-            console.log('✅ Получены данные:', data);
+            // console.log('✅ Получены данные:', data);
 
             const news = (data.items || []).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
             setNews(news);
