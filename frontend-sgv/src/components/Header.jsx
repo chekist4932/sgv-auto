@@ -6,9 +6,11 @@ import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const navLinks = [
-    { to: 'services', label: 'Услуги' },
+    { to: 'cars', label: 'Авто' },
     { to: 'reviews', label: 'Отзывы' },
+    { to: 'services', label: 'Услуги' },
     { to: 'news', label: 'Новости' },
+    { to: 'faq', label: 'FAQ' },
     { to: 'contact', label: 'Контакты' },
 ];
 
