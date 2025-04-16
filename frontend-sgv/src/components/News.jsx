@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { Calendar, ChevronRight, ChevronLeft, X, MessageSquare } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
 
 import { API_URL } from '../config';
 
@@ -82,6 +84,8 @@ function News() {
     const [showNewsModal, setShowNewsModal] = useState(false);
     const scrollContainerRef = useRef(null);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         fetchNews();
     }, []);
@@ -132,7 +136,7 @@ function News() {
         <section id="news" className="py-8 md:py-12 bg-gray-50 dark:bg-gray-900">
             <div className="container mx-auto px-4">
                 <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
-                <a href='/news'>Новости</a>
+                    <button onClick={() => navigate('/news')}>Новости</button>
                 </h2>
 
                 {loading ? (
