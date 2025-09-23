@@ -17,7 +17,7 @@ const COUNTRIES = {
         commission: 50000,
         sanctioned: false,
         shippingCosts: {
-            amount: 200000,
+            amount: 180000,
             currency: 'JPY'
         }
     },
@@ -36,7 +36,7 @@ const COUNTRIES = {
         name: 'Корея',
         commission: 75000,
         shippingCosts: {
-            amount: 2000000,
+            amount: 2500000,
             currency: 'KRW'
         }
     },
@@ -52,19 +52,19 @@ const COUNTRIES = {
 };
 
 const SANCTIONED_JP_SHIPPING = [
-    { priceRange: [0, 999999], fob: 800, freight: 1500 },
-    { priceRange: [1000000, 1999999], fob: 900, freight: 1500 },
-    { priceRange: [2000000, 2999999], fob: 1000, freight: 1500 },
-    { priceRange: [3000000, 3999999], fob: 1100, freight: 1500 },
-    { priceRange: [4000000, 4999999], fob: 1200, freight: 1500 },
-    { priceRange: [5000000, 5999999], fob: 1300, freight: 1500 },
-    { priceRange: [6000000, 6999999], fob: 1500, freight: 1500 },
-    { priceRange: [7000000, 7999999], fob: 1600, freight: 1500 },
-    { priceRange: [8000000, 8999999], fob: 1800, freight: 1500 },
-    { priceRange: [9000000, 9999999], fob: 2000, freight: 1500 }
+    { priceRange: [0, 999999], fob: 0, freight: 2800 },
+    { priceRange: [1000000, 1999999], fob: 0, freight: 3200 },
+    { priceRange: [2000000, 2999999], fob: 0, freight: 3400 },
+    { priceRange: [3000000, 3999999], fob: 0, freight: 3600 },
+    { priceRange: [4000000, 4999999], fob: 0, freight: 3800 },
+    { priceRange: [5000000, 5999999], fob: 0, freight: 4000 },
+    { priceRange: [6000000, 6999999], fob: 0, freight: 4200 },
+    { priceRange: [7000000, 7999999], fob: 0, freight: 4400 },
+    { priceRange: [8000000, 8999999], fob: 0, freight: 4600 },
+    { priceRange: [9000000, 9999999], fob: 0, freight: 4800 }
 ];
 
-const BROKER_FEE = 100000;
+const BROKER_FEE = 90000;
 
 const getRecyclingFee = (engineVolume, age, isPersonal = true) => {
     if (engineVolume > 3000) {
@@ -89,7 +89,7 @@ const getRecyclingFee = (engineVolume, age, isPersonal = true) => {
 };
 
 
-export default function CustomsCalculator() {
+export const CustomsCalculator = () => {
     const [country, setCountry] = useState('JP');
     const [price, setPrice] = useState('');
     const [engineVolume, setEngineVolume] = useState('');
