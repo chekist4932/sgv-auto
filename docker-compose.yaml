@@ -100,6 +100,25 @@ services:
     networks:
       - app_network
 
+  new_frontend:
+    build:
+      context: ./frontend_redesign
+      dockerfile: Dockerfile
+      args:
+        - VITE_APP_API_URL=${VITE_APP_API_URL}
+        - VITE_APP_PORT=${VITE_APP_PORT}
+    container_name: frontend
+    restart: always
+    ports:
+      - ${VITE_APP_PORT}:${VITE_APP_PORT}
+    depends_on:
+      - db_postgresql
+      - minio
+      - backend
+      - frontend
+    networks:
+      - app_network
+
   proxy-nginx:
     image: nginx:stable-alpine
     container_name: proxy-nginx
@@ -123,6 +142,7 @@ services:
       - minio
       - backend
       - frontend
+      - new_frontend
     networks:
       - app_network
 
