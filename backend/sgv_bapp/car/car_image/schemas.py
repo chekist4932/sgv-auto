@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 
 from uuid import UUID
+from datetime import datetime
 
 from sgv_bapp.base import BaseFilter
 
@@ -25,6 +26,8 @@ class CarImageCreate(CarImageBase):
 
 class CarImageSchema(CarImageBase):
     id: int
+
+    created_at: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         from_attributes = True

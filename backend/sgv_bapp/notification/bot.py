@@ -1,6 +1,6 @@
 from aiogram import Bot
 
-from sgv_bapp.notification.schemas import ReqDataSchema
+from sgv_bapp.notification.schemas import ReqDataSchema, ReqCallSchema
 
 
 class BotService:
@@ -8,8 +8,9 @@ class BotService:
         self.bot = Bot(token=token)
         self.chat_id = chat_id
 
-    async def send(self, info: ReqDataSchema):
-        message = 'Новая заявка:\n' + '\n'.join([f'{key}: {val}' for key, val in dict(info).items()])
+    async def send(self, info: ReqDataSchema | ReqCallSchema):
+        message = 'Новая заявка / Запрос на звонок:\n' + '\n'.join(
+            [f'{key}: {val}' for key, val in dict(info).items() if val is not None])
         await self.bot.send_message(chat_id=self.chat_id, text=message)
 
     def __call__(self):

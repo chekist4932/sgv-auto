@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, DateTime, String, Text, Uuid
+from sqlalchemy import Column, Integer, DateTime, String, Text, Uuid, func
 
 from typing import ClassVar, Optional
 from fastapi import UploadFile
@@ -20,7 +20,7 @@ class News(Base):
     source_url = Column(String)
 
     image_url = Column(String)
-    created_at = Column(DateTime, nullable=False)
+    created_at = Column(DateTime, server_default=func.now(), nullable=False)
 
     upload_image: ClassVar[Optional[UploadFile]] = None
 

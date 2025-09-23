@@ -1,6 +1,6 @@
 from typing import Any, Generic, Type
 from functools import wraps
-from sqlalchemy import and_, BinaryExpression, select, Row, RowMapping
+from sqlalchemy import and_, BinaryExpression, select, Row, RowMapping, desc
 from sqlalchemy.exc import NoResultFound
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -54,7 +54,7 @@ class BaseRepository(Generic[Model], metaclass=AttributeCheckerMeta):
                       limit: int = 100,
                       offset: int = 0
                       ) -> Row[Any] | RowMapping | Any:
-        query = select(self.model).limit(limit).offset(offset).order_by(self.model.id)
+        query = select(self.model).limit(limit).offset(offset).order_by(desc(self.model.created_at))
 
         if conditions:
             query = query.filter(and_(*conditions))

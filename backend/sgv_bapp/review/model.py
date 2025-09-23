@@ -26,7 +26,7 @@ class Review(Base):
 
     review_uuid = Column(Uuid, nullable=False)
 
-    created_at = Column(DateTime, nullable=False)
+    created_at = Column(DateTime, server_default=func.now(), nullable=False)
 
     upload_image: ClassVar[Optional[UploadFile]] = None
 

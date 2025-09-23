@@ -99,7 +99,8 @@ class CarImageAdmin(PageView, model=CarImage):
                    CarImage.car_id,
                    CarImage.is_main,
                    CarImage.image_uuid,
-                   CarImage.image_url
+                   CarImage.image_url,
+                   CarImage.created_at
                    ] + [CarImage.car]
 
     name = 'Фото авто'
@@ -114,13 +115,13 @@ class CarImageAdmin(PageView, model=CarImage):
     form_columns = [CarImage.car, CarImage.image_url, CarImage.image_uuid, CarImage.is_main]
 
     form_create_rules = [col.name for col in CarImage.__table__.c if col.name
-                         not in ['id', 'image_url']] + ['car', 'upload_image']
+                         not in ['id', 'image_url', 'created_at']] + ['car', 'upload_image']
     form_edit_rules = [col.name for col in CarImage.__table__.c if col.name
-                       not in ['id', 'car_id', 'image_uuid']] + ["upload_image"]
+                       not in ['id', 'car_id', 'image_uuid', 'created_at']] + ["upload_image"]
 
     column_formatters = {
         "image_url": lambda m, a: Markup(
-            f'<img src="{m.image_url}" style="max-height: 100px;">') if m.image_url else "-"
+            f'<img src="{m.image_url}" style="max-height: 100px; max-width: 100px;">') if m.image_url else "-"
     }
 
     column_sortable_list = [CarImage.id,
@@ -169,7 +170,9 @@ class ReviewAdmin(PageView, model=Review):
 
     column_formatters = {
         "image_url": lambda m, a: Markup(
-            f'<img src="{m.image_url}" style="max-height: 100px;">') if m.image_url else "-"
+            f'<img src="{m.image_url}" style="max-height: 100px; max-width: 100px;">') if m.image_url else "-",
+        "text": lambda m, a: Markup(
+            f'{m.text[:10]} ...')
     }
 
     column_list = [col.name for col in Review.__table__.c]
@@ -183,10 +186,11 @@ class ReviewAdmin(PageView, model=Review):
     }
     column_sortable_list = [col.name for col in Review.__table__.c]
 
-    form_edit_rules = [col.name for col in Review.__table__.c if col.name not in ['id', 'review_uuid']] + [
-        "upload_image"]
+    form_edit_rules = [col.name for col in Review.__table__.c if
+                       col.name not in ['id', 'review_uuid', 'created_at']] + [
+                          "upload_image"]
 
-    form_create_rules = [col.name for col in Review.__table__.c if col.name not in ['id', 'image_url']]
+    form_create_rules = [col.name for col in Review.__table__.c if col.name not in ['id', 'image_url', 'created_at']]
 
 
 class NewsAdmin(PageView, model=News):
@@ -228,7 +232,15 @@ class NewsAdmin(PageView, model=News):
 
     column_formatters = {
         "image_url": lambda m, a: Markup(
-            f'<img src="{m.image_url}" style="max-height: 100px;">') if m.image_url else "-"
+            f'<img src="{m.image_url}" style="max-height: 100px; max-width: 100px;">') if m.image_url else "-",
+        "content": lambda m, a: Markup(
+            f'{m.content[:10]} ...'),
+        "excerpt": lambda m, a: Markup(
+            f'{m.excerpt[:10]} ...'),
+        "title": lambda m, a: Markup(
+            f'{m.excerpt[:20]} ...'),
+        "source_url": lambda m, a: Markup(
+            f'{m.excerpt[:20]} ...')
     }
 
     column_list = [col.name for col in News.__table__.c]
@@ -242,7 +254,7 @@ class NewsAdmin(PageView, model=News):
         "news_uuid": {"value": uuid.uuid4()}
     }
 
-    form_edit_rules = [col.name for col in News.__table__.c if col.name not in ['id', 'news_uuid']] + [
+    form_edit_rules = [col.name for col in News.__table__.c if col.name not in ['id', 'news_uuid', 'created_at']] + [
         "upload_image"]
 
-    form_create_rules = [col.name for col in News.__table__.c if col.name not in ['id', 'image_url']]
+    form_create_rules = [col.name for col in News.__table__.c if col.name not in ['id', 'image_url', 'created_at']]

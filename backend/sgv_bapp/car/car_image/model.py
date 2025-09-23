@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Uuid, UniqueConstraint, Boolean, Index
+from sqlalchemy import Column, Integer, String, ForeignKey, Uuid, UniqueConstraint, Boolean, Index, func, DateTime
 from sqlalchemy.orm import relationship
 
 from typing import ClassVar, Optional
@@ -27,6 +27,8 @@ class CarImage(Base):
     )
 
     upload_image: ClassVar[Optional[UploadFile]] = None
+
+    created_at = Column(DateTime, server_default=func.now(), nullable=False)
 
     def __str__(self):
         return f'ID Фото авто: {self.id}'
