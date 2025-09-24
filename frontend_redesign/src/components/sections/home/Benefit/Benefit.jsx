@@ -50,11 +50,11 @@ const benefits = [
 
 export const Benefit = () => {
     return (
-        <section id='benefit' className="relative  w-full py-20 bg-[#0C0E15] select-none  overflow-hidden">
+        <section id='benefit' className="relative  w-full py-8 bg-[#0C0E15] select-none  overflow-hidden pb-20">
             <div className="container mx-auto max-w-[1240px] px-4">
                 <SectionTitle title='Преимущества работы с нами' />
 
-                <div className="relative mx-36 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8 justify-items-center z-20">
+                <div className="relative mx-36 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8 justify-items-center z-20 mb-14">
                     {benefits.map((item, i) => (
                         <BenefitCard
                             key={i}
@@ -75,8 +75,8 @@ export const Benefit = () => {
                     aria-hidden="true"
                     draggable="false"
                     className={`
-                    absolute bottom-0 left-1/2 lg:-translate-x-1/2 -translate-x-1/4 translate-y-1/3 z-10 
-                    max-w-none h-auto 
+                    absolute bottom-0 left-1/2 lg:-translate-x-1/2 -translate-x-1/4 translate-y-[20%] z-10 
+                    max-w-none h-auto
                     lg:w-full lg:max-w-3xl
                 `}
                 />

@@ -68,7 +68,7 @@ export const Hero = ({ onOpenModal }) => {
                     </div>
                 </div>
 
-                <div className="relative min-h-[360px] lg:min-h-[460px] overflow-hidden">
+                <div className="relative min-h-[460px] lg:min-h-[460px] overflow-hidden lg:overflow-visible">
 
                     <img
                         src={carImg}
