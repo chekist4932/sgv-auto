@@ -5,7 +5,7 @@ import HowToBuy from "../components/HowToBuy";
 import Benefits from "../components/Benefits";
 import Services from "../components/Services";
 import Consultation from "../components/Consultation";
-import CustomsCalculator from "../components/CustomsCalculator";
+import { CustomsCalculator } from "../components/CustomsCalculator";
 import Footer from "../components/Footer";
 import Cars from "../components/Cars";
 import ContactForm from "../components/ContactForm";
@@ -18,7 +18,7 @@ const HomePage = () => {
 
     return (
         <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-200">
-            <Header navIsActive={true}/>
+            <Header navIsActive={true} />
             <Hero />
             <HowToBuy />
             <Benefits />
