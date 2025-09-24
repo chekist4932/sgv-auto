@@ -36,18 +36,18 @@ const features = [
 export const Hero = ({ onOpenModal }) => {
     return (
         <section id='hero'
-            className="relative w-full -mt-24 overflow-hidden bg-center bg-cover" // h-20 = 5rem = 80px
+            className="relative w-full -mt-24 bg-center bg-cover " // h-20 = 5rem = 80px
             style={{ backgroundImage: `url(${heroBg})` }}
         >
-            <div className="container mx-auto max-w-[1240px] px-4 pt-40 pb-12">
+            <div className="container mx-auto max-w-[1240px]  px-4 pt-40 pb-12">
 
-                <div className="flex justify-between items-start mb-5">
-                    <h1 className="text-4xl font-bold text-white max-w-xl select-none">
+                <div className="lg:flex lg:justify-between  items-start mb-4">
+                    <h1 className="text-3xl font-bold text-white max-w-xl select-none">
                         Автомобили, спецтехника и запчасти из Японии, Кореи и Китая с доставкой по РФ
                     </h1>
 
-                    <div className="flex flex-col items-end gap-2 text-right w-[246px]">
-                        <p className="text-sm text-white w-full pr-2 select-none">
+                    <div className="flex flex-col items-end gap-2 lg:text-right text-left w-[246px]">
+                        <p className="text-sm text-white w-full pr-2 select-none mt-2">
                             <span className="block">Профессиональный подбор</span>
                             <span className="block">и доставка в любой город России</span>
                         </p>
@@ -68,17 +68,18 @@ export const Hero = ({ onOpenModal }) => {
                     </div>
                 </div>
 
-                <div className="relative min-h-[460px]">
+                <div className="relative min-h-[360px] lg:min-h-[460px]">
 
                     <img
                         src={carImg}
                         alt="BMW 4 Series"
                         aria-hidden="true"
                         draggable="false"
-                        className={`absolute bottom-0 left-1/2 -translate-x-[57%] w-[990px] h-auto object-contain z-20`}
+                        className={`max-w-none h-auto absolute bottom-0 lg:left-1/4 left-1/2 -translate-x-1/4 lg:-translate-y-1/6 z-20`}
+                        // className={`absolute bottom-0 left-1/2 -translate-x-[57%] w-[990px] h-auto z-20`}
                     // transition-transform duration-300 ease-in-out hover:scale-105
                     />
-                    <div className="relative flex justify-between items-start h-full z-10 ">
+                    <div className="hidden lg:flex justify-between items-start h-full z-10 ">
                         <div className="w-[278px]">
                             <FeatureCard
                                 title={features[0].title}

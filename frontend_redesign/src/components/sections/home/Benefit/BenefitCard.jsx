@@ -26,7 +26,6 @@ export const BenefitCard = ({ title, subtitle, col, row, variant = "title" }) =>
         bg-[#11131B] 
         flex flex-col items-center justify-center
         transition-transform duration-300 ease-in-out hover:scale-105
-        ${colStartClasses[col]} ${rowStartClasses[row]} // 2. Используем карты для получения классов
       `}
     >
       <h3 className={textStyles[variant]}>

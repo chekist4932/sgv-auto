@@ -11,6 +11,7 @@ const benefits = [
         subtitle: "для клиентов",
         col: 1,
         row: 1,
+        gridClass: "lg:col-start-1 lg:row-start-1",
         variant: "title",
     },
     {
@@ -18,6 +19,7 @@ const benefits = [
         subtitle: "от выбора до доставки и оформления документов",
         col: 2,
         row: 1,
+        gridClass: "lg:col-start-2 lg:row-start-1",
         variant: "title",
     },
     {
@@ -25,6 +27,7 @@ const benefits = [
         subtitle: "и истории каждого автомобиля",
         col: 3,
         row: 1,
+        gridClass: "lg:col-start-3 lg:row-start-1",
         variant: "title",
     },
     {
@@ -32,6 +35,7 @@ const benefits = [
         subtitle: "через аккредитив",
         col: 1,
         row: 2,
+        gridClass: "lg:col-start-1 lg:row-start-2",
         variant: "subtitle",
     },
     {
@@ -39,20 +43,29 @@ const benefits = [
         subtitle: "с индивидуальной потребностью",
         col: 3,
         row: 2,
+        gridClass: "lg:col-start-3 lg:row-start-2",
         variant: "subtitle",
     },
 ];
 
 export const Benefit = () => {
     return (
-        <section id='benefit' className="w-full py-10 bg-[#0C0E15] overflow-hidden min-h-[627px] select-none">
-            <div className="container mx-auto max-w-[1240px] px-4 relative">
+        <section id='benefit' className="relative  w-full py-20 bg-[#0C0E15] select-none">
+            <div className="container mx-auto max-w-[1240px] px-4">
                 <SectionTitle title='Преимущества работы с нами' />
 
-                <div className="relative grid grid-cols-3 grid-rows-2 mx-28 gap-y-4 justify-items-center z-20">
+                <div className="relative mx-36 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8 justify-items-center z-20">
                     {benefits.map((item, i) => (
-                        <BenefitCard key={i} {...item} />
+                        <BenefitCard
+                            key={i}
+                            title={item.title}
+                            subtitle={item.subtitle}
+                            variant={item.variant}
+                            // Передаем адаптивные классы
+                            className={`${item.gridClass}`}
+                        />
                     ))}
+                    <div className='col-span-1 row-start-6 lg:col-start-2 lg:row-start-2' ></div>
                 </div>
 
 
@@ -61,12 +74,16 @@ export const Benefit = () => {
                     alt="Showcase Car"
                     aria-hidden="true"
                     draggable="false"
-                    className={`absolute bottom left-1/2 -translate-x-1/2 -translate-y-[35%] w-[800px] h-auto z-10 "`}
+                    className={`
+                    absolute bottom-0 left-1/2 lg:-translate-x-1/2 -translate-x-1/4 translate-y-1/3 z-10 
+                    max-w-none h-auto 
+                    lg:w-full lg:max-w-3xl
+                `}
                 />
 
 
-                <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-48 
-                    bg-blue-900/25 rounded-full blur-3xl z-0 select-none pointer-events-none`} />
+                <div className=" lg:block absolute bottom-0 left-1/2 lg:-translate-x-1/2 -translate-x-1/4 translate-y-1/4 w-3/4 h-48 
+                    bg-blue-900/25 rounded-full blur-3xl z-0" />
             </div>
         </section>
     );

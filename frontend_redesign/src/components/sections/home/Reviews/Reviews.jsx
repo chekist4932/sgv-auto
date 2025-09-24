@@ -1,5 +1,5 @@
 // src/components/layout/Reviews.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { ReviewCard } from './ReviewCard'
@@ -45,9 +45,12 @@ export const ReviewsSection = () => {
     const { activeWindowWidth, leftIndex, rightIndex, transformOffset, showSideCardsAndArrows } =
         useCarouselPositions(total, currentIndex, activeCount, cardWidth, gap, width);
 
+    const isMobile = width < 1024;
+    const scrollContainerRef = useRef(null);
+
     return (
         <section id='review' className="w-full bg-[#0C0E15] py-24 overflow-hidden">
-            <div className="container mx-auto max-w-fit px-24">
+            <div className="container mx-auto md:max-w-fit md:px-24">
                 <SectionTitle title='Отзывы клиентов' />
 
                 {loading ? (
@@ -55,51 +58,72 @@ export const ReviewsSection = () => {
                         <Spinner />
                     </div>
                 ) : reviews.length > 0 ? (
-                    <div className="relative flex items-center justify-center">
-                        {showSideCardsAndArrows && (
-                            <div
-                                className={`absolute left-0 top-1/2 -translate-y-1/2 transition-transform duration-500 
-                                    ${activeCount === 2 ? "-translate-x-[120%]" : "-translate-x-[110%]"}`}
-                            >
-                                <ReviewCard review={reviews[leftIndex]} isActive={false} />
-                            </div>
-                        )}
 
-                        {showSideCardsAndArrows && (
-                            <Button onClick={() => prevSlide(step)} variant="ghost" size="icon"
-                                className="z-10 bg-black/40 rounded-full shrink-0 absolute -left-12 top-1/2 -translate-y-1/2">
-                                <ChevronLeft className="w-8 h-8 text-white" />
-                            </Button>
-                        )}
-
-                        {/* Центральные активные */}
-                        <div className="overflow-hidden" style={{ width: `${activeWindowWidth}px` }}>
-                            <div
-                                className="flex justify-items-center gap-6 transition-transform duration-500 ease-in-out"
-                                style={{ transform: `translateX(-${transformOffset}px)` }}
-                            >
-                                {reviews.map((review, index) => (
-                                    <ReviewCard key={review.id || index} review={review} isActive={true} />
-                                ))}
+                    isMobile ? (
+                        // Для мобилки
+                        <div className="overflow-x-auto scrollbar-hide scroll-smooth"
+                            ref={scrollContainerRef}
+                            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                        >
+                            <div className="flex justify-start gap-4 px-4">
+                                {/* <div className="flex justify-center gap-4 transition-transform duration-500 ease-in-out"> */}
+                                    {reviews.map((review, index) => (
+                                        <div key={review.id || index}>
+                                            <ReviewCard review={review} isActive={true} />
+                                        </div>
+                                    ))}
+                                {/* </div> */}
                             </div>
                         </div>
 
-                        {showSideCardsAndArrows && (
-                            <Button onClick={() => nextSlide(step)} variant="ghost" size="icon"
-                                className="z-10 bg-black/40 rounded-full shrink-0 absolute -right-12 top-1/2 -translate-y-1/2">
-                                <ChevronRight className="w-8 h-8 text-white" />
-                            </Button>
-                        )}
 
-                        {showSideCardsAndArrows && (
-                            <div
-                                className={`absolute right-0 top-1/2 -translate-y-1/2 transition-transform duration-500 
-                                    ${activeCount === 2 ? "translate-x-[120%]" : "translate-x-[110%]"}`}
-                            >
-                                <ReviewCard review={reviews[rightIndex]} isActive={false} />
+                    ) : (
+
+                        <div className="relative flex items-center justify-center">
+                            {showSideCardsAndArrows && (
+                                <div
+                                    className={`absolute left-0 top-1/2 -translate-y-1/2 transition-transform duration-500 
+                                    ${activeCount === 2 ? "-translate-x-[120%]" : "-translate-x-[110%]"}`}
+                                >
+                                    <ReviewCard review={reviews[leftIndex]} isActive={false} />
+                                </div>
+                            )}
+
+                            {showSideCardsAndArrows && (
+                                <Button onClick={() => prevSlide(step)} variant="ghost" size="icon"
+                                    className="z-10 bg-black/40 rounded-full shrink-0 absolute -left-12 top-1/2 -translate-y-1/2">
+                                    <ChevronLeft className="w-8 h-8 text-white" />
+                                </Button>
+                            )}
+
+                            {/* Центральные активные */}
+                            <div className="overflow-hidden" style={{ width: `${activeWindowWidth}px` }}>
+                                <div
+                                    className="flex justify-items-center gap-6 transition-transform duration-500 ease-in-out"
+                                    style={{ transform: `translateX(-${transformOffset}px)` }}
+                                >
+                                    {reviews.map((review, index) => (
+                                        <ReviewCard key={review.id || index} review={review} isActive={true} />
+                                    ))}
+                                </div>
                             </div>
-                        )}
-                    </div>
+
+                            {showSideCardsAndArrows && (
+                                <Button onClick={() => nextSlide(step)} variant="ghost" size="icon"
+                                    className="z-10 bg-black/40 rounded-full shrink-0 absolute -right-12 top-1/2 -translate-y-1/2">
+                                    <ChevronRight className="w-8 h-8 text-white" />
+                                </Button>
+                            )}
+
+                            {showSideCardsAndArrows && (
+                                <div
+                                    className={`absolute right-0 top-1/2 -translate-y-1/2 transition-transform duration-500 
+                                    ${activeCount === 2 ? "translate-x-[120%]" : "translate-x-[110%]"}`}
+                                >
+                                    <ReviewCard review={reviews[rightIndex]} isActive={false} />
+                                </div>
+                            )}
+                        </div>)
                 ) : (
                     <div className="text-center text-white/60 py-16">
                         <p>Отзывы пока не добавлены</p>
