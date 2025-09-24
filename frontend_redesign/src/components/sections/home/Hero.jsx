@@ -75,7 +75,7 @@ export const Hero = ({ onOpenModal }) => {
                         alt="BMW 4 Series"
                         aria-hidden="true"
                         draggable="false"
-                        className={`max-w-none h-auto absolute bottom-0 lg:left-1/4 left-1/2 -translate-x-1/4 lg:-translate-y-1/6 z-20`}
+                        className={`max-w-none overflow-hidden h-auto absolute bottom-0 lg:left-1/4 left-1/2 -translate-x-1/4 lg:-translate-y-1/6 z-20`}
                         // className={`absolute bottom-0 left-1/2 -translate-x-[57%] w-[990px] h-auto z-20`}
                     // transition-transform duration-300 ease-in-out hover:scale-105
                     />

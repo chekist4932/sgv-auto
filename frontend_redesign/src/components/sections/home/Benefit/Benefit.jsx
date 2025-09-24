@@ -74,7 +74,7 @@ export const Benefit = () => {
                     alt="Showcase Car"
                     aria-hidden="true"
                     draggable="false"
-                    className={`
+                    className={` overflow-hidden
                     absolute bottom-0 left-1/2 lg:-translate-x-1/2 -translate-x-1/4 translate-y-1/3 z-10 
                     max-w-none h-auto 
                     lg:w-full lg:max-w-3xl
