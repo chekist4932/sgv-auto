@@ -50,7 +50,7 @@ const benefits = [
 
 export const Benefit = () => {
     return (
-        <section id='benefit' className="relative  w-full py-20 bg-[#0C0E15] select-none">
+        <section id='benefit' className="relative  w-full py-20 bg-[#0C0E15] select-none  overflow-hidden">
             <div className="container mx-auto max-w-[1240px] px-4">
                 <SectionTitle title='Преимущества работы с нами' />
 
@@ -74,7 +74,7 @@ export const Benefit = () => {
                     alt="Showcase Car"
                     aria-hidden="true"
                     draggable="false"
-                    className={` overflow-hidden
+                    className={`
                     absolute bottom-0 left-1/2 lg:-translate-x-1/2 -translate-x-1/4 translate-y-1/3 z-10 
                     max-w-none h-auto 
                     lg:w-full lg:max-w-3xl
