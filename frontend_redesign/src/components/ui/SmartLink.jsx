@@ -8,24 +8,26 @@ export const SmartLink = ({ to = 'top', children, ...props }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const currentLocation = '/'
+
   const scrollToTop = () => {
-    if (location.pathname === '/') {
+    if (location.pathname === currentLocation) {
       scroll.scrollToTop(scrollConfig);
     } else {
-      navigate('/');
+      navigate(currentLocation);
     }
   };
 
   const handleNavigate = (e) => {
     e.preventDefault();
-    navigate(`/#${to}`);
+    navigate(`${currentLocation}#${to}`);
   };
 
   if (!to || to === 'top') {
     return <a onClick={scrollToTop} {...props}>{children}</a>;
   }
 
-  if (location.pathname === '/') {
+  if (location.pathname === currentLocation) {
     return (
       <ScrollLink to={to} {...scrollConfig} {...props}>
         {children}
@@ -34,7 +36,7 @@ export const SmartLink = ({ to = 'top', children, ...props }) => {
   }
 
   return (
-    <a href={`/#${to}`} onClick={handleNavigate} {...props}>
+    <a href={`${currentLocation}#${to}`} onClick={handleNavigate} {...props}>
       {children}
     </a>
   );
