@@ -36,10 +36,10 @@ const features = [
 export const Hero = ({ onOpenModal }) => {
     return (
         <section id='hero'
-            className="relative w-full -mt-24 bg-center bg-cover " // h-20 = 5rem = 80px
+            className="relative w-full -mt-24 bg-center bg-cover  overflow-hidden" // h-20 = 5rem = 80px
             style={{ backgroundImage: `url(${heroBg})` }}
         >
-            <div className="container mx-auto max-w-[1240px]  px-4 pt-40 pb-12">
+            <div className="container mx-auto max-w-[1240px]  px-4 pt-40 pb-12 ">
 
                 <div className="lg:flex lg:justify-between  items-start mb-4">
                     <h1 className="text-3xl font-bold text-white max-w-xl select-none">
@@ -68,7 +68,7 @@ export const Hero = ({ onOpenModal }) => {
                     </div>
                 </div>
 
-                <div className="relative min-h-[460px] overflow-visible">
+                <div className="relative min-h-[460px]">
                     <img
                         src={carImg}
                         alt="BMW 4 Series"
