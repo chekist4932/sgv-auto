@@ -1,6 +1,6 @@
 // src/pages/NewsPage.jsx
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Search } from 'lucide-react';
 
 import { NewsModal } from '~/components/ui/modal/NewsModal';
@@ -15,12 +15,10 @@ import { AdBanner } from '~/components/ui/news/AdBanner'
 
 import { useFetch } from '~/hooks/useFetch';
 import { API_URL, requestOptions } from '~/config/index';
+import { ITEMS_PER_PAGE, categories } from '~/lib/news_page/constants'
 import bgImage from '~/assets/news/bg-form.png';
 
 
-
-const categories = ['Все новости', 'Авто', 'Мероприятия', 'Компания', 'Клиентам'];
-const ITEMS_PER_PAGE = 6;
 
 export const NewsPage = () => {
 
@@ -33,7 +31,13 @@ export const NewsPage = () => {
     const [selectedNews, setSelectedNews] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
 
+    const isFirstRender = React.useRef(true);
+
     useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
         const target = document.getElementById('news_border');
         if (!target) return;
 
@@ -58,34 +62,40 @@ export const NewsPage = () => {
     const currentPageNews = filteredNews.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
     return (
-        <div className="w-full bg-[#0C0E15] text-white">
+        <div className="w-full bg-[#0C0E15] text-white py-12">
             <div className="container mx-auto max-w-[1280px] px-4 py-12">
 
                 <AdBanner />
                 <Breadcrumbs />
 
-                <div className="flex items-center gap-4 mb-8">
-                    <FilterPills
-                        categories={categories}
-                        activeCategory={filters.category}
-                        onSelect={(category) => {
-                            setCurrentPage(1);
-                            setFilters({ ...filters, category });
-                        }}
-                    />
-                    <div className="relative flex-1">
-                        <input
-                            type="text"
-                            placeholder="Поиск по новостям"
-                            value={filters.search}
-                            onChange={(e) => {
-                                setCurrentPage(1);
-                                setFilters({ ...filters, search: e.target.value });
-                            }}
-                            className="w-full pl-10 pr-4 py-2 rounded-lg border border-white/20 bg-[#1A1D2A] focus:ring-1 focus:ring-[#007AFF] outline-none"
-                        />
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+                <div className="flex flex-col md:flex-row gap-4 mb-8">
+
+                    <div className="order-1 md:order-2 flex-1">
+                        <div className="relative w-full">
+                            <input
+                                type="text"
+                                placeholder="Поиск по новостям"
+                                value={filters.search}
+                                onChange={(e) => {
+                                    setCurrentPage(1);
+                                    setFilters({ ...filters, search: e.target.value });
+                                }}
+                                className="w-full pl-10 pr-4 py-2 rounded-lg border border-white/20 bg-[#1A1D2A] focus:ring-1 focus:ring-[#007AFF] outline-none"
+                            />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
+                        </div>
                     </div>
+                    <div className="order-2 md:order-1">
+                        <FilterPills
+                            categories={categories}
+                            activeCategory={filters.category}
+                            onSelect={(category) => {
+                                setCurrentPage(1);
+                                setFilters({ ...filters, category });
+                            }}
+                        />
+                    </div>
+
                 </div>
 
                 {loading ? (

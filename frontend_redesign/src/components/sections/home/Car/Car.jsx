@@ -107,14 +107,14 @@ export const Car = ({ onOpenModalCallBack }) => {
                         >
                             <div className="flex justify-start gap-4 px-4">
                                 {/* <div className="flex justify-center gap-4 transition-transform duration-500 ease-in-out"> */}
-                                    {cars.map((car, index) => (
-                                        <CarCard
-                                            key={car.id || index}
-                                            car={formatCarForDisplay(car)}
-                                            isActive={true}
-                                            onClick={() => setSelectedCar(car)}
-                                        />
-                                    ))}
+                                {cars.map((car, index) => (
+                                    <CarCard
+                                        key={car.id || index}
+                                        car={formatCarForDisplay(car)}
+                                        isActive={true}
+                                        onClick={() => setSelectedCar(car)}
+                                    />
+                                ))}
                                 {/* </div> */}
                             </div>
                         </div>
@@ -189,11 +189,13 @@ export const Car = ({ onOpenModalCallBack }) => {
             </div>
 
             {selectedCar && (
-                <CarModal
-                    car={formatCarForModal(selectedCar)}
-                    onClose={() => setSelectedCar(null)}
-                    onOpenModal={onOpenModalCallBack}
-                />
+                <body className="overflow-hidden">
+                    <CarModal
+                        car={formatCarForModal(selectedCar)}
+                        onClose={() => setSelectedCar(null)}
+                        onOpenModal={onOpenModalCallBack}
+                    />
+                </body>
             )}
         </section>
     );

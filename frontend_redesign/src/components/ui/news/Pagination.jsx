@@ -21,7 +21,7 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                 className={buttonStyle}
             >
                 <ChevronLeft className="w-5 h-5" />
-                <span>Предыдущая</span>
+                <span className="hidden md:inline">Предыдущая</span>
             </button>
 
             <div className="flex items-center gap-2">
@@ -45,7 +45,7 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                 disabled={currentPage === totalPages}
                 className={buttonStyle}
             >
-                <span>Следующая</span>
+                <span className="hidden md:inline">Следующая</span>
                 <ChevronRight className="w-5 h-5" />
             </button>
         </div>

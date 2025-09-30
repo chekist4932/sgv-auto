@@ -15,7 +15,7 @@ import noResultImage from '/no-results.jpg'
 
 export const NewsCard = ({ news_item, isActive, onClick }) => {
 
-    const { title, excerpt, category, created_at, source_url, image_url } = news_item;
+    const { title, excerpt, category, created_at, image_url } = news_item;
 
     return (
         <div
@@ -26,10 +26,10 @@ export const NewsCard = ({ news_item, isActive, onClick }) => {
         w-[361px]
         ${isActive ? 'opacity-100 scale-100' : 'opacity-50 scale-[0.85]'}`
             }
-            onClick={onClick}
         >
 
-            <div className="relative group rounded-t-lg aspect-[4/3] overflow-hidden">
+            <div className="relative group rounded-t-lg aspect-[4/3] overflow-hidden"
+                onClick={onClick}>
                 <img
                     src={image_url || noResultImage}
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -47,21 +47,30 @@ export const NewsCard = ({ news_item, isActive, onClick }) => {
                     <h3 className="text-md font-semibold text-white text-left leading-tight">{title}</h3>
                 </div>
 
-                <p className="text-white text-xs text-justify leading-tight mb-4 line-clamp-3">
+                <p className="text-white text-xs text-justify leading-tight mb-4 line-clamp-3 select-none">
                     {excerpt}
                 </p>
                 <div className="mt-auto inline-block">
-                    <a
-                        href={source_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary-red font-semibold text-sm inline-flex items-center gap-1 group hover:no-underline"
+                    <span
+                        className="text-primary-red font-semibold text-sm inline-flex items-center gap-1 group select-none cursor-pointer hover:underline "
+                        onClick={onClick}
                     >
                         Подробнее
                         <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                    </a>
+                    </span>
                 </div>
             </div>
         </div>
     );
 };
+
+
+{/* <a
+    href={source_url}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-primary-red font-semibold text-sm inline-flex items-center gap-1 group hover:no-underline"
+>
+    Подробнее
+    <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+</a>  */}

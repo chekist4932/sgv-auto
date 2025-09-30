@@ -68,7 +68,7 @@ export const FaqSection = () => {
                 <div className="bg-[#11131B] p-12 lg:p-16 rounded-[30px]">
                     <SectionTitle title='Часто задаваемые вопросы' />
 
-                    <div className="flex flex-col lg:flex-row justify-center gap-16">
+                    <div className="flex flex-col lg:flex-row justify-center lg:gap-16">
 
                         {/* Левая колонка */}
                         <div className="w-full lg:w-1/2">

@@ -58,14 +58,18 @@ export const Header = ({ onOpenModalCallBack, navIsActive }) => {
 
     return (
         <header
-            className={`sticky top-0 z-50 w-full transition-colors duration-300 ${isScrolled ? "bg-[#0C0E15] shadow-lg" : "bg-transparent"
-                }`}
+            className={
+                `fixed top-0 z-50 w-full transition-colors duration-300 
+                ${isScrolled ? "bg-[#0C0E15] shadow-lg" : "bg-transparent"}`
+            }
         >
             <div className="container mx-auto max-w-[1240px] px-4">
                 <div className="h-20 flex items-center justify-between">
                     {/* Лого */}
-                    <div onClick={scrollToTop} className="shrink-0 h-8 cursor-pointer">
-                        <Logo />
+                    <div className="shrink-0 h-8 cursor-pointer">
+                        <SmartLink>
+                            <Logo />
+                        </SmartLink>
                     </div>
 
                     {/* Десктопное меню */}

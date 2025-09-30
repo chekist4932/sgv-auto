@@ -68,16 +68,20 @@ export const Hero = ({ onOpenModal }) => {
                     </div>
                 </div>
 
-                <div className="relative min-h-[460px] lg:min-h-[460px] overflow-hidden lg:overflow-visible">
-
+                <div className="relative min-h-[460px] overflow-visible">
                     <img
                         src={carImg}
                         alt="BMW 4 Series"
                         aria-hidden="true"
                         draggable="false"
-                        className={`max-w-none h-auto absolute bottom-0 lg:left-1/4 left-1/2 -translate-x-1/4 lg:-translate-y-1/6 z-20`}
-                        // className={`absolute bottom-0 left-1/2 -translate-x-[57%] w-[990px] h-auto z-20`}
-                    // transition-transform duration-300 ease-in-out hover:scale-105
+                        className="
+                                    mx-auto         
+                                    block
+                                    max-w-none
+                                    lg:w-auto
+                                    lg:absolute lg:bottom-0 lg:left-1/4 
+                                    lg:-translate-x-1/4 lg:-translate-y-1/6 
+                                    z-20"
                     />
                     <div className="hidden lg:flex justify-between items-start h-full z-10 ">
                         <div className="w-[278px]">

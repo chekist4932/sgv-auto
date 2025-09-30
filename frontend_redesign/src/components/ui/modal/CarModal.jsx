@@ -84,23 +84,21 @@ export const CarModal = ({ car, onClose, onOpenModal }) => {
     return (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div className="bg-[#11131B] rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto relative ">
-
-
-                <div className="sticky top-0 px-6 pt-6 pb-4 flex justify-between items-center z-20">
-                    <div>
-                        <h3 className="text-3xl font-medium">{brand.name} {model.name}, {generation.years}</h3>
-                        <div className="flex items-center gap-2 mt-1">
-                            <p className="text-base font-medium text-primary-red">{price}</p>
-                            <Badge >включая доставку и таможенное оформление</Badge>
-                        </div>
-                    </div>
+                <div className="sticky top-0 px-2 pt-2 pb-2 flex justify-end items-center z-20">
                     <Button onClick={onClose} variant="ghost" size="icon" className="rounded-full">
                         <X className="w-6 h-6" />
                     </Button>
                 </div>
 
+                <div className='px-6 pb-4 pt-2'>
+                    <h3 className="text-3xl font-medium">{brand.name} {model.name}, {generation.years}</h3>
+                    <div className="flex items-center gap-2 mt-1">
+                        <p className="text-base font-medium text-primary-red">{price}</p>
+                        <Badge >включая доставку и таможенное оформление</Badge>
+                    </div>
+                </div>
 
-                <div className="grid lg:grid-cols-2 gap-8 px-6 pb-6 pt-4 ">
+                <div className="grid lg:grid-cols-2 gap-8 px-6 pb-6 pt-4">
 
                     <div className="lg:col-span-1 ">
                         <ImageGallery images={images} />
@@ -109,14 +107,27 @@ export const CarModal = ({ car, onClose, onOpenModal }) => {
 
                     <div className="lg:col-span-1 space-y-6 ">
 
+                        <div className="bg-[#141720] p-6 rounded-lg">
 
-                        <div className="bg-[#141720] p-4 rounded-lg ">
-                            <div className="grid grid-cols-5 gap-2 divide-x divide-white/10">
+                            <div className="hidden md:grid md:grid-cols-5 md:gap-2 md:divide-x md:divide-white/10">
                                 <SpecIcon icon={specIcons.engine} label="двигатель" value={spec.engine} />
                                 <SpecIcon icon={specIcons.power} label="мощность" value={spec.power} />
                                 <SpecIcon icon={specIcons.transmission} label="коробка передач" value={spec.transmission} />
                                 <SpecIcon icon={specIcons.drivetrain} label="привод" value={spec.drivetrain} />
                                 <SpecIcon icon={specIcons.steering || specIcons.drivetrain} label="руль" value={spec.steering || "не указан"} />
+                            </div>
+
+
+                            <div className="flex flex-col gap-4 md:hidden">
+                                <div className="flex justify-center gap-6">
+                                    <SpecIcon icon={specIcons.engine} label="двигатель" value={spec.engine} />
+                                    <SpecIcon icon={specIcons.power} label="мощность" value={spec.power} />
+                                    <SpecIcon icon={specIcons.transmission} label="коробка передач" value={spec.transmission} />
+                                </div>
+                                <div className="flex justify-center gap-6">
+                                    <SpecIcon icon={specIcons.drivetrain} label="привод" value={spec.drivetrain} />
+                                    <SpecIcon icon={specIcons.steering || specIcons.drivetrain} label="руль" value={spec.steering || "не указан"} />
+                                </div>
                             </div>
                         </div>
 

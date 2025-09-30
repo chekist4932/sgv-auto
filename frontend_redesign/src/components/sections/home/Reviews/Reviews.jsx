@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { ReviewCard } from './ReviewCard'
+import { ReviewsModal } from '~/components/ui/modal/ReviewsModal';
 import { Button } from '~/components/ui/Button'
 import { Spinner } from "~/components/ui/Spinner";
 import { SectionTitle } from '~/components/ui/SectionTitle'
@@ -28,6 +29,8 @@ export const ReviewsSection = () => {
         requestOptions,
         (items) => items.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
     );
+
+    const [selectedReview, setSelectedReview] = useState(null);
 
     const {
         width,
@@ -67,11 +70,15 @@ export const ReviewsSection = () => {
                         >
                             <div className="flex justify-start gap-4 px-4">
                                 {/* <div className="flex justify-center gap-4 transition-transform duration-500 ease-in-out"> */}
-                                    {reviews.map((review, index) => (
-                                        <div key={review.id || index}>
-                                            <ReviewCard review={review} isActive={true} />
-                                        </div>
-                                    ))}
+                                {reviews.map((review, index) => (
+                                    <div key={review.id || index}>
+                                        <ReviewCard
+                                            review={review}
+                                            isActive={true}
+                                            onClick={() => setSelectedReview(review)} 
+                                            />
+                                    </div>
+                                ))}
                                 {/* </div> */}
                             </div>
                         </div>
@@ -85,7 +92,11 @@ export const ReviewsSection = () => {
                                     className={`absolute left-0 top-1/2 -translate-y-1/2 transition-transform duration-500 
                                     ${activeCount === 2 ? "-translate-x-[120%]" : "-translate-x-[110%]"}`}
                                 >
-                                    <ReviewCard review={reviews[leftIndex]} isActive={false} />
+                                    <ReviewCard
+                                        review={reviews[leftIndex]}
+                                        isActive={false}
+                                        onClick={() => setSelectedReview(reviews[leftIndex])}
+                                    />
                                 </div>
                             )}
 
@@ -103,7 +114,12 @@ export const ReviewsSection = () => {
                                     style={{ transform: `translateX(-${transformOffset}px)` }}
                                 >
                                     {reviews.map((review, index) => (
-                                        <ReviewCard key={review.id || index} review={review} isActive={true} />
+                                        <ReviewCard
+                                            key={review.id || index}
+                                            review={review}
+                                            isActive={true}
+                                            onClick={() => setSelectedReview(review)}
+                                        />
                                     ))}
                                 </div>
                             </div>
@@ -120,7 +136,11 @@ export const ReviewsSection = () => {
                                     className={`absolute right-0 top-1/2 -translate-y-1/2 transition-transform duration-500 
                                     ${activeCount === 2 ? "translate-x-[120%]" : "translate-x-[110%]"}`}
                                 >
-                                    <ReviewCard review={reviews[rightIndex]} isActive={false} />
+                                    <ReviewCard
+                                        review={reviews[rightIndex]}
+                                        isActive={false}
+                                        onClick={() => setSelectedReview(reviews[rightIndex])}
+                                    />
                                 </div>
                             )}
                         </div>)
@@ -145,6 +165,16 @@ export const ReviewsSection = () => {
                     ))}
                 </div>
             </div>
+
+            {selectedReview && (
+                <body className="overflow-hidden">
+                    <ReviewsModal
+                        review={selectedReview}
+                        onClose={() => setSelectedReview(null)}
+                    />
+                </body>
+
+            )}
         </section>
     );
 };

@@ -1,28 +1,17 @@
 // src/components/ui/ReviewCard.jsx
 
 import React from 'react';
-import { Star, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
+
+import { RatingStars } from '~/components/ui/RatingStars';
 
 import ribbonIcon from '~/assets/images/review/ribbon.svg'
 import noResultImage from '/no-results.jpg'
 
 
 
-const RatingStars = ({ rating = 5, maxRating = 5 }) => {
-    return (
-        <div className="flex items-center gap-1">
-            {Array.from({ length: maxRating }, (_, index) => (
-                <Star
-                    key={index}
-                    className={`w-3 h-3 ${index < rating ? 'text-primary-red fill-primary-red' : 'text-gray-600'}`}
-                />
-            ))}
-        </div>
-    );
-};
 
-
-export const ReviewCard = ({ review, isActive }) => {
+export const ReviewCard = ({ review, isActive, onClick }) => {
 
     const { author, rating, source, source_url, text, image_url } = review;
 
@@ -32,19 +21,21 @@ export const ReviewCard = ({ review, isActive }) => {
         relative shrink-0 rounded-2xl bg-[#11131B] border border-white/10
         flex flex-col
         transition-all duration-500 ease-in-out
-        w-[300px]
+        w-[300px] h-full lg:h-auto
         ${isActive ? 'opacity-100 scale-100' : 'opacity-50 scale-[0.85] '}
       `}
         >
 
             <div className="relative group rounded-t-2xl aspect-[4/3] overflow-hidden">
                 <img
+                    onClick={onClick}
                     src={image_url || noResultImage}
                     alt={`Отзыв от ${author}`}
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
                 <a
-
+                    href={source_url}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="absolute bottom-1 right-[-1px] flex items-center justify-center"
                     aria-label={`Читать отзыв на ${source}`}
@@ -77,15 +68,13 @@ export const ReviewCard = ({ review, isActive }) => {
 
 
                 <div className="mt-auto inline-block">
-                    <a
-                        href={source_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary-red font-semibold text-sm inline-flex items-center gap-1 group hover:no-underline"
+                    <span
+                        className="text-primary-red font-semibold text-sm inline-flex items-center gap-1 group select-none cursor-pointer hover:underline "
+                        onClick={onClick}
                     >
                         Подробнее
                         <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                    </a>
+                    </span>
                 </div>
             </div>
         </div>

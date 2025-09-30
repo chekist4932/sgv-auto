@@ -60,7 +60,11 @@ export const News = () => {
 
                                 <div className="flex justify-center gap-4 transition-transform duration-500 ease-in-out">
                                     {news.map((news_item, index) => (
-                                        <NewsCard key={news_item.id || index} news_item={news_item} isActive={true} onClick={() => setSelectedNews(news_item)} />
+                                        <NewsCard
+                                            key={news_item.id || index}
+                                            news_item={news_item}
+                                            isActive={true}
+                                            onClick={() => setSelectedNews(news_item)} />
                                     ))}
                                 </div>
                             </div>
@@ -85,10 +89,12 @@ export const News = () => {
                 )}
             </div>
             {selectedNews && (
-                <NewsModal
-                    news_item={selectedNews}
-                    onClose={() => setSelectedNews(null)}
-                />
+                <body className="overflow-hidden">
+                    <NewsModal
+                        news_item={selectedNews}
+                        onClose={() => setSelectedNews(null)}
+                    />
+                </body>
             )}
         </section>
     );

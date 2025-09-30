@@ -40,8 +40,10 @@ export const Footer = ({ onOpenModalCallBack }) => {
 
                 <div className="flex justify-between items-baseline gap-8 flex-wrap">
                     <div className="flex flex-col gap-4 max-w-[260px]">
-                        <div onClick={scrollToTop} className="h-8 cursor-pointer">
-                            <Logo />
+                        <div className="h-8 cursor-pointer">
+                            <SmartLink>
+                                <Logo />
+                            </SmartLink>
                         </div>
                         <p className="text-sm text-white font-semibold">
                             Профессиональный импорт автомобилей из Азии с полным циклом услуг

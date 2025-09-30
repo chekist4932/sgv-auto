@@ -1,4 +1,4 @@
-// src/components/ui/NewsModal.jsx
+// src/components/ui/ReviewsModal.jsx
 
 import React, { useState } from 'react';
 import { X, ArrowUpRight } from 'lucide-react';
@@ -7,8 +7,11 @@ import { ru } from 'date-fns/locale';
 
 import { Badge } from '../Badge';
 import { Button } from '../Button';
+import { RatingStars } from '../RatingStars';
 
 import noResultImage from '/no-results.jpg'
+import ribbonIcon from '~/assets/images/review/ribbon.svg'
+
 
 
 const ImageGallery = ({ image_url }) => {
@@ -28,17 +31,18 @@ const ImageGallery = ({ image_url }) => {
 
 
 
-export const NewsModal = ({ news_item, onClose }) => {
-    if (!news_item) return null;
+export const ReviewsModal = ({ review, onClose }) => {
+    if (!review) return null;
 
-    const { title, content, image_url, source_url, created_at, category } = news_item;
+    const { author, rating, source, source_url, text, image_url, created_at } = review;
 
-    const normalizedContent = content?.toString().replace(/\r\n/g, '\n');
+    const normalizedContent = text?.toString().replace(/\r\n/g, '\n');
 
     return (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div className="bg-[#11131B] rounded-2xl max-w-6xl w-full max-h-[555px] overflow-y-auto relative">
                 <div className="sticky top-0 px-2 pt-2 pb-2 flex justify-end items-center z-20">
+
                     <Button
                         onClick={onClose}
                         variant="ghost" size="icon"
@@ -56,10 +60,11 @@ export const NewsModal = ({ news_item, onClose }) => {
 
                     <div className="lg:col-span-1 space-y-2">
                         <div className="flex gap-2 justify-start items-center">
+                            <Badge >{author}</Badge>
                             <Badge >{format(new Date(created_at), 'd MMMM yyyy', { locale: ru })}</Badge>
-                            <Badge >{category}</Badge>
+                            <RatingStars rating={rating} />
                         </div>
-                        <h3 className="text-white text-lg text-left leading-relaxed mb-4">{title}</h3>
+                        <h3 className="text-white text-lg text-left leading-relaxed mb-4">Отзыв</h3>
                         <p className="text-sm text-white/80 whitespace-pre-line">{normalizedContent}</p>
                         <a
                             href={source_url}
@@ -76,3 +81,4 @@ export const NewsModal = ({ news_item, onClose }) => {
         </div>
     );
 };
+
