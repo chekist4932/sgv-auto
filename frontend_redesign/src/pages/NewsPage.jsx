@@ -18,19 +18,36 @@ import { API_URL, requestOptions } from '~/config/index';
 import { ITEMS_PER_PAGE, categories } from '~/lib/news_page/constants'
 import bgImage from '~/assets/news/bg-form.png';
 
+import { NewsFilters } from '~/components/sections/news/NewsFilters';
+import { NewsGrid } from '~/components/sections/news/NewsGrid';
+import { useNewsFeed } from '~/hooks/useNewsFeed';
+
+
+const CallToActionSection = () => (
+    <section className="mt-8 bg-[#1A1D2A] bg-auto" style={{ backgroundImage: `url(${bgImage})` }}>
+        <div className="container mx-auto max-w-[1280px] px-4 grid lg:grid-cols-5 items-center">
+            <div className="lg:col-span-3 flex flex-col">
+            </div>
+            <div className='lg:col-span-2 flex flex-col bg-[#0C0E15] px-6 py-6'>
+                <RequestForm />
+            </div>
+        </div>
+    </section>
+);
 
 
 export const NewsPage = () => {
+    const {
+        loading,
+        filters,
+        setFilters,
+        currentPage,
+        setCurrentPage,
+        totalPages,
+        currentPageNews,
+    } = useNewsFeed();
 
-    const { data: news, loading } = useFetch(
-        `${API_URL}/news/`,
-        requestOptions,
-        (items) => items.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-    );
-    const [filters, setFilters] = useState({ search: '', category: '' });
     const [selectedNews, setSelectedNews] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-
     const isFirstRender = React.useRef(true);
 
     useEffect(() => {
@@ -38,7 +55,7 @@ export const NewsPage = () => {
             isFirstRender.current = false;
             return;
         }
-        const target = document.getElementById('news_border');
+        const target = document.getElementById('breadcrumbs');
         if (!target) return;
 
         const offset = 80;
@@ -50,73 +67,13 @@ export const NewsPage = () => {
         });
     }, [currentPage]);
 
-    const filteredNews = news.filter(n => {
-        const matchesSearch = n.title.toLowerCase().includes(filters.search.toLowerCase());
-        const matchesCategory = !filters.category || n.category === filters.category;
-        return matchesSearch && matchesCategory;
-    });
-
-
-
-    const totalPages = Math.ceil(filteredNews.length / ITEMS_PER_PAGE);
-    const currentPageNews = filteredNews.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
-
     return (
         <div className="w-full bg-[#0C0E15] text-white py-12">
             <div className="container mx-auto max-w-[1280px] px-4 py-12">
-
                 <AdBanner />
                 <Breadcrumbs />
-
-                <div className="flex flex-col md:flex-row gap-4 mb-8">
-
-                    <div className="order-1 md:order-2 flex-1">
-                        <div className="relative w-full">
-                            <input
-                                type="text"
-                                placeholder="Поиск по новостям"
-                                value={filters.search}
-                                onChange={(e) => {
-                                    setCurrentPage(1);
-                                    setFilters({ ...filters, search: e.target.value });
-                                }}
-                                className="w-full pl-10 pr-4 py-2 rounded-lg border border-white/20 bg-[#1A1D2A] focus:ring-1 focus:ring-[#007AFF] outline-none"
-                            />
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" />
-                        </div>
-                    </div>
-                    <div className="order-2 md:order-1">
-                        <FilterPills
-                            categories={categories}
-                            activeCategory={filters.category}
-                            onSelect={(category) => {
-                                setCurrentPage(1);
-                                setFilters({ ...filters, category });
-                            }}
-                        />
-                    </div>
-
-                </div>
-
-                {loading ? (
-                    <div className="flex justify-center ">
-                        <Spinner />
-                    </div>
-                ) : currentPageNews.length > 0 ? (
-                    <div className='flex justify-center'>
-                        <div className="grid items-stretch gap-x-6 gap-y-6 md:grid-cols-2 lg:grid-cols-3">
-                            {currentPageNews.map((news_item) => (
-                                <NewsCard key={news_item.id} news_item={news_item} isActive={true} onClick={() => setSelectedNews(news_item)} />
-                            ))}
-                        </div>
-                    </div>
-
-                ) : (
-                    <div className="text-center text-white/60 py-16">
-                        Новости пока не добавлены
-                    </div>
-                )}
-
+                <NewsFilters filters={filters} setFilters={setFilters} categories={categories} />
+                <NewsGrid news={currentPageNews} loading={loading} onCardClick={setSelectedNews} />
                 {totalPages > 1 && (
                     <Pagination
                         currentPage={currentPage}
@@ -124,21 +81,8 @@ export const NewsPage = () => {
                         onPageChange={(page) => setCurrentPage(page)}
                     />
                 )}
-
-
-
             </div>
-
-            <section className="mt-8 bg-[#1A1D2A] bg-auto" style={{ backgroundImage: `url(${bgImage})` }}>
-                <div className="container mx-auto max-w-[1280px] px-4 grid lg:grid-cols-5 items-center">
-                    <div className="lg:col-span-3 flex flex-col">
-                    </div>
-                    <div className='lg:col-span-2 flex flex-col bg-[#0C0E15] px-6 py-6'>
-                        <RequestForm />
-                    </div>
-                </div>
-            </section>
-
+            <CallToActionSection />
             <NewsModal
                 news_item={selectedNews}
                 onClose={() => setSelectedNews(null)}

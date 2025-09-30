@@ -2,7 +2,7 @@ import React from "react";
 import { SmartLink } from '../SmartLink';
 
 export const Breadcrumbs = () => (
-    <div id='news_border' className="text-sm text-white/60 mb-8">
+    <div id='breadcrumbs' className="text-sm text-white/60 mb-8">
         <SmartLink
             key='Главная'
             to='top'
