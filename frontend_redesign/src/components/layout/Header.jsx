@@ -74,7 +74,7 @@ export const Header = ({ onOpenModalCallBack, navIsActive }) => {
 
                     {/* Десктопное меню */}
                     {navIsActive && (
-                        <nav className="hidden md:flex items-center select-none">
+                        <nav className="hidden lg:flex items-center select-none">
                             {navLinks.map((item, i) => (
                                 <React.Fragment key={item.title}>
                                     <div key={item.title} className="relative group">
@@ -119,53 +119,57 @@ export const Header = ({ onOpenModalCallBack, navIsActive }) => {
                     )}
 
                     {/* Соцсети + кнопка обратного звонка */}
-                    <div className="hidden lg:flex items-center gap-4">
-                        <div>
-                            <div className="text-sm">Владивосток</div>
+                    <div className="flex gap-2">
+                        <div className="hidden md:flex items-center gap-4">
+                            <div>
+                                <div className="text-sm">Владивосток</div>
+                                <a
+                                    href="https://2gis.ru/vladivostok/search/ул. Русская 99"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-xs text-white/80 hover:text-white transition-colors"
+                                >
+                                    ул. Русская 99
+                                </a>
+                            </div>
                             <a
-                                href="https://2gis.ru/vladivostok/search/ул. Русская 99"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-xs text-white/80 hover:text-white transition-colors"
+                                href="tel:+79140744300"
+                                className="text-sm whitespace-nowrap hover:opacity-80 transition-opacity"
                             >
-                                ул. Русская 99
+                                +7 (914) 074-43-00
                             </a>
+                            <div className="flex items-center border-2 border-primary-red rounded-full shadow-lg overflow-hidden">
+                                <div className="flex gap-2 pl-2 pr-2">
+                                    <SocialChip name="whatsapp" />
+                                    <SocialChip name="tg" />
+                                </div>
+                                <Button onClick={onOpenModalCallBack} className="w-[231px] ">
+                                    Обратный звонок
+                                </Button>
+                            </div>
                         </div>
-                        <a
-                            href="tel:+79140744300"
-                            className="text-sm whitespace-nowrap hover:opacity-80 transition-opacity"
-                        >
-                            +7 (914) 074-43-00
-                        </a>
-                        <div className="hidden lg:flex items-center border-2 border-primary-red rounded-full shadow-lg overflow-hidden">
-                            <div className="flex gap-2 pl-2 pr-2">
+
+
+                        {/* Мобилка: кнопки + бургер */}
+                        <div className="md:hidden flex items-center gap-2">
+                            <div className="flex items-center gap-2 p-2 border-2 border-primary-red rounded-full shadow-lg">
                                 <SocialChip name="whatsapp" />
                                 <SocialChip name="tg" />
+                                <Button onClick={onOpenModalCallBack} size="icon" variant="primary-red">
+                                    <Phone className="w-5 h-5" />
+                                </Button>
                             </div>
-                            <Button onClick={onOpenModalCallBack} className="w-[231px] ">
-                                Обратный звонок
+
+                        </div>
+                        <div className="lg:hidden">
+                            <Button
+                                variant="primary-red"
+                                size="md"
+                                onClick={() => setIsMenuOpen(true)}
+                            >
+                                <Menu className="w-5 h-5" />
                             </Button>
                         </div>
-                    </div>
-
-
-                    {/* Мобилка: кнопки + бургер */}
-                    <div className="lg:hidden flex items-center gap-2 mr-4">
-                        <div className="flex items-center gap-2 p-2 border-2 border-primary-red rounded-full shadow-lg">
-                            <SocialChip name="whatsapp" />
-                            <SocialChip name="tg" />
-                            <Button onClick={onOpenModalCallBack} size="icon" variant="primary-red">
-                                <Phone className="w-5 h-5" />
-                            </Button>
-                        </div>
-                        <Button
-                            variant="primary-red"
-                            size="md"
-                            onClick={() => setIsMenuOpen(true)}
-                        >
-                            <Menu className="w-5 h-5" />
-                        </Button>
-
                     </div>
                 </div>
             </div>
