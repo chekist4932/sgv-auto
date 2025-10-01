@@ -1,6 +1,6 @@
 // src/components/ui/CarCard.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 
@@ -34,10 +34,10 @@ export const CarCard = ({ car, isActive, onClick }) => {
 
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const images = car.images || []; 
+    const images = car.images || [];
 
     const nextImage = (e) => {
-        e.stopPropagation(); 
+        e.stopPropagation();
         setCurrentImageIndex((prev) => (prev + 1) % images.length);
     };
 
@@ -60,6 +60,13 @@ export const CarCard = ({ car, isActive, onClick }) => {
                 return 'В наличии';
         }
     };
+    const [loaded, setLoaded] = useState(false);
+    useEffect(() => {
+        images.forEach((img) => {
+            const preloader = new Image();
+            preloader.src = img.url;
+        });
+    }, [images]);
 
 
     return (
@@ -83,7 +90,12 @@ export const CarCard = ({ car, isActive, onClick }) => {
                 <img
                     src={images[currentImageIndex].url}
                     alt={car.model}
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    onLoad={() => setLoaded(true)}
+                    className={`
+        absolute inset-0 h-full w-full object-cover transition-all duration-500
+        ${loaded ? 'blur-0 opacity-100' : 'blur-md opacity-50'}
+    `}
                 />
 
                 {images.length > 1 && (
