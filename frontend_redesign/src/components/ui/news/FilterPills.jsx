@@ -7,9 +7,11 @@ const FilterButton = ({ category, activeCategory, onSelect }) => {
     return (
         <button
             onClick={() => onSelect(value)}
-            className={`px-4 py-2 rounded-lg text-sm transition-colors border border-[#007AFF] ${activeCategory === value
-                ? "bg-[#348BDC] text-white"
-                : "bg-[#0C0E15] text-white/80 hover:bg-white/10"
+            className={`px-4 py-2 rounded-lg text-sm transition-colors border border-[#007AFF] 
+                overflow-hidden text-ellipsis whitespace-nowrap
+                ${activeCategory === value
+                    ? "bg-[#348BDC] text-white"
+                    : "bg-[#0C0E15] text-white/80 hover:bg-white/10"
                 }`}
         >
             {category}
