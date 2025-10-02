@@ -84,18 +84,26 @@ export const CarModal = ({ car, onClose, onOpenModal }) => {
     return (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div className="bg-[#11131B] rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto relative ">
-                <div className="sticky top-0 px-2 pt-2 pb-2 flex justify-end items-center z-20">
-                    <Button onClick={onClose} variant="ghost" size="icon" className="rounded-full">
+
+                <div className="sticky top-0  backdrop-blur-lg p-6 flex justify-between items-start z-20">
+                    <div>
+                        <h3 className="text-2xl font-bold">
+                            {brand.name} {model.name}, {generation.years}
+                        </h3>
+
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-x-3 gap-y-1 mt-2">
+                            <p className="text-xl font-bold text-primary-red">
+                                {price}
+                            </p>
+                            <Badge>
+                                включая доставку и таможенное оформление
+                            </Badge>
+                        </div>
+                    </div>
+
+                    <Button onClick={onClose} variant="ghost" size="icon" className="rounded-full shrink-0">
                         <X className="w-6 h-6" />
                     </Button>
-                </div>
-
-                <div className='px-6 pb-4 pt-2'>
-                    <h3 className="text-3xl font-medium">{brand.name} {model.name}, {generation.years}</h3>
-                    <div className="flex items-center gap-2 mt-1">
-                        <p className="text-base font-medium text-primary-red">{price}</p>
-                        <Badge >включая доставку и таможенное оформление</Badge>
-                    </div>
                 </div>
 
                 <div className="grid lg:grid-cols-2 gap-8 px-6 pb-6 pt-4">

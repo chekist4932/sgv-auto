@@ -1,6 +1,6 @@
 // src/components/ui/NewsModal.jsx
 
-import React, { useState } from 'react';
+import React from 'react';
 import { X, ArrowUpRight } from 'lucide-react';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
@@ -38,7 +38,7 @@ export const NewsModal = ({ news_item, onClose }) => {
     return (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
             <div className="bg-[#11131B] rounded-2xl max-w-6xl w-full max-h-[555px] overflow-y-auto relative">
-                <div className="sticky top-0 px-2 pt-2 pb-2 flex justify-end items-center z-20">
+                <div className="sticky top-0 px-2 pt-4 pb-4 flex justify-end items-center z-20">
                     <Button
                         onClick={onClose}
                         variant="ghost" size="icon"
@@ -55,7 +55,7 @@ export const NewsModal = ({ news_item, onClose }) => {
                     </div>
 
                     <div className="lg:col-span-1 space-y-2">
-                        <div className="flex gap-2 justify-start items-center">
+                        <div className="flex flex-col items-start gap-3 lg:flex-row lg:items-center">
                             <Badge >{format(new Date(created_at), 'd MMMM yyyy', { locale: ru })}</Badge>
                             <Badge >{category}</Badge>
                         </div>

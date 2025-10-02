@@ -56,7 +56,7 @@ export const News = () => {
                             ref={scrollContainerRef}
                             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                         >
-                            <div className="flex justify-start md:justify-center gap-4 px-4">
+                            <div className="flex justify-start lg:justify-center gap-4 px-4">
 
                                 <div className="flex justify-center gap-4 transition-transform duration-500 ease-in-out">
                                     {news.map((news_item, index) => (
