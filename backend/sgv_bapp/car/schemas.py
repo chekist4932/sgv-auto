@@ -14,6 +14,7 @@ class CarBase(BaseModel):
     mileage: str
     engine: str
     transmission: str
+    steering: str
     description: str
 
     status: CarStatus
@@ -30,6 +31,7 @@ class CarUpdate(CarBase):
     engine: str | None = None
     transmission: str | None = None
     description: str | None = None
+    steering: str | None = None
 
     status: CarStatus | None = None
 

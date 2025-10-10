@@ -32,6 +32,7 @@ class Car(Base):
 
     power = Column(Integer)
     drivetrain = Column(String)
+    steering = Column(String)
     acceleration = Column(Numeric(precision=3, scale=1))
 
     created_at = Column(DateTime, server_default=func.now(), nullable=False)

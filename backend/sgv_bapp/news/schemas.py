@@ -41,6 +41,7 @@ class NewsSchema(NewsBase):
 
 class NewsFilter(BaseFilter):
     title: str | None = Field(None)
+    category: str | None = Field(None)
 
     limit: int = Field(100, gt=0, le=100)
     offset: int = Field(0, ge=0)
