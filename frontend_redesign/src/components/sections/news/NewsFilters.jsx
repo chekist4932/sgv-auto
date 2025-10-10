@@ -3,8 +3,9 @@
 import React from 'react';
 import { Search } from 'lucide-react';
 import { FilterPills } from '~/components/ui/news/FilterPills';
+import { categories } from '~/lib/news_page/constants'
 
-export const NewsFilters = ({ filters, setFilters, categories }) => {
+export const NewsFilters = ({ filters, setFilters }) => {
     return (
         <div className="flex flex-col md:flex-row gap-4 mb-8">
             <div className="order-1 md:order-2 flex-1">

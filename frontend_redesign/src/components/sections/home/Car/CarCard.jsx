@@ -14,8 +14,8 @@ const CarSpecs = ({ specs }) => {
         "Двигатель": specs.engine,
         "Пробег": specs.mileage,
         "Коробка передач": specs.transmission,
-        "Мощность": specs.power,
-        "Руль": specs.drivetrain,
+        "Привод": specs.drivetrain,
+        "Руль": specs.steering,
     };
 
     return (

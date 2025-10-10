@@ -6,6 +6,7 @@ import { Header } from '~/components/layout/Header';
 import { Footer } from '~/components/layout/Footer'; // Используем экспорт по умолчанию
 import { HomePage } from './pages/HomePage';
 import { NewsPage } from './pages/NewsPage';
+import { CatalogPage } from './pages/CatalogPage';
 
 import { CallbackModal } from '~/components/ui/modal/CallbackModal';
 
@@ -22,6 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage onOpenModalCallBack={() => setIsModalOpen(true)} />} />
         <Route path="/news" element={<NewsPage />} />
+        <Route path="/catalog" element={<CatalogPage onOpenModalCallBack={() => setIsModalOpen(true)}/>} />
       </Routes>
 
       <Footer onOpenModalCallBack={() => setIsModalOpen(true)} />

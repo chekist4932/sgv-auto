@@ -21,6 +21,7 @@ export const formatCarForDisplay = (car) => {
             power: car.power || "",
             transmission: car.transmission,
             drivetrain: car.drivetrain || "",
+            steering: car.steering || "",
             mileage: car.mileage,
         },
         status: car.status,
@@ -28,6 +29,7 @@ export const formatCarForDisplay = (car) => {
 };
 
 export const formatCarForModal = (car) => {
+    
     const nameParts = car.name.split(" ");
     const brand = nameParts[0] || "";
     const model = nameParts.slice(1).join(" ") || "";
@@ -49,6 +51,7 @@ export const formatCarForModal = (car) => {
                     power: car.power + " л.с." || "",
                     transmission: car.transmission,
                     drivetrain: car.drivetrain || "",
+                    steering: car.steering || "",
                     acceleration: car.acceleration
                 },
             ],

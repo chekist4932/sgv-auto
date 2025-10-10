@@ -17,12 +17,13 @@ import tgIcon from '~/assets/icons/tg.svg';
 const navLinks = [
     {
         title: "Каталог",
-        hasDropdown: true,
-        submenu: [
-            { title: "Автомобили из Японии", target: "cars" },
-            { title: "Автомобили из Китая", target: "cars" },
-            { title: "Автомобили из Кореи", target: "cars" },
-        ],
+        target: 'cars',
+        // hasDropdown: true,
+        // submenu: [
+        //     { title: "Автомобили из Японии", target: "cars" },
+        //     { title: "Автомобили из Китая", target: "cars" },
+        //     { title: "Автомобили из Кореи", target: "cars" },
+        // ],
     },
     { title: "О нас", target: "about" },
     { title: "Новости", target: "news" },
