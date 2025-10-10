@@ -238,9 +238,9 @@ class NewsAdmin(PageView, model=News):
         "excerpt": lambda m, a: Markup(
             f'{m.excerpt[:10]} ...'),
         "title": lambda m, a: Markup(
-            f'{m.excerpt[:20]} ...'),
+            f'{m.title[:20]} ...'),
         "source_url": lambda m, a: Markup(
-            f'{m.excerpt[:20]} ...')
+            f'{m.source_url[:20]} ...')
     }
 
     column_list = [col.name for col in News.__table__.c]
