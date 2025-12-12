@@ -66,7 +66,7 @@ export const useCustomsCalculator = ({ country, engineType, engineVolume, engine
         const customsFee = getCustomsFee(carCostRub);
         const commission = COUNTRIES[data.country].commission;
         const recyclingFee = getRecyclingFee(volumeNum, data.carAge, data.enginePower);
-        const commercialRecyclingFee = getRecyclingFee(volumeNum, data.carAge, false);
+        const commercialRecyclingFee = getRecyclingFee(volumeNum, data.carAge, data.enginePower, false);
 
         const total = carCostRub + shipping.costRub + customsDutyRub + customsFee + BROKER_FEE + commission + recyclingFee;
         const totalWithCommercial = carCostRub + shipping.costRub + customsDutyRub + customsFee + BROKER_FEE + commission + commercialRecyclingFee;

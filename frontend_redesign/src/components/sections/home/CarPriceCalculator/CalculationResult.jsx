@@ -22,10 +22,10 @@ export const CalculationResult = ({ result, country, onScroll }) => (
                 <span>Таможенная пошлина:</span>
                 <span className="font-medium">{result.customsDuty.toLocaleString()} ₽</span>
             </div>
-            <div className="flex justify-between">
+            {/* <div className="flex justify-between">
                 <span>Утилизационный сбор:</span>
                 <span className="font-medium">{result.recyclingFee.toLocaleString()} ₽</span>
-            </div>
+            </div> */}
             <div className="flex justify-between">
                 <span>Таможенный сбор:</span>
                 <span className="font-medium">{result.customsFee.toLocaleString()} ₽</span>
@@ -38,19 +38,23 @@ export const CalculationResult = ({ result, country, onScroll }) => (
                 <span>Комиссия компании:</span>
                 <span className="font-medium">{result.commission.toLocaleString()} ₽</span>
             </div>
-            <div className="flex justify-between">
+            {/* <div className="flex justify-between">
                 <span>Утилизационный сбор (перепродажа):</span>
                 <span className="font-medium">{result.commercialRecyclingFee.toLocaleString()} ₽</span>
+            </div> */}
+            <div className="flex justify-between">
+                <span>Утилизационный сбор:</span>
+                <span className="font-medium">{result.recyclingFee.toLocaleString()} ₽</span>
             </div>
             <div className="pt-2 border-t border-gray-600">
                 <div className="flex justify-between font-semibold">
                     <span>Итого с утилизационным сбором:</span>
                     <span className="text-red-500">{result.total.toLocaleString()} ₽</span>
                 </div>
-                <div className="flex justify-between font-semibold">
+                {/* <div className="flex justify-between font-semibold">
                     <span>Итого с утилизационным сбором (перепродажа):</span>
                     <span>{result.totalWithCommercial.toLocaleString()} ₽</span>
-                </div>
+                </div> */}
             </div>
         </div>
         <div className="flex justify-center">

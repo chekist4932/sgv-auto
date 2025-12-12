@@ -3,7 +3,16 @@ import { SANCTIONED_JP_SHIPPING } from "./constants.js";
 
 
 export const getRecyclingFee = (engineVolume, age, enginePower, isPersonal = true) => {
-    
+    if (!isPersonal) {
+        if (enginePower < 160)
+        {
+            return age === 'new' ? 3400 : 5200;
+        }
+        else {
+            return 0
+        }
+        
+    }
      if (engineVolume <= 2000) {
         if (enginePower < 160){
             return age === 'new' ? 3400 : 5200;
