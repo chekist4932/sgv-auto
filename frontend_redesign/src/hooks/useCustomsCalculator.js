@@ -6,7 +6,7 @@ import { ENGINE_TYPES, COUNTRIES, BROKER_FEE } from '../lib/calculator/constants
 import { getRecyclingFee, getCustomsFee, calculateShippingCost, calculateCustomsDuty } from '../lib/calculator/utils';
 
 // Наш хук принимает данные, за которыми нужно следить, и функцию для обновления формы
-export const useCustomsCalculator = ({ country, engineType, engineVolume, setValue }) => {
+export const useCustomsCalculator = ({ country, engineType, engineVolume, enginePower, setValue }) => {
     // 1. Вся логика состояния переезжает сюда
     const [rates, setRates] = useState({});
     const [result, setResult] = useState(null);
@@ -65,7 +65,7 @@ export const useCustomsCalculator = ({ country, engineType, engineVolume, setVal
         const customsDutyRub = customsDutyEur * rates.EUR;
         const customsFee = getCustomsFee(carCostRub);
         const commission = COUNTRIES[data.country].commission;
-        const recyclingFee = getRecyclingFee(volumeNum, data.carAge);
+        const recyclingFee = getRecyclingFee(volumeNum, data.carAge, data.enginePower);
         const commercialRecyclingFee = getRecyclingFee(volumeNum, data.carAge, false);
 
         const total = carCostRub + shipping.costRub + customsDutyRub + customsFee + BROKER_FEE + commission + recyclingFee;

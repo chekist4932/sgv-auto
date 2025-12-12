@@ -187,10 +187,10 @@ class ReviewAdmin(PageView, model=Review):
     column_sortable_list = [col.name for col in Review.__table__.c]
 
     form_edit_rules = [col.name for col in Review.__table__.c if
-                       col.name not in ['id', 'review_uuid', 'created_at']] + [
+                       col.name not in ['id', 'review_uuid']] + [
                           "upload_image"]
 
-    form_create_rules = [col.name for col in Review.__table__.c if col.name not in ['id', 'image_url', 'created_at']]
+    form_create_rules = [col.name for col in Review.__table__.c if col.name not in ['id', 'image_url']]
 
 
 class NewsAdmin(PageView, model=News):

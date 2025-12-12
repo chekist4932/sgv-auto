@@ -48,7 +48,7 @@ export const CalculationResult = ({ result, country, onScroll }) => (
                     <span className="text-red-500">{result.total.toLocaleString()} ₽</span>
                 </div>
                 <div className="flex justify-between font-semibold">
-                    <span>Итого (перепродажа):</span>
+                    <span>Итого с утилизационным сбором (перепродажа):</span>
                     <span>{result.totalWithCommercial.toLocaleString()} ₽</span>
                 </div>
             </div>

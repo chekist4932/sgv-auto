@@ -22,6 +22,7 @@ const schema = z.object({
     price: z.string().min(1, "Введите стоимость"),
     engineType: z.string(),
     engineVolume: z.string().min(1, "Введите объем"),
+    enginePower: z.string().min(1, "Введите мощность в л.с."),
     carAge: z.string(),
     name: z.string().min(2, "Введите имя"),
     phone: z.string().min(10, "Введите номер телефона"),
@@ -50,11 +51,13 @@ export const CarPriceCalculator = () => {
     const country = watch('country');
     const engineType = watch('engineType');
     const engineVolume = watch('engineVolume');
+    const enginePower = watch('enginePower');
 
     const { rates, result, showSanctionedWarning, calculate } = useCustomsCalculator({
         country,
         engineType,
         engineVolume,
+        enginePower,
         setValue,
     });
 
@@ -91,6 +94,9 @@ export const CarPriceCalculator = () => {
                                 </FormField>
                                 <FormField label={`Стоимость автомобиля (${COUNTRIES[country]?.currency})`} error={errors.price}>
                                     <StyledInput placeholder="Введите стоимость" {...register("price")} />
+                                </FormField>
+                                <FormField label={`Мощность автомобиля в л.с.`} error={errors.price}>
+                                    <StyledInput placeholder="Например: 160" {...register("enginePower")} />
                                 </FormField>
                                 <FormField label="Тип двигателя">
                                     <RadioGroup

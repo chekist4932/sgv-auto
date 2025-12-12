@@ -2,26 +2,157 @@
 import { SANCTIONED_JP_SHIPPING } from "./constants.js";
 
 
-export const getRecyclingFee = (engineVolume, age, isPersonal = true) => {
-    if (engineVolume > 3000) {
-        if (engineVolume <= 3500) {
-            return age === 'new' ? 2153000 : 3297000;
-        } else {
-            return age === 'new' ? 2742000 : 3605000;
+export const getRecyclingFee = (engineVolume, age, enginePower, isPersonal = true) => {
+    
+     if (engineVolume <= 2000) {
+        if (enginePower < 160){
+            return age === 'new' ? 3400 : 5200;
         }
+        else if (enginePower <= 190) {
+            return age === 'new' ? 750000 : 1244000;
+        }
+        else if (enginePower <= 220) {
+            return age === 'new' ? 794000 : 1320000;
+        }
+        else if (enginePower <= 250) {
+            return age === 'new' ? 842000 : 1398000;
+        }
+        else if (enginePower <= 280) {
+            return age === 'new' ? 952000 : 1532000;
+        }
+        else if (enginePower <= 310) {
+            return age === 'new' ? 1076000 : 1676000;
+        }
+        else if (enginePower <= 340) {
+            return age === 'new' ? 1216000 : 1836000;
+        }   
+    }
+    
+     else if (engineVolume > 2000 && engineVolume <= 3000) {
+        if (enginePower < 160){
+            return age === 'new' ? 3400 : 5200;
+        }
+        else if (enginePower <= 190) {
+            return age === 'new' ? 1922200 : 2880000;
+        }
+        else if (enginePower <= 220) {
+            return age === 'new' ? 1970000 : 2940000;
+        }
+        else if (enginePower <= 250) {
+            return age === 'new' ? 2002000 : 2960000;
+        }
+        else if (enginePower <= 280) {
+            return age === 'new' ? 2120000 : 3050000;
+        }
+        else if (enginePower <= 310) {
+            return age === 'new' ? 2184000 : 3120000;
+        }
+        else if (enginePower <= 340) {
+            return age === 'new' ? 2272000 : 3228000;
+        }   
+        else if (enginePower <= 370) {
+            return age === 'new' ? 2362000 : 3318000;
+        }   
+        else if (enginePower <= 400) {
+            return age === 'new' ? 2452000 : 3412000;
+        } 
+        else if (enginePower <= 425) {
+            return age === 'new' ? 2556000 : 3508000;
+        }  
+        else if (enginePower <= 455) {
+            return age === 'new' ? 2658000 : 3606000;
+        }  
+        else if (enginePower <= 500) {
+            return age === 'new' ? 2764000 : 3706000;
+        }  
+        else if (enginePower > 500) {
+            return age === 'new' ? 2874000 : 3810000;
+        }     
+    }
+    else if (engineVolume > 3000 && engineVolume <= 3500) {
+        if (enginePower < 160){
+            return age === 'new' ? 3400 : 5200;
+        }
+        else if (enginePower <= 190) {
+            return age === 'new' ? 2196000 : 3334000;
+        }
+        else if (enginePower <= 220) {
+            return age === 'new' ? 2240000 : 3370000;
+        }
+        else if (enginePower <= 250) {
+            return age === 'new' ? 2286000 : 3406000;
+        }
+        else if (enginePower <= 280) {
+            return age === 'new' ? 2342000 : 3456000;
+        }
+        else if (enginePower <= 310) {
+            return age === 'new' ? 2420000 : 3540000;
+        }
+        else if (enginePower <= 340) {
+            return age === 'new' ? 2532000 : 3630000;
+        }   
+        else if (enginePower <= 370) {
+            return age === 'new' ? 2672000 : 3738000;
+        }   
+        else if (enginePower <= 400) {
+            return age === 'new' ? 2820000 : 3850000;
+        }  
+        else if (enginePower <= 425) {
+            return age === 'new' ? 2974000 : 3966000;
+        }  
+        else if (enginePower <= 455) {
+            return age === 'new' ? 3138000 : 4084000;
+        }  
+        else if (enginePower <= 500) {
+            return age === 'new' ? 3310000 : 4208000;
+        }  
+        else if (enginePower > 500) {
+            return age === 'new' ? 3492000 : 4334000;
+        }   
+    }
+    // больше 3.5 л
+    else {
+        if (enginePower < 160){
+            return age === 'new' ? 3400 : 5200;
+        }
+        else if (enginePower <= 190) {
+            return age === 'new' ? 2788000 : 3658000;
+        }
+        else if (enginePower <= 220) {
+            return age === 'new' ? 2836000 : 3714000;
+        }
+        else if (enginePower <= 250) {
+            return age === 'new' ? 2884000 : 3770000;
+        }
+        else if (enginePower <= 280) {
+            return age === 'new' ? 2942000 : 3856000;
+        }
+        else if (enginePower <= 310) {
+            return age === 'new' ? 3000000 : 3944000;
+        }
+        else if (enginePower <= 340) {
+            return age === 'new' ? 3106000 : 4160000;
+        }   
+        else if (enginePower <= 370) {
+            return age === 'new' ? 3214600 : 4390000;
+        }   
+        else if (enginePower <= 400) {
+            return age === 'new' ? 3348000 : 4632000;
+        }  
+        else if (enginePower <= 425) {
+            return age === 'new' ? 3444000 : 4886000;
+        }  
+        else if (enginePower <= 455) {
+            return age === 'new' ? 3564000 : 5156000;
+        }  
+        else if (enginePower <= 500) {
+            return age === 'new' ? 3688000 : 5440000;
+        }  
+        else if (enginePower > 500) {
+            return age === 'new' ? 3818000 : 5738000;
+        }   
     }
 
-    if (isPersonal) {
-        return age === 'new' ? 3400 : 5200;
-    }
-
-    if (engineVolume <= 1000) {
-        return age === 'new' ? 180200 : 460000;
-    } else if (engineVolume <= 2000) {
-        return age === 'new' ? 667400 : 1174000;
-    } else {
-        return age === 'new' ? 1875000 : 2839000;
-    }
 };
 
 
