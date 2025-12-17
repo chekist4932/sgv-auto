@@ -32,7 +32,7 @@ export const getRecyclingFee = (engineVolume, age, enginePower, isPersonal = tru
         else if (enginePower <= 310) {
             return age === 'new' ? 1076000 : 1676000;
         }
-        else if (enginePower <= 340) {
+        else if (enginePower > 310) {
             return age === 'new' ? 1216000 : 1836000;
         }   
     }

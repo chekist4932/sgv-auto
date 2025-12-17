@@ -45,6 +45,20 @@ export const CarCard = ({ car, isActive, onClick }) => {
         e.stopPropagation();
         setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
     };
+    const getStatusColor = (status) => {
+        switch (status) {
+            case 'in_stock':
+                return 'bg-green-500/60 text-white';
+            case 'on_order':
+                return 'bg-yellow-500/60 text-white';
+            case 'sold':
+                return 'bg-primary-red/60 text-white';
+            case 'in_transit':
+                return 'bg-blue-500/60 text-white';
+            default:
+                return 'bg-gray-500/60 text-white';
+        }
+    };
 
     const getStatusText = (status) => {
         switch (status) {
@@ -119,8 +133,8 @@ export const CarCard = ({ car, isActive, onClick }) => {
             </div>
 
             <div className="flex justify-between items-center mb-4">
-                <p className="text-base text-primary-red">{car.price}</p>
-                <Badge >{getStatusText(car.status)}</Badge>
+                <p className={`text-base text-primary-red`}>{car.price}</p>
+                <Badge className={`${getStatusColor(car.status)}`}>{getStatusText(car.status)}</Badge>
             </div>
 
             <div className="mb-4"> {/* Убрал space-y, так как gap в CarSpecs уже есть */}

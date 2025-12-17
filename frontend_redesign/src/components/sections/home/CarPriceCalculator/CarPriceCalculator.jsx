@@ -1,5 +1,5 @@
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,7 +15,7 @@ import { ENGINE_TYPES, COUNTRIES } from '~/lib/calculator/constants';
 import { useCustomsCalculator } from '~/hooks/useCustomsCalculator';
 
 import AlertIcon from '~/assets/images/calculator/Alert.png';
-
+import { API_URL } from "~/config";
 
 const schema = z.object({
     country: z.string(),
@@ -48,12 +48,14 @@ export const CarPriceCalculator = () => {
         },
     });
 
+    const [result, setResult] = useState(null);
+
     const country = watch('country');
     const engineType = watch('engineType');
     const engineVolume = watch('engineVolume');
     const enginePower = watch('enginePower');
 
-    const { rates, result, showSanctionedWarning, calculate } = useCustomsCalculator({
+    const { rates, showSanctionedWarning, calculate } = useCustomsCalculator({
         country,
         engineType,
         engineVolume,
@@ -61,8 +63,35 @@ export const CarPriceCalculator = () => {
         setValue,
     });
 
-    const onSubmit = useCallback((data) => {
-        calculate(data);
+    const onSubmit = useCallback(async (data) => {
+        const CalcResult = calculate(data);
+        setResult(CalcResult);
+
+        const requestBody = {
+            name: data.name,
+            phone: data.phone,
+            comment: `
+                    Расчет калькулятора:
+                    Страна: ${COUNTRIES[data.country].name}
+                    Стоимость: ${data.price} ${COUNTRIES[data.country].currency}
+                    Двигатель: ${data.engineVolume} см³, ${data.enginePower} л.с., ${data.engineType}
+                    Возраст: ${data.carAge}
+                    Итого: ${CalcResult.total.toLocaleString()} ₽`.trim(),
+        };
+
+        try {
+            const response = await fetch(`${API_URL}/notification/`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(requestBody),
+            });
+
+            if (!response.ok) throw new Error("Ошибка сервера");
+
+        } catch (err) {
+            console.log("Не удалось отправить заявку");
+        }
+
     }, [calculate]);
 
     const scrollToContactForm = useCallback(() => {

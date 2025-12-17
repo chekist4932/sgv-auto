@@ -8,8 +8,10 @@ import { getRecyclingFee, getCustomsFee, calculateShippingCost, calculateCustoms
 // Наш хук принимает данные, за которыми нужно следить, и функцию для обновления формы
 export const useCustomsCalculator = ({ country, engineType, engineVolume, enginePower, setValue }) => {
     // 1. Вся логика состояния переезжает сюда
+
+    
     const [rates, setRates] = useState({});
-    const [result, setResult] = useState(null);
+    // const [result, setResult] = useState(null);
     const [showSanctionedWarning, setShowSanctionedWarning] = useState(false);
 
     // 2. Логика загрузки курсов валют
@@ -50,12 +52,12 @@ export const useCustomsCalculator = ({ country, engineType, engineVolume, engine
 
     // 4. Функция расчета, которая теперь является частью хука
     const calculate = (data) => {
-        if (Object.keys(rates).length === 0) return;
+        if (Object.keys(rates).length === 0) return null;
         
         const priceNum = parseFloat(data.price);
         const volumeNum = parseFloat(data.engineVolume);
 
-        if (!priceNum || !volumeNum) return;
+        if (!priceNum || !volumeNum) return null;
 
         const carCostRub = priceNum * rates[COUNTRIES[data.country].currency];
         const carCostEur = carCostRub / rates.EUR;
@@ -71,7 +73,7 @@ export const useCustomsCalculator = ({ country, engineType, engineVolume, engine
         const total = carCostRub + shipping.costRub + customsDutyRub + customsFee + BROKER_FEE + commission + recyclingFee;
         const totalWithCommercial = carCostRub + shipping.costRub + customsDutyRub + customsFee + BROKER_FEE + commission + commercialRecyclingFee;
 
-        setResult({
+        return {
             carCostRub,
             carCostOriginal: priceNum,
             shippingCostRub: shipping.costRub,
@@ -85,9 +87,10 @@ export const useCustomsCalculator = ({ country, engineType, engineVolume, engine
             total,
             totalWithCommercial,
             country: data.country,
-        });
+        };
     };
 
     // 5. Хук возвращает все необходимое для рендеринга и вычислений
-    return { rates, result, showSanctionedWarning, calculate };
+    return { rates, showSanctionedWarning, calculate };
+    
 };

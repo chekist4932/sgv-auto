@@ -57,10 +57,10 @@ export const CalculationResult = ({ result, country, onScroll }) => (
                 </div> */}
             </div>
         </div>
-        <div className="flex justify-center">
+        {/* <div className="flex justify-center">
             <Button onClick={onScroll} variant="primary-red" size="lg">
                 Получить точный расчет у менеджера
             </Button>
-        </div>
+        </div> */}
     </div>
 );
