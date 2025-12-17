@@ -254,7 +254,7 @@ class NewsAdmin(PageView, model=News):
         "news_uuid": {"value": uuid.uuid4()}
     }
 
-    form_edit_rules = [col.name for col in News.__table__.c if col.name not in ['id', 'news_uuid', 'created_at']] + [
+    form_edit_rules = [col.name for col in News.__table__.c if col.name not in ['id', 'news_uuid']] + [
         "upload_image"]
 
-    form_create_rules = [col.name for col in News.__table__.c if col.name not in ['id', 'image_url', 'created_at']]
+    form_create_rules = [col.name for col in News.__table__.c if col.name not in ['id', 'image_url']]
