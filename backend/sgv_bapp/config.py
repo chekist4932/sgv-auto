@@ -35,7 +35,7 @@ class MinioSettings(BaseConfig):
 class AppSettings(BaseConfig):
     APP_NAME: str = Field(alias="APP_NAME")
     DOMAIN_NAME: str = Field(alias="DOMAIN_NAME")
-    SECOND_DOMAIN_NAME: str = Field(alias="SECOND_DOMAIN_NAME")
+    SECOND_DOMAIN_NAME: Optional[str] = Field(None, alias="SECOND_DOMAIN_NAME")
     host: str = Field(alias="APP_IP")
     port: int = Field(alias="APP_PORT")
     app: str = Field(alias="APP_PATH")
