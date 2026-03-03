@@ -1,5 +1,6 @@
 from typing import Optional
 
+from sgv_bapp.config import get_settings
 from sgv_bapp.storage import get_s3_manager, MinIOSessionManager
 
 from sgv_bapp.utils import optimize_image_bytes
@@ -24,7 +25,7 @@ class S3Storage:
                 Body=file_data,
                 ContentType=content_type
             )
-        return f"{self.minio_manager.client_params['endpoint_url']}/{self.bucket_name}/{file_name}"
+        return f"{get_settings().app.DOMAIN_NAME}/{self.bucket_name}/{file_name}"
 
     async def delete_file(self,
                           file_name: str
