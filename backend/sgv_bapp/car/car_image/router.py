@@ -1,24 +1,19 @@
-import uuid
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Query, UploadFile
+from fastapi import APIRouter, Depends, Query
 
 from sgv_bapp.car.car_image.mapper import CarImageMapper, GetCarImageMapper
 from sgv_bapp.car.car_image.condition import get_condition_builder, CarImageConditionBuilder
 from sgv_bapp.car.car_image.service import CarImageService, GetCarImageService
 
-from sgv_bapp.car.car_image.s3_storage import get_s3_storage, S3Storage
-
 from sgv_bapp.car.car_image.schemas import (
     CarImageSchema,
-    CarImageCreate,
-    CarImageUpdate,
     CarImageFilter
 )
 
 from sgv_bapp.base import PaginatedResponse
 
-car_image_router = APIRouter(tags=['image'],
+car_image_router = APIRouter(tags=['car'],
                              prefix='/{car_id}/image')
 
 

@@ -25,7 +25,11 @@ class S3Storage:
                 Body=file_data,
                 ContentType=content_type
             )
-        return f"{get_settings().app.DOMAIN_NAME}/{self.bucket_name}/{file_name}"
+        s3_endpoint = self.minio_manager.client_params[
+            'endpoint_url'] if get_settings().app.STAGE == 'test' else get_settings().app.DOMAIN_NAME
+        image_url = f"{s3_endpoint}/{self.bucket_name}/{file_name}"
+        print(f'Upload image: {image_url}')
+        return image_url
 
     async def delete_file(self,
                           file_name: str

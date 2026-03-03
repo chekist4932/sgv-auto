@@ -15,7 +15,7 @@ class CarImage(Base):
 
     image_uuid = Column(Uuid, nullable=False)
     image_url = Column(String(2083), nullable=False)
-    car_id = Column(Integer, ForeignKey("car.id", ondelete="RESTRICT"), nullable=False)
+    car_id = Column(Integer, ForeignKey("car.id", ondelete="CASCADE"), nullable=False)
 
     is_main = Column(Boolean, default=False)
 
@@ -28,7 +28,7 @@ class CarImage(Base):
 
     upload_image: ClassVar[Optional[UploadFile]] = None
 
-    created_at = Column(DateTime, server_default=func.now(), nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
     def __str__(self):
         return f'ID Фото авто: {self.id}'

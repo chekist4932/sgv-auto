@@ -2,6 +2,9 @@ from sqlalchemy import Column, Integer, DateTime, UniqueConstraint, String, Nume
 from sqlalchemy.dialects.postgresql import ENUM as PgEnum
 from sqlalchemy.orm import relationship
 
+from typing import ClassVar, Optional
+from fastapi import UploadFile
+
 from sgv_bapp.base import Base
 
 from enum import Enum as Enum
@@ -35,10 +38,17 @@ class Car(Base):
     steering = Column(String)
     acceleration = Column(Numeric(precision=3, scale=1))
 
-    created_at = Column(DateTime, server_default=func.now(), nullable=False)
-    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 
-    car_image = relationship('CarImage', back_populates='car')
+    car_image = relationship(
+        'CarImage',
+        back_populates='car',
+        cascade="all, delete-orphan",  # Это ключевой момент!
+        passive_deletes=True
+    )
+
+    upload_image: ClassVar[Optional[UploadFile]] = None
 
     def __str__(self):
         return f'Авто[{self.id}]: {self.name} / {self.year}'

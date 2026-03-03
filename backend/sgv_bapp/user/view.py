@@ -1,5 +1,5 @@
 from sgv_bapp.base.view import PageView
-from user.model import User
+from sgv_bapp.user.model import User
 
 
 class UserAdmin(PageView, model=User):

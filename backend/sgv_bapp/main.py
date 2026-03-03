@@ -8,13 +8,12 @@ from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
+from sgv_bapp.admin.auth import authentication_backend
 from sgv_bapp.exceptions import register_exception_handlers
 from sgv_bapp.database import session_manager
 from sgv_bapp.storage import minio_manager
 from sgv_bapp.config import (
-    get_db_settings,
-    get_app_settings,
-    get_minio_settings
+    get_settings
 )
 
 from sgv_bapp.car import car_router
@@ -22,20 +21,27 @@ from sgv_bapp.notification.router import notify_router
 from sgv_bapp.review.router import review_router
 from sgv_bapp.news.router import news_router
 
-from sgv_bapp.admin.views import (
-    UserAdmin,
-    CarAdmin,
-    CarImageAdmin,
-    ReviewAdmin,
-    NewsAdmin)
+from sgv_bapp.user.view import (
+    UserAdmin
+)
+
+from sgv_bapp.car.view import CarAdmin
+from sgv_bapp.car.car_image.view import CarImageAdmin
+from sgv_bapp.news.view import NewsAdmin
+from sgv_bapp.review.view import ReviewAdmin
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    session_manager.init(get_db_settings().DATABASE_URI.unicode_string())
-    await minio_manager.init(get_minio_settings())
+    session_manager.init(get_settings().db.DATABASE_URI.unicode_string())
+    await minio_manager.init(get_settings().minio)
 
-    admin = Admin(app, engine=session_manager.get_engine(), session_maker=session_manager.get_sessionmaker())
+    admin = Admin(
+        app,
+        engine=session_manager.get_engine(),
+        session_maker=session_manager.get_sessionmaker(),
+        authentication_backend=authentication_backend
+    )
     admin.add_view(UserAdmin)
     admin.add_view(CarAdmin)
     admin.add_view(CarImageAdmin)
@@ -47,7 +53,7 @@ async def lifespan(app: FastAPI):
     await session_manager.close()
 
 
-app = FastAPI(title=get_app_settings().APP_NAME,
+app = FastAPI(title=get_settings().app.APP_NAME,
               lifespan=lifespan)
 
 api_router = APIRouter(prefix="/api")
@@ -63,7 +69,7 @@ register_exception_handlers(app)
 
 origins = [
     # "*"
-    "https://" + get_app_settings().DOMAIN_NAME,
+    "https://" + get_settings().app.DOMAIN_NAME,
     "http://localhost",
     "http://127.0.0.1"
 ]
@@ -79,7 +85,7 @@ app.add_middleware(
 
 async def run_app():
     config = Config(
-        **get_app_settings().model_dump(exclude={"APP_NAME", 'DOMAIN_NAME', 'SECOND_DOMAIN_NAME'})
+        **get_settings().uvicorn.model_dump()
     )
     server = Server(config)
     await server.serve()

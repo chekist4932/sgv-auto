@@ -20,7 +20,7 @@ class News(Base):
     source_url = Column(String)
 
     image_url = Column(String)
-    created_at = Column(DateTime, server_default=func.now(), nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
     upload_image: ClassVar[Optional[UploadFile]] = None
 

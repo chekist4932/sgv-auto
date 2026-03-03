@@ -5,13 +5,8 @@ from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
-from sgv_bapp.config import get_db_settings
+from sgv_bapp.config import get_settings
 from sgv_bapp.base import Base
-from sgv_bapp.car.model import Car
-from sgv_bapp.car.car_image.model import CarImage
-from sgv_bapp.admin.model import User
-from sgv_bapp.review.model import Review
-from sgv_bapp.news.model import News
 
 from alembic import context
 
@@ -20,7 +15,7 @@ from alembic import context
 config = context.config
 current_url = config.get_main_option('sqlalchemy.url', None)
 if not current_url:
-    config.set_main_option('sqlalchemy.url', get_db_settings().DATABASE_URI.unicode_string())
+    config.set_main_option('sqlalchemy.url', get_settings().db.DATABASE_URI.unicode_string())
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

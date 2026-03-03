@@ -31,11 +31,15 @@ class MinioSettings(BaseConfig):
     aws_secret_access_key: str = Field(alias="S3_SECRET_KEY")
 
 
-# noinspection PyNestedDecorators
 class AppSettings(BaseConfig):
     APP_NAME: str = Field(alias="APP_NAME")
     DOMAIN_NAME: str = Field(alias="DOMAIN_NAME")
     SECOND_DOMAIN_NAME: Optional[str] = Field(None, alias="SECOND_DOMAIN_NAME")
+    STAGE: Optional[str] = Field(None, alias="STAGE")
+
+
+# noinspection PyNestedDecorators
+class UvicornSettings(BaseConfig):
     host: str = Field(alias="APP_IP")
     port: int = Field(alias="APP_PORT")
     app: str = Field(alias="APP_PATH")
@@ -82,21 +86,27 @@ class DatabaseSettings(BaseConfig):
         )
 
 
-@lru_cache
-def get_db_settings() -> DatabaseSettings:
-    return DatabaseSettings()
+class AuthSettings(BaseConfig):
+    JWT_SECRET_KEY: str
+    JWT_ALGORITHM: str = "RS256"
+    ACCESS_TOKEN_EXPIRE_SECONDS: int = 60 * 60
+    REFRESH_TOKEN_EXPIRE_DAYS: int = 7
+    MAX_SESSIONS: int = 5
+    REFRESH_COOKIE_NAME: str = "refresh_token"
+    REFRESH_COOKIE_MAX_AGE: int = 60 * 60 * 24 * 30
+    PRIVATE_KEY: str = (BASE_DIR / "private.pem").read_text()
+    PUBLIC_KEY: str = (BASE_DIR / "public.pem").read_text()
+
+
+class Settings(BaseSettings):
+    app: AppSettings = Field(default_factory=AppSettings)
+    uvicorn: UvicornSettings = Field(default_factory=UvicornSettings)
+    db: DatabaseSettings = Field(default_factory=DatabaseSettings)
+    bot: BotSettings = Field(default_factory=BotSettings)
+    auth: AuthSettings = Field(default_factory=AuthSettings)
+    minio: MinioSettings = Field(default_factory=MinioSettings)
 
 
 @lru_cache
-def get_app_settings() -> AppSettings:
-    return AppSettings()
-
-
-@lru_cache
-def get_minio_settings() -> MinioSettings:
-    return MinioSettings()
-
-
-@lru_cache
-def get_bot_settings() -> BotSettings:
-    return BotSettings()
+def get_settings() -> Settings:
+    return Settings()
