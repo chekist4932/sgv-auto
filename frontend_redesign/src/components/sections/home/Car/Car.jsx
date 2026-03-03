@@ -48,7 +48,7 @@ export const Car = ({ onOpenModalCallBack, status, title, section_id }) => {
     const [selectedCar, setSelectedCar] = useState(null);
 
     const { data: cars = [], loading, error } = useFetch(
-        `${API_URL}/car${status ? `?status=${status}` : ''}`,
+        `${API_URL}/car/${status ? `?status=${status}` : ''}`,
         requestOptions,
         async (items) => {
             const filteredItems = (items || []).filter(car => car.status !== 'sold');
