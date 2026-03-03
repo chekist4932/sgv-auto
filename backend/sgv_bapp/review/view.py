@@ -78,10 +78,11 @@ class ReviewAdmin(PageView, model=Review):
     column_sortable_list = column_list
 
     form_edit_rules = [col.name for col in Review.__table__.c if
-                       col.name not in ['id', 'review_uuid']] + [
+                       col.name not in ['id', 'review_uuid', 'created_at']] + [
                           "upload_image"]
 
-    form_create_rules = [col.name for col in Review.__table__.c if col.name not in ['id', 'image_url']]
+    form_create_rules = [col.name for col in Review.__table__.c if col.name not in
+                         ['id', 'image_url', 'created_at']]
 
     column_labels = {
         Review.id: "ID",
@@ -91,6 +92,6 @@ class ReviewAdmin(PageView, model=Review):
         Review.source: "Источник",
         Review.source_url: "Ссылка на источник",
         Review.text: "Текст отзыва",
-        Review.image_url: "Изображение",
+        Review.image_url: "Ссылка изображения",
         Review.created_at: "Дата создания",
     }

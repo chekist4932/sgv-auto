@@ -18,6 +18,10 @@ class UserAdmin(PageView, model=User):
 
     column_sortable_list = column_list
 
+    form_create_rules = [col.name for col in User.__table__.c if
+                         col.name not in ['id', 'created_at']]
+    form_edit_rules = form_create_rules
+
     column_labels = {
         User.id: "ID",
         User.name: "Имя",

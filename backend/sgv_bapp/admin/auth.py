@@ -39,7 +39,7 @@ class AdminAuth(AuthenticationBackend):
         except Exception as er:
             print(f'In admin panel: {er}')
             return RedirectResponse(request.url_for('admin:login'), status_code=302)
-        print(f'user: {user}')
+        print(f'In admin panel | {user}')
         if not user:
             return RedirectResponse(request.url_for('admin:login'), status_code=302)
         return True

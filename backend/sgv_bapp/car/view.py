@@ -16,13 +16,17 @@ class CarAdmin(PageView, model=Car):
 
     async def scaffold_form(self, *args, **kwargs):
         form_class = await super().scaffold_form(*args, **kwargs)
-        form_class.upload_image = MultipleFileField(
-            "Загрузить фото",
-            validators=[Optional()]
-        )
+        if 'upload_image' in args[0]:
+            form_class.upload_image = MultipleFileField(
+                "Загрузить фото",
+                validators=[Optional()]
+            )
         return form_class
 
     async def on_model_change(self, data, model, is_created, request):
+
+        if is_created:
+            return
 
         files = data.get("upload_image")
         valid_files = [
@@ -31,7 +35,7 @@ class CarAdmin(PageView, model=Car):
         ]
         if not valid_files:
             return
-
+        valid_files.sort(key=lambda f: f.filename.lower())
         s3_storage = await get_s3_storage()
         async with session_manager.session() as session:
             result = await session.execute(
@@ -82,7 +86,7 @@ class CarAdmin(PageView, model=Car):
 
     name = 'Авто'
     name_plural = 'Авто'
-
+    form_overrides = dict(upload_image=MultipleFileField)
     column_list = [Car.id,
                    Car.name,
                    Car.power,
@@ -97,7 +101,8 @@ class CarAdmin(PageView, model=Car):
 
     form_edit_rules = [col.name for col in Car.__table__.c if
                        col.name not in ['id', 'created_at', 'updated_at', 'acceleration']] + ['upload_image']
-    form_create_rules = form_edit_rules
+    form_create_rules = [col.name for col in Car.__table__.c if
+                         col.name not in ['id', 'created_at', 'updated_at', 'acceleration', 'upload_image']]
 
     column_labels = {
         Car.id: "ID",

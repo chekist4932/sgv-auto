@@ -75,10 +75,12 @@ class NewsAdmin(PageView, model=News):
         "news_uuid": {"value": uuid.uuid4()}
     }
 
-    form_edit_rules = [col.name for col in News.__table__.c if col.name not in ['id', 'news_uuid']] + [
+    form_edit_rules = [col.name for col in News.__table__.c if col.name not in
+                       ['id', 'news_uuid', 'created_at', 'news_uuid']] + [
         "upload_image"]
 
-    form_create_rules = [col.name for col in News.__table__.c if col.name not in ['id', 'image_url']]
+    form_create_rules = [col.name for col in News.__table__.c if col.name not in
+                         ['id', 'image_url', 'created_at']]
 
     column_labels = {
         News.id: "ID",
@@ -88,6 +90,6 @@ class NewsAdmin(PageView, model=News):
         News.content: "Содержимое",
         News.category: "Категория",
         News.source_url: "Ссылка на источник",
-        News.image_url: "Изображение",
+        News.image_url: "Ссылка изображения",
         News.created_at: "Дата создания"
     }
