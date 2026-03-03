@@ -1,23 +1,20 @@
+// frontend_redesign\src\components\layout\Footer.jsx
 import React, { useCallback } from 'react';
 import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
+import { useNavigate } from "react-router-dom";
 
 import { Button } from '../ui/Button';
 import { SocialChip } from '../ui/SocialChip';
 import { Logo } from '../ui/branding/Logo';
 import { SmartLink } from '../ui/SmartLink';
+import { NavItem } from '../ui/NavItem';
+import { ContactBlock } from '../ui/ContactBlock';
 
 import { scrollConfig } from '~/config/scroll';
+import { navLinks } from '~/lib/navigation';
 
 import tgIcon from '~/assets/icons/tg.svg';
 
-
-const navigationItems = [
-    { label: "Главная", target: "top" },
-    { label: "Каталог", target: "cars" },
-    { label: "О нас", target: "about" },
-    { label: "Новости", target: "news" },
-    // { label: "Контакты", target: "footer" },
-];
 
 
 const legalLinks = [
@@ -29,6 +26,8 @@ const legalLinks = [
 
 export const Footer = ({ onOpenModalCallBack }) => {
 
+    const navigate = useNavigate();
+
     const scrollToTop = useCallback(() => {
         scroll.scrollToTop(scrollConfig);
     }, []);
@@ -38,7 +37,8 @@ export const Footer = ({ onOpenModalCallBack }) => {
             <div className="container mx-auto max-w-[1240px] px-4">
 
 
-                <div className="flex justify-between items-baseline gap-8 flex-wrap">
+                {/* <div className="flex justify-between items-baseline gap-8 flex-wrap"> */}
+                <div className="flex flex-col gap-8 md:flex-row md:justify-between md:items-baseline md:gap-8 md:flex-wrap">
                     <div className="flex flex-col gap-4 max-w-[260px]">
                         <div className="h-8 cursor-pointer">
                             <SmartLink>
@@ -49,34 +49,25 @@ export const Footer = ({ onOpenModalCallBack }) => {
                             Профессиональный импорт автомобилей из Азии с полным циклом услуг
                         </p>
                     </div>
-                    <nav className="flex flex-col gap-3">
-                        {navigationItems.map((item, index) => {
-                            return (
-                                <SmartLink
-                                    key={item.label}
-                                    to={item.target}
-                                    className={`text-sm hover:opacity-80 transition-opacity cursor-pointer ${index === 0 ? "font-semibold" : "font-normal"}`}
-                                >
-                                    {item.label}
-                                </SmartLink>
-                            );
-                        })}
+                    <nav className="flex flex-col md:flex-c gap-3">
+                        {navLinks.map((item) => (
+                            <NavItem
+                                key={item.label}
+                                item={item}
+                                className="text-sm hover:opacity-80 transition-opacity"
+                            />
+                        ))}
                     </nav>
 
 
                     <div className="flex flex-col gap-3 text-sm">
                         <h3 className="font-semibold whitespace-nowrap">Контакты</h3>
-                        <div className="flex flex-col">
-                            <address className="not-italic">г. Владивосток</address>
-                            <address className="not-italic text-xs text-white/80">ул. Русская 99</address>
-                        </div>
-                        <a href="tel:+79140744300" className="hover:opacity-80 transition-opacity">+7 (914) 074-43-00</a>
-                        <a href="mailto:sgvautoimport@gmail.com" className="hover:opacity-80 transition-opacity">sgvautoimport@gmail.com</a>
+                        <ContactBlock />
                     </div>
                     <div className="flex flex-col gap-4 max-w-[340px] w-full">
                         <div className="flex items-center gap-2 border-2 border-primary-red rounded-full shadow-lg">
                             <div className="pl-2">
-                                <SocialChip name="whatsapp" />
+                                <SocialChip name="max" />
                             </div>
                             <SocialChip name="tg" />
                             <Button onClick={onOpenModalCallBack} className="flex-1">Обратный звонок</Button>
@@ -91,25 +82,27 @@ export const Footer = ({ onOpenModalCallBack }) => {
                 </div>
 
 
-                <div className="mt-16 pt-8 border-t border-white/10 flex justify-between items-center text-xs text-white/60 flex-wrap gap-4">
-                    <p>© 2025 SGV AUTO. Все права защищены.</p>
-                    <div className="flex gap-4">
-                        {legalLinks.map((link) => (
+                <div
+                    // className="mt-16 pt-8 border-t border-white/10 flex justify-between items-center text-xs text-white/60 flex-wrap gap-4">
+                    className="mt-16 pt-8 border-t border-white/10 flex flex-col gap-4 md:flex-row md:justify-between md:items-center text-xs text-white/60">
+                    <p>© 2026 SGV AUTO. Права защищены.</p>
+                    {/* <div className="flex gap-4"> */}
+                    <div className="flex flex-col gap-2 md:flex-row md:gap-4"></div>
+                    {legalLinks.map((link) => (
 
-                            <a
-                                key={link.href}
-                                href={link.href}
-                                target="_blank"
-                                className="underline hover:text-white transition-colors"
-                            >
-                                {link.label}
-                            </a>
-                        ))}
-                    </div>
+                        <a
+                            key={link.href}
+                            href={link.href}
+                            target="_blank"
+                            className="underline hover:text-white transition-colors"
+                        >
+                            {link.label}
+                        </a>
+                    ))}
                 </div>
-
             </div>
-        </footer>
+
+        </footer >
     );
 };
 

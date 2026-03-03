@@ -3,7 +3,6 @@
 import React from 'react';
 
 import carImage from '~/assets/images/about/car.png';
-import logoLineImage from '~/assets/images/about/line.svg';
 
 export const AboutSummary = () => {
 
@@ -11,15 +10,8 @@ export const AboutSummary = () => {
 
     return (
 
-        <section id='about' className="relative w-full h-auto bg-[#11131B] py-8 overflow-hidden">
+        <section id='about' className="w-full bg-[#11131B] py-24 overflow-hidden">
 
-            <img
-                src={logoLineImage}
-                alt=""
-                draggable="false"
-
-                className="absolute lg:block bottom-0 left-0 w-full h-auto object-cover pointer-events-none select-none z-20"
-            />
 
             <div className="relative container mx-auto max-w-[1240px] px-4">
 

@@ -31,7 +31,7 @@ async function fetchCarImages(cars) {
 
 export const useCatalogFeed = (api_path, items_per_page) => {
     const { data: objects = [], loading, error } = useFetch(
-        `${API_URL}/${api_path}/`,
+        `${API_URL}/${api_path}`,
         requestOptions,
         async (items) => {
             const carsWithImages = await fetchCarImages(items || []);

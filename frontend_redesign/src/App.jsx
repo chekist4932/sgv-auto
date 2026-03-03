@@ -7,9 +7,9 @@ import { Footer } from '~/components/layout/Footer'; // Используем э�
 import { HomePage } from './pages/HomePage';
 import { NewsPage } from './pages/NewsPage';
 import { CatalogPage } from './pages/CatalogPage';
+import { SoldPage } from './pages/SoldPage';
 
 import { CallbackModal } from '~/components/ui/modal/CallbackModal';
-
 import { Stp } from '~/components/ui/Stp';
 
 function App() {
@@ -24,6 +24,7 @@ function App() {
         <Route path="/" element={<HomePage onOpenModalCallBack={() => setIsModalOpen(true)} />} />
         <Route path="/news" element={<NewsPage />} />
         <Route path="/catalog" element={<CatalogPage onOpenModalCallBack={() => setIsModalOpen(true)}/>} />
+        <Route path="/sold" element={<SoldPage onOpenModalCallBack={() => setIsModalOpen(true)}/>} />
       </Routes>
 
       <Footer onOpenModalCallBack={() => setIsModalOpen(true)} />

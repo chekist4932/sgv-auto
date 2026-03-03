@@ -7,7 +7,7 @@ import { ReviewsModal } from '~/components/ui/modal/ReviewsModal';
 import { Button } from '~/components/ui/Button'
 import { Spinner } from "~/components/ui/Spinner";
 import { SectionTitle } from '~/components/ui/SectionTitle'
-
+import { Element } from "react-scroll";
 
 import { useCarousel } from '~/hooks/useCarousel'
 import { useCarouselPositions } from '~/hooks/useCarouselPositions'

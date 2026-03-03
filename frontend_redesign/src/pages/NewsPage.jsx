@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import { NewsModal } from '~/components/ui/modal/NewsModal';
 
-import { Breadcrumbs } from '~/components/ui/news/Breadcrumbs'
+import { Breadcrumbs } from '~/components/ui/Breadcrumbs'
 import { Pagination } from '~/components/ui/news/Pagination'
 import { AdBanner } from '~/components/ui/news/AdBanner'
 
@@ -54,7 +54,7 @@ export const NewsPage = () => {
         <div className="w-full bg-[#0C0E15] text-white py-12">
             <div className="container mx-auto max-w-[1280px] px-4 py-12">
                 <AdBanner />
-                <Breadcrumbs />
+                <Breadcrumbs dir={'Новости'}/>
                 <NewsFilters filters={filters} setFilters={setFilters} />
                 <NewsGrid news={currentPageNews} loading={loading} onCardClick={setSelectedNews} />
                 {totalPages > 1 && (

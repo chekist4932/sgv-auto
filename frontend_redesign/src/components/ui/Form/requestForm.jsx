@@ -114,7 +114,7 @@ export const RequestForm = ({ isOpen, onClose }) => {
                             Предпочитаемый способ связи
                         </p>
                         <div className="grid grid-cols-3 gap-2">
-                            {["whatsapp", "telegram", "phone"].map((method) => (
+                            {["max", "telegram", "phone"].map((method) => (
                                 <label key={method} className="relative flex cursor-pointer ">
                                     <input
                                         type="radio"

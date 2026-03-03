@@ -1,3 +1,5 @@
+// \src\components\ui\news\FilterPills.jsx
+
 import React from "react";
 
 

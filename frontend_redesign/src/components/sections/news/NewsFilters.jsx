@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Search } from 'lucide-react';
-import { FilterPills } from '~/components/ui/news/FilterPills';
+import { FilterPills } from '~/components/ui/FilterPills';
 import { categories } from '~/lib/news_page/constants'
 
 export const NewsFilters = ({ filters, setFilters }) => {

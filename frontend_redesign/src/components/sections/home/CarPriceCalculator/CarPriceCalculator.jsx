@@ -14,7 +14,7 @@ import { SanctionedWarning } from './SanctionedWarning';
 import { ENGINE_TYPES, COUNTRIES } from '~/lib/calculator/constants';
 import { useCustomsCalculator } from '~/hooks/useCustomsCalculator';
 
-import AlertIcon from '~/assets/images/calculator/Alert.png';
+import AlertIcon from '~/assets/icons/alert.svg';
 import { API_URL } from "~/config";
 
 const schema = z.object({
@@ -158,14 +158,15 @@ export const CarPriceCalculator = () => {
                             </div>
 
                             {/* Правая колонка */}
-                            <div className="lg:col-span-1 bg-[#0C0E15] rounded-3xl flex flex-col p-6 text-center">
-                                <img src={AlertIcon} alt="Внимание" className="w-24 h-24 mx-auto mb-4" />
-                                <p className="text-white/80 text-sm mb-4">
+                            <div className="lg:col-span-1 bg-[#0C0E15] rounded-3xl flex flex-col pt-12 pr-12 pl-12 text-center">
+                                <p className="text-white text-sm mb-4">
                                     Для получения точной стоимости и актуальных условий доставки, пожалуйста, заполните все поля и отправьте заявку
                                 </p>
                                 <p className="text-white text-sm font-semibold">
                                     Менеджер свяжется в ближайшее время
                                 </p>
+                                <img src={AlertIcon} alt="Внимание" className="w-auto h-auto mt-auto" />
+
                             </div>
                         </div>
 
@@ -192,7 +193,7 @@ export const CarPriceCalculator = () => {
                                     id="dataAgreement"
                                     label={
                                         <>
-                                            Ознакомлен с
+                                            Ознакомлен с{" "}
                                             <a
                                                 href="/docs/user-agreement.pdf"
                                                 target="_blank"

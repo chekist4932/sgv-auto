@@ -8,7 +8,7 @@ import { SectionTitle } from '~/components/ui/SectionTitle'
 import bgImage from '~/assets/images/consultation/consultation-bg.png';
 import carImage from '~/assets/images/consultation/consultation-car.png';
 import lightningIcon from '~/assets/images/consultation/consultation-icon.svg';
-import whatsappIcon from '~/assets/icons/whatsapp.svg';
+import MaxIcon from '~/assets/icons/Max_logo.svg';
 import telegramIcon from '~/assets/icons/tg.svg';
 
 export const ConsultationSection = ({ onOpenModal }) => {
@@ -21,9 +21,9 @@ export const ConsultationSection = ({ onOpenModal }) => {
             action: () => onOpenModal(),
         },
         {
-            icon: whatsappIcon,
-            text: "Написать в WhatsApp",
-            href: "https://wa.me/79140744300",
+            icon: MaxIcon,
+            text: "Написать в Max",
+            href: "https://max.ru/u/f9LHodD0cOJgP1wUAa9vcvSrtKz6S6v1rypI8DHymNxSwQ1QN_Nht5GUbI8",
         },
         {
             icon: telegramIcon,

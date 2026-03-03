@@ -11,7 +11,7 @@ export const CarGrid = ({ cars, loading, onCardClick }) => {
     }
 
     if (cars.length === 0) {
-        return <div className="text-center text-white/60 py-16">Автомобили в наличии пока не добавлены</div>;
+        return <div className="text-center text-white/60 py-16">Автомобили не добавлены</div>;
     }
 
     return (

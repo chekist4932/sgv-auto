@@ -1,7 +1,7 @@
 import React from "react";
-import { SmartLink } from '../SmartLink';
+import { SmartLink } from './SmartLink';
 
-export const Breadcrumbs = () => (
+export const Breadcrumbs = ({dir}) => (
     <div id='breadcrumbs' className="text-sm text-white/60 mb-8">
         <SmartLink
             key='Главная'
@@ -9,6 +9,6 @@ export const Breadcrumbs = () => (
             className="hover:opacity-80 transition-opacity cursor-pointer"
         >
             Главная
-        </SmartLink> / <span className="text-white">Новости</span>
+        </SmartLink> / <span className="text-white">{dir}</span>
     </div>
 );

@@ -1,4 +1,4 @@
-// src/pages/CatalogPage.jsx
+// src/pages/SoldPage.jsx
 
 import React, { useEffect, useState } from 'react';
 
@@ -12,16 +12,15 @@ import { AdBanner } from '~/components/ui/news/AdBanner'
 import { Breadcrumbs } from '~/components/ui/Breadcrumbs'
 
 import { CarGrid } from '~/components/sections/catalog/CarGrid';
-import { CatalogFilters } from '~/components/sections/catalog/CatalogFilters';
 import { useCatalogFeed } from '~/hooks/useCatalogFeed';
 import { ITEMS_PER_PAGE } from '~/lib/catalog_page/constants'
 
 
 
 
-export const CatalogPage = ({ onOpenModalCallBack }) => {
+export const SoldPage = ({ onOpenModalCallBack }) => {
 
-    const [country, setCountry] = useState('in_stock');
+    const [country, setCountry] = useState('sold');
 
     const {
         loading,
@@ -55,14 +54,7 @@ export const CatalogPage = ({ onOpenModalCallBack }) => {
         <div className="w-full bg-[#0C0E15] text-white py-12">
             <div className="container mx-auto max-w-[1280px] px-4 py-12">
                 <AdBanner />
-                <Breadcrumbs dir={'Каталог'} />
-                <CatalogFilters
-                    activeStatus={country}
-                    onChange={(newStatus) => {
-                        setCountry(newStatus);
-                        setCurrentPage(1); // сброс пагинации
-                    }}
-                />
+                <Breadcrumbs dir={'Наши работы'} />
                 <CarGrid cars={currentPageCatalog} loading={loading} onCardClick={setSelectedCar} />
                 {totalPages > 1 && (
                     <Pagination

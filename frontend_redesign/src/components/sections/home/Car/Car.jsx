@@ -44,14 +44,15 @@ async function fetchCarImages(cars) {
 
 
 
-export const Car = ({ onOpenModalCallBack }) => {
+export const Car = ({ onOpenModalCallBack, status, title, section_id }) => {
     const [selectedCar, setSelectedCar] = useState(null);
 
     const { data: cars = [], loading, error } = useFetch(
-        `${API_URL}/car/`,
+        `${API_URL}/car${status ? `?status=${status}` : ''}`,
         requestOptions,
         async (items) => {
-            const carsWithImages = await fetchCarImages(items || []);
+            const filteredItems = (items || []).filter(car => car.status !== 'sold');
+            const carsWithImages = await fetchCarImages(filteredItems || []);
             // console.log(carsWithImages);
             return carsWithImages.sort(
                 (a, b) => new Date(b.created_at) - new Date(a.created_at)
@@ -81,9 +82,9 @@ export const Car = ({ onOpenModalCallBack }) => {
 
 
     return (
-        <section id='cars' className="w-full bg-[#11131B] py-24 overflow-hidden">
+        <section id={section_id} className="w-full bg-[#11131B] py-24 overflow-hidden">
             <div className="container mx-auto md:max-w-fit md:px-24">
-                <SectionTitle title='Автомобили в наличии – ваше быстрое решение' />
+                <SectionTitle title={title ? `${title}` : 'Автомобили в наличии – ваше быстрое решение'} />
                 <div className="text-center mb-4">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 text-white
                     md:text-base text-xs">

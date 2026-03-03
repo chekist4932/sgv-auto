@@ -80,10 +80,10 @@ export const Hero = ({ onOpenModal }) => {
                                     max-w-none
                                     lg:w-auto
                                     lg:absolute lg:bottom-0 lg:left-1/4 
-                                    lg:-translate-x-1/4 lg:-translate-y-1/6 
-                                    z-20"
+                                    lg:-translate-x-1/3 lg:-translate-y-1/6 
+                                    z-40"
                     />
-                    <div className="hidden lg:flex justify-between items-start h-full z-10 ">
+                    <div className="hidden xl:flex justify-between items-start h-full z-10 ">
                         <div className="w-[278px]">
                             <FeatureCard
                                 title={features[0].title}

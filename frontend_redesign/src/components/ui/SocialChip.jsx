@@ -1,12 +1,12 @@
 import React from 'react';
-import whatsappIcon from '~/assets/icons/whatsapp.svg';
+import MaxIcon from '~/assets/icons/Max_logo.svg';
 import tgIcon from '~/assets/icons/tg.svg';
 
 
 const socialMedia = {
-    whatsapp: {
-        icon: whatsappIcon,
-        source_link: "https://wa.me/79140744300"
+    max: {
+        icon: MaxIcon,
+        source_link: "https://max.ru/u/f9LHodD0cOJgP1wUAa9vcvSrtKz6S6v1rypI8DHymNxSwQ1QN_Nht5GUbI8"
     },
     tg: {
         icon: tgIcon,

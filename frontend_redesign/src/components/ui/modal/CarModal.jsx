@@ -152,7 +152,7 @@ export const CarModal = ({ car, onClose, onOpenModal }) => {
                         <div className="relative flex flex-col" >
                             <div className="flex items-center gap-2 border border-primary-red rounded-full shadow-lg ">
                                 <div className="pl-2">
-                                    <SocialChip name="whatsapp" />
+                                    <SocialChip name="max" />
                                 </div>
                                 <SocialChip name="tg" />
                                 <Button onClick={onOpenModal} className="flex-1">Обратный звонок</Button>

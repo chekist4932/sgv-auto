@@ -21,18 +21,34 @@ export const HomePage = ({ onOpenModalCallBack }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const location = useLocation();
+    const scrollToElement = (target) => {
+        setTimeout(() => {
+            scroller.scrollTo(target, {
+                ...scrollConfig,
+                smooth: true,
+                duration: 500
+            });
+        }, 250); // Увеличил задержку для гарантии загрузки DOM
+    };
+
+    // Обработка hash из URL
     useEffect(() => {
         if (location.hash) {
             const target = location.hash.substring(1);
-
-            const timer = setTimeout(() => {
-                scroller.scrollTo(target, { ...scrollConfig });
-            }, 250);
-
-
-            return () => clearTimeout(timer);
+            scrollToElement(target);
         }
-    }, [location]);
+    }, [location.hash]);
+
+    // Обработка state из навигации
+    useEffect(() => {
+        if (location.state?.scrollTo) {
+            const target = location.state.scrollTo;
+            scrollToElement(target);
+
+            // Очищаем state, чтобы при обновлении страницы не скроллило снова
+            window.history.replaceState({}, document.title);
+        }
+    }, [location.state]);
 
     return (
         <div>
@@ -41,7 +57,7 @@ export const HomePage = ({ onOpenModalCallBack }) => {
             <Benefit />
             <ReviewsSection />
             <AboutSummary />
-            <Car onOpenModalCallBack={onOpenModalCallBack} />
+            <Car section_id='cars_in_stock' onOpenModalCallBack={onOpenModalCallBack} />
             <ProcessSection />
             <FaqSection />
             <News />
