@@ -71,7 +71,7 @@ register_exception_handlers(app)
 
 origins = [
     # "*"
-    "https://" + get_settings().app.DOMAIN_NAME,
+    get_settings().app.DOMAIN_NAME,
     "http://localhost",
     "http://127.0.0.1"
 ]
