@@ -11,7 +11,7 @@ export const formatPrice = (price, country) => {
     };
 
     const symbol = currencySymbols[country] || '¥'; // по умолчанию юань
-    
+
     return `${price.toLocaleString('ru-RU', { maximumFractionDigits: 0 })} ${symbol}`;
 };
 
@@ -28,8 +28,8 @@ export const formatLotForDisplay = (car) => {
         year: car.YEAR || "Не указан",
         price: formatPrice(car.FINISH, car.COUNTRY_AUCTION),
         description: car.description || "",
-        images: imagesArray.map((img) => ({ 
-            url: img || noResultImage, 
+        images: imagesArray.map((img) => ({
+            url: img || noResultImage,
             alt: car.name || `${car.MARKA_NAME} ${car.MODEL_NAME}`.trim() || "Автомобиль"
         })),
         specs: {
@@ -45,7 +45,7 @@ export const formatLotForDisplay = (car) => {
 };
 
 export const formatLotForModal = (car) => {
-    
+
     const brand = car.MARKA_NAME;
     const model = car.MODEL_NAME;
     const imagesArray = car.IMAGES || [];
@@ -70,8 +70,8 @@ export const formatLotForModal = (car) => {
         },
         price: formatPrice(car.FINISH, car.COUNTRY_AUCTION),
         description: car.INFO || '',
-        images: imagesArray.map((img) => ({ 
-            url: img || noResultImage, 
+        images: imagesArray.map((img) => ({
+            url: img || noResultImage,
             alt: car.name || `${car.MARKA_NAME} ${car.MODEL_NAME}`.trim() || "Автомобиль"
         })),
         status: car.status || "on_order",
@@ -83,46 +83,61 @@ export const formatLotForModal = (car) => {
 export const parseCarInfo = (rawHtml) => {
     if (!rawHtml) return [];
 
-    // 1. Очистка от HTML сущностей и тегов
+    // 1. Очистка и декодирование
     const decoded = rawHtml
+        .replace(/\r\n/g, '\n')
         .replace(/<br\s*\/?>/gi, '\n')
         .replace(/&times;/g, '×')
         .replace(/&ndash;/g, '–')
-        .replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec)); // Декодируем китайские символы
+        .replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec));
 
-    const lines = decoded.split('\n');
+    // Проверяем, не является ли это простым списком через ";" (Ваш случай №1)
+    if (decoded.includes(';') && !decoded.includes('\n')) {
+        const [title, content] = decoded.split(':');
+        if (content) {
+            return [{
+                title: title.trim(),
+                items: content.split(';').map(item => ({ key: '', value: item.trim() }))
+            }];
+        }
+    }
+
+    const lines = decoded.split('\n').map(l => l.trim()).filter(Boolean);
     const sections = [];
-    let currentSection = null;
-    const seenKeys = new Set(); // Для удаления дублей, так как в вашем логе данные повторяются
+    let currentSection = { title: 'Информация', items: [] };
 
     lines.forEach(line => {
-        const trimmed = line.trim();
-        if (!trimmed) return;
+        // Проверка на заголовок секции (напр. "Body:", "engine:", "Комплектация:")
+        if (line.endsWith(':') && line.length < 50) {
+            if (currentSection.items.length > 0) sections.push(currentSection);
+            currentSection = { title: line.replace(':', ''), items: [] };
+            return;
+        }
 
-        // Определяем заголовок секции (строка заканчивается на :)
-        if (trimmed.endsWith(':') && !trimmed.includes('YES') && !trimmed.includes('-')) {
-            const title = trimmed.replace(':', '');
-            // Если секция уже была (дубль из лога), не создаем новую, а переключаемся на старую или игнорим
-            currentSection = { title, items: [] };
-            sections.push(currentSection);
-        } else {
-            // Разделяем Ключ: Значение
-            const separatorIndex = trimmed.indexOf(':');
-            if (separatorIndex !== -1) {
-                const key = trimmed.substring(0, separatorIndex).trim();
-                const value = trimmed.substring(separatorIndex + 1).trim();
-
-                // Фильтруем мусор: пустые значения "-", дубликаты и технические заголовки
-                if (value && value !== '-' && !seenKeys.has(key)) {
-                    if (currentSection) {
-                        currentSection.items.push({ key, value });
-                        // seenKeys.add(key); // Раскомментируйте, если хотите абсолютно уникальные ключи
-                    }
-                }
+        // Проверка на формат "Ключ: Значение"
+        const separatorIndex = line.indexOf(':');
+        if (separatorIndex !== -1 && separatorIndex < 40) {
+            const key = line.substring(0, separatorIndex).trim();
+            const value = line.substring(separatorIndex + 1).trim();
+            if (value && value !== '-') {
+                currentSection.items.push({ key, value });
             }
+        }
+        // Проверка на пункты списка (начинаются с "-" или "•")
+        else if (line.startsWith('-') || line.startsWith('•')) {
+            currentSection.items.push({
+                key: '',
+                value: line.replace(/^[-•]\s*/, '')
+            });
+        }
+        // Просто текст
+        else {
+            currentSection.items.push({ key: '', value: line });
         }
     });
 
-    // Убираем пустые секции
-    return sections.filter(s => s.items.length > 0);
+    if (currentSection.items.length > 0) sections.push(currentSection);
+
+    // Если ничего не распарсилось (редкий случай), вернем текст как есть
+    return sections.length > 0 ? sections : [{ title: 'Описание', items: [{ key: '', value: decoded }] }];
 };

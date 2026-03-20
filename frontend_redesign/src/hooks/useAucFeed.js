@@ -11,7 +11,6 @@ export const useAucFeed = (api_path, items_per_page) => {
 
     const dataUrl = useMemo(() => {
         const url = new URL(`${API_URL}/${api_path}limit=${items_per_page}&offset=${offset}`);
-        console.log(`build dataUrl ${url}`);
         return url.toString();
     }, [api_path, currentPage]);
     

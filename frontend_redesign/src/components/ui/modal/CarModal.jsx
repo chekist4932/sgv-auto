@@ -252,7 +252,7 @@ export const CarModal = ({ car: initialCar, onClose, onOpenModal, isLot }) => {
 
                         <div className="bg-[#141720] p-4 rounded-lg">
                             <h4 className="font-semibold text-base mb-2 text-zinc-700">Описание</h4>
-                            {description && description.includes(':') ? (
+                            {description && description.includes(':') && isLot ? (
                                 <InfoSpecs rawInfo={description} />
                             ) : (
                                 <p className="text-sm text-white whitespace-pre-line">{description}</p>

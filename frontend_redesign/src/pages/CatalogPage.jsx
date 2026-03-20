@@ -4,7 +4,6 @@ import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useParams } from "react-router-dom";
 
 import { CarModal } from '~/components/ui/modal/CarModal';
-import { formatLotForModal } from '~/lib/catalog_page/utils'
 
 import { CallToActionSection } from '~/components/sections/CallToActionSection'
 
@@ -63,11 +62,12 @@ export const CatalogPage = ({ onOpenModalCallBack }) => {
         if (filters.finish_lte) filterParams.append('finish_lte', filters.finish_lte);
 
         const filterString = filterParams.toString();
-        return filterString ? `${path}/?${filterString}&` : `${path}?`;
+        return filterString ? `${path}?${filterString}&` : `${path}?`;
     };
 
     const apiPath = useMemo(() => getApiPath(), [filters]);
 
+    console.log(apiPath);
     const {
         loading,
         currentPage,
