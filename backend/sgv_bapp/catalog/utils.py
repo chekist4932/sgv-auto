@@ -5,12 +5,10 @@ from sgv_bapp.config import get_settings
 
 from urllib.parse import quote
 
-conf = get_settings().auction
 
-API_CODE = conf.API_CODE
-REMOTE_ADDR = conf.REMOTE_ADDR
-API_URL = conf.API_URL
-TABLE = conf.TABLE
+API_CODE = get_settings().auction.AUC_CODE
+REMOTE_ADDR = get_settings().auction.AUC_REMOTE_ADDR
+API_URL = get_settings().auction.AUC_URL
 
 # URL-коды
 operators_map = {
