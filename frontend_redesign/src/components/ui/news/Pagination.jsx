@@ -1,3 +1,5 @@
+// src\components\ui\news\Pagination.jsx
+
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -10,6 +12,7 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
         const next = Math.max(1, Math.min(totalPages, page));
         if (next === currentPage) return;
+
         onPageChange(next);
     };
 

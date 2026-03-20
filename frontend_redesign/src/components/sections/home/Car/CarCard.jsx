@@ -13,9 +13,10 @@ const CarSpecs = ({ specs }) => {
     const format_specs = {
         "Двигатель": specs.engine,
         "Пробег": specs.mileage,
+        "Мощность": specs.power,
         "Коробка передач": specs.transmission,
         "Привод": specs.drivetrain,
-        "Руль": specs.steering,
+        // "Руль": specs.steering,
     };
 
     return (
@@ -56,7 +57,7 @@ export const CarCard = ({ car, isActive, onClick }) => {
             case 'in_transit':
                 return 'bg-blue-500/60 text-white';
             default:
-                return 'bg-gray-500/60 text-white';
+                return 'bg-green-500/60 text-white';
         }
     };
 

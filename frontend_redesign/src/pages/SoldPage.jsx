@@ -11,7 +11,7 @@ import { Pagination } from '~/components/ui/news/Pagination'
 import { AdBanner } from '~/components/ui/news/AdBanner'
 import { Breadcrumbs } from '~/components/ui/Breadcrumbs'
 
-import { CarGrid } from '~/components/sections/catalog/CarGrid';
+import { SoldGrid } from '~/components/sections/catalog/SoldGrid';
 import { useCatalogFeed } from '~/hooks/useCatalogFeed';
 import { ITEMS_PER_PAGE } from '~/lib/catalog_page/constants'
 
@@ -55,7 +55,7 @@ export const SoldPage = ({ onOpenModalCallBack }) => {
             <div className="container mx-auto max-w-[1280px] px-4 py-12">
                 <AdBanner />
                 <Breadcrumbs dir={'Наши работы'} />
-                <CarGrid cars={currentPageCatalog} loading={loading} onCardClick={setSelectedCar} />
+                <SoldGrid cars={currentPageCatalog} loading={loading} onCardClick={setSelectedCar} />
                 {totalPages > 1 && (
                     <Pagination
                         currentPage={currentPage}

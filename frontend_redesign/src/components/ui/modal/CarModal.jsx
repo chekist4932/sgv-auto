@@ -1,12 +1,19 @@
 // src/components/ui/CarModal.jsx
 
-import React, { useState } from 'react';
-import { X, ChevronLeft, ChevronRight, Fuel, Zap, Settings, GitCommit, GitBranch } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { X, ChevronLeft, ChevronRight, Fuel, Zap, Settings, GitCommit, GitBranch, ImageIcon  } from 'lucide-react';
 
 import { Button } from '../Button';
 import { Badge } from '../Badge';
 import { SocialChip } from '../SocialChip';
+import { useFetchLot } from '~/hooks/useFetchLot'; // ваш хук
+import { formatLotForModal } from '~/lib/catalog_page/utils';
 
+import { ModalSkeleton } from '~/components/ui/modal/ModalSkeleton'
+
+import { InfoSpecs } from '~/components/ui/modal/InfoSpecs'
+
+import { API_URL, requestOptions } from '~/config/index'
 
 const SpecIcon = ({ icon, label, value }) => (
     <div className="flex flex-col items-center text-center">
@@ -16,47 +23,111 @@ const SpecIcon = ({ icon, label, value }) => (
     </div>
 );
 
+const ImageWithSkeleton = ({ src, alt, className }) => {
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [isError, setIsError] = useState(false);
+
+    // Сбрасываем состояние при смене src (когда листаем галерею)
+    useEffect(() => {
+        setIsLoaded(false);
+        setIsError(false);
+    }, [src]);
+
+    return (
+        <div className={`relative overflow-hidden bg-white/5 ${className}`}>
+            {/* Скелетон/Заглушка (показывается пока не загружено) */}
+            {!isLoaded && !isError && (
+                <div className="absolute inset-0 flex items-center justify-center animate-pulse bg-white/10">
+                    <ImageIcon className="w-8 h-8 text-white/10" />
+                </div>
+            )}
+
+            {/* Иконка ошибки, если фото не загрузилось */}
+            {isError && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20 text-white/20 text-xs">
+                    Ошибка загрузки
+                </div>
+            )}
+
+            <img
+                src={src}
+                alt={alt}
+                onLoad={() => setIsLoaded(true)}
+                onError={() => setIsError(true)}
+                className={`
+                    w-full h-full object-cover transition-opacity duration-500
+                    ${isLoaded ? 'opacity-100' : 'opacity-0'}
+                `}
+            />
+        </div>
+    );
+};
+
 const ImageGallery = ({ images }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     if (!images || images.length === 0) {
-        return <div className="aspect-video bg-black/20 rounded-lg flex items-center justify-center text-white/50">Нет изображений</div>;
+        return (
+            <div className="aspect-video bg-black/20 rounded-lg flex items-center justify-center text-white/50">
+                Нет изображений
+            </div>
+        );
     }
 
-    const prevImage = (e) => { e.stopPropagation(); setCurrentIndex((prev) => (prev - 1 + images.length) % images.length); };
-    const nextImage = (e) => { e.stopPropagation(); setCurrentIndex((prev) => (prev + 1) % images.length); };
+    const prevImage = (e) => {
+        e.stopPropagation();
+        setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    };
+
+    const nextImage = (e) => {
+        e.stopPropagation();
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+    };
 
     return (
         <div className="space-y-2">
-            <div className="relative my-4 group  aspect-video">
-                <img src={images[currentIndex].url} alt={images[currentIndex].alt} className="w-full h-full object-cover rounded-lg" />
+            {/* Основное изображение */}
+            <div className="relative my-4 group aspect-video">
+                <ImageWithSkeleton
+                    src={images[currentIndex].url}
+                    alt={images[currentIndex].alt}
+                    className="rounded-lg w-full h-full"
+                />
+
                 {images.length > 1 && (
                     <>
                         <button
                             onClick={prevImage}
-                            variant="ghost" size="icon"
-                            className="absolute bottom-0 left-2 -translate-y-1/2 bg-black/30 hover:bg-black/60 rounded-full opacity-0 group-hover:opacity-100 transition-opacity focus-visible:ring-0"
+                            className="absolute top-1/2 -translate-y-1/2 left-2 p-2 bg-black/30 hover:bg-black/60 rounded-full opacity-0 group-hover:opacity-100 transition-all z-10"
                         >
                             <ChevronLeft className="w-5 h-5 text-white" />
                         </button>
                         <button
                             onClick={nextImage}
-                            variant="ghost" size="icon"
-                            className="absolute bottom-0 right-2 -translate-y-1/2 bg-black/30 hover:bg-black/60 rounded-full opacity-0 group-hover:opacity-100 transition-opacity focus-visible:ring-0"
+                            className="absolute top-1/2 -translate-y-1/2 right-2 p-2 bg-black/30 hover:bg-black/60 rounded-full opacity-0 group-hover:opacity-100 transition-all z-10"
                         >
                             <ChevronRight className="w-5 h-5 text-white" />
                         </button>
                     </>
                 )}
             </div>
+
+            {/* Сетка миниатюр */}
             <div className="grid grid-cols-4 gap-2">
                 {images.map((image, index) => (
                     <div
                         key={index}
                         onClick={() => setCurrentIndex(index)}
-                        className={`aspect-video rounded-md overflow-hidden cursor-pointer border-2 ${currentIndex === index ? 'border-primary-red' : 'border-transparent'}`}
+                        className={`
+                            aspect-video rounded-md overflow-hidden cursor-pointer border-2 transition-all
+                            ${currentIndex === index ? 'border-primary-red scale-[0.98]' : 'border-transparent opacity-60 hover:opacity-100'}
+                        `}
                     >
-                        <img src={image.url} alt={image.alt} className="w-full h-full object-cover" />
+                        <ImageWithSkeleton
+                            src={image.url}
+                            alt={image.alt}
+                            className="w-full h-full"
+                        />
                     </div>
                 ))}
             </div>
@@ -64,8 +135,47 @@ const ImageGallery = ({ images }) => {
     );
 };
 
+export const CarModal = ({ car: initialCar, onClose, onOpenModal, isLot }) => {
 
-export const CarModal = ({ car, onClose, onOpenModal }) => {
+    const api_path = isLot
+        ? `${API_URL}/catalog/${initialCar?.COUNTRY_AUCTION}?id=${initialCar?.ID}`
+        : null;
+
+    const { data, loading, error } = useFetchLot(api_path, requestOptions);
+
+    // 2. Вычисляем итоговые данные об авто
+    const car = useMemo(() => {
+        if (!isLot) return initialCar; // Если не лот, используем то что пришло в пропсах
+        if (data && data.items) {
+            const rawCarData = Array.isArray(data.items) ? data.items[0] : data.items;
+
+            // Если данных внутри массива нет (пустой список), возвращаем null
+            if (!rawCarData) return null;
+            return formatLotForModal(rawCarData);
+        }
+        return null;
+    }, [isLot, initialCar, data]);
+
+    // 3. Обработка состояний (Loading / Error / No Data)
+    if (!initialCar) return null;
+
+    if (isLot && loading) {
+        return <ModalSkeleton onClose={onClose} />;
+    }
+
+    // 3. Если произошла ошибка
+    if (isLot && error) {
+        return (
+            <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div className="bg-[#11131B] p-8 rounded-2xl text-center">
+                    <p className="text-white mb-4">Не удалось загрузить данные об автомобиле</p>
+                    <Button onClick={onClose}>Закрыть</Button>
+                </div>
+            </div>
+        );
+    }
+
+
     if (!car) return null;
 
     const { brand, model, generation, description, images, price } = car;
@@ -142,7 +252,11 @@ export const CarModal = ({ car, onClose, onOpenModal }) => {
 
                         <div className="bg-[#141720] p-4 rounded-lg">
                             <h4 className="font-semibold text-base mb-2 text-zinc-700">Описание</h4>
-                            <p className="text-sm text-white whitespace-pre-line">{description}</p>
+                            {description && description.includes(':') ? (
+                                <InfoSpecs rawInfo={description} />
+                            ) : (
+                                <p className="text-sm text-white whitespace-pre-line">{description}</p>
+                            )}
                         </div>
 
                         <div className="bg-[#141720] p-4 rounded-lg space-y-3">

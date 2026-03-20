@@ -23,7 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage onOpenModalCallBack={() => setIsModalOpen(true)} />} />
         <Route path="/news" element={<NewsPage />} />
-        <Route path="/catalog" element={<CatalogPage onOpenModalCallBack={() => setIsModalOpen(true)}/>} />
+        <Route path="/catalog/:country" element={<CatalogPage onOpenModalCallBack={() => setIsModalOpen(true)}/>} />
         <Route path="/sold" element={<SoldPage onOpenModalCallBack={() => setIsModalOpen(true)}/>} />
       </Routes>
 

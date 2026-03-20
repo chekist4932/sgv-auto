@@ -13,27 +13,10 @@ import { ContactBlock } from '../ui/ContactBlock';
 import { scrollConfig } from '~/config/scroll';
 import { navLinks } from '~/lib/navigation';
 
-import arrowDownIcon from '~/assets/icons/arrow-down.svg';
 import plusIcon from '~/assets/images/hero/icon-plus.svg';
 import tgIcon from '~/assets/icons/tg.svg';
 
 
-// const navLinks = [
-//     {
-//         label: "Каталог", target: 'catalog',
-//         // hasDropdown: true,
-//         // submenu: [
-//         //     { title: "Автомобили из Японии", target: "cars" },
-//         //     { title: "Автомобили из Китая", target: "cars" },
-//         //     { title: "Автомобили из Кореи", target: "cars" },
-//         // ],
-//     },
-//     { label: "В наличии", target: "cars_in_stock" },
-//     { label: "Наши работы", target: "cars_sold" },
-//     { label: "Отзывы", target: "review" },
-//     { label: "О нас", target: "about" },
-//     { label: "Новости", target: "news" },
-// ];
 
 export const Header = ({ onOpenModalCallBack, navIsActive }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -176,6 +159,7 @@ export const Header = ({ onOpenModalCallBack, navIsActive }) => {
                                 <NavItem
                                     key={item.label}
                                     item={item}
+                                    isMobile 
                                     onClick={() => setIsMenuOpen(false)}
                                     className="hover:opacity-80 transition-opacity"
                                 />
