@@ -20,6 +20,7 @@ from sgv_bapp.car import car_router
 from sgv_bapp.notification.router import notify_router
 from sgv_bapp.review.router import review_router
 from sgv_bapp.news.router import news_router
+from sgv_bapp.catalog.router.china import china_router
 
 from sgv_bapp.user.view import (
     UserAdmin
@@ -62,6 +63,7 @@ api_router.include_router(car_router)
 api_router.include_router(review_router)
 api_router.include_router(notify_router)
 api_router.include_router(news_router)
+api_router.include_router(china_router)
 
 app.include_router(api_router)
 
