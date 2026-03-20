@@ -44,5 +44,6 @@ class BaseFilter(BaseModel):
 
 
 class PaginatedResponse(BaseModel, Generic[EntitySchema]):
+    total: int | None = Field(None)
     count: int = Field(description='Number of items returned in the response')
     items: list[EntitySchema] = Field(description='List of items returned in the response following given criteria')

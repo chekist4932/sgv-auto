@@ -98,6 +98,13 @@ class AuthSettings(BaseConfig):
     PUBLIC_KEY: str = (BASE_DIR / "public.pem").read_text()
 
 
+class AuctionSettings(BaseConfig):
+    API_CODE: str
+    REMOTE_ADDR: str
+    API_URL: str
+    TABLE: str = 'china'
+
+
 class Settings(BaseSettings):
     app: AppSettings = Field(default_factory=AppSettings)
     uvicorn: UvicornSettings = Field(default_factory=UvicornSettings)
@@ -105,6 +112,7 @@ class Settings(BaseSettings):
     bot: BotSettings = Field(default_factory=BotSettings)
     auth: AuthSettings = Field(default_factory=AuthSettings)
     minio: MinioSettings = Field(default_factory=MinioSettings)
+    auction: AuctionSettings = Field(default_factory=AuctionSettings)
 
 
 @lru_cache
