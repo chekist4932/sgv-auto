@@ -1,7 +1,7 @@
 // src/components/ui/CarModal.jsx
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { X, ChevronLeft, ChevronRight, Fuel, Zap, Settings, GitCommit, GitBranch, ImageIcon  } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Fuel, Zap, Settings, GitCommit, GitBranch, ImageIcon } from 'lucide-react';
 
 import { Button } from '../Button';
 import { Badge } from '../Badge';
@@ -252,7 +252,7 @@ export const CarModal = ({ car: initialCar, onClose, onOpenModal, isLot }) => {
 
                         <div className="bg-[#141720] p-4 rounded-lg">
                             <h4 className="font-semibold text-base mb-2 text-zinc-700">Описание</h4>
-                            {description && description.includes(':') && isLot ? (
+                            {description && description.includes(':') ? (
                                 <InfoSpecs rawInfo={description} />
                             ) : (
                                 <p className="text-sm text-white whitespace-pre-line">{description}</p>

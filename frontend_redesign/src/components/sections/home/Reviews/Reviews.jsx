@@ -75,8 +75,8 @@ export const ReviewsSection = () => {
                                         <ReviewCard
                                             review={review}
                                             isActive={true}
-                                            onClick={() => setSelectedReview(review)} 
-                                            />
+                                            onClick={() => setSelectedReview(review)}
+                                        />
                                     </div>
                                 ))}
                                 {/* </div> */}
@@ -167,12 +167,10 @@ export const ReviewsSection = () => {
             </div>
 
             {selectedReview && (
-                <body className="overflow-hidden">
-                    <ReviewsModal
-                        review={selectedReview}
-                        onClose={() => setSelectedReview(null)}
-                    />
-                </body>
+                <ReviewsModal
+                    review={selectedReview}
+                    onClose={() => setSelectedReview(null)}
+                />
 
             )}
         </section>

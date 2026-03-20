@@ -190,13 +190,11 @@ export const Car = ({ onOpenModalCallBack, status, title, section_id }) => {
             </div>
 
             {selectedCar && (
-                <body className="overflow-hidden">
-                    <CarModal
-                        car={formatCarForModal(selectedCar)}
-                        onClose={() => setSelectedCar(null)}
-                        onOpenModal={onOpenModalCallBack}
-                    />
-                </body>
+                <CarModal
+                    car={formatCarForModal(selectedCar)}
+                    onClose={() => setSelectedCar(null)}
+                    onOpenModal={onOpenModalCallBack}
+                />
             )}
         </section>
     );

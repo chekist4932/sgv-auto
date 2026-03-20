@@ -67,7 +67,7 @@ class ChinaAuctionItem(BaseChinaAuction):
     def assemble_image_url(cls, field_value: Optional[str], values: ValidationInfo):
         if isinstance(field_value, str):
             field_value = [
-                image_url.replace('che&h=50', 'che&w=320') if 'che&h=50' in image_url else image_url.replace('che', 'che&w=320')
+                image_url.replace('&h=50', '&w=320') if '&h=50' in image_url else image_url + '&w=320'
                 for image_url in field_value.split('#')
             ]
             return field_value

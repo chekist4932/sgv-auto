@@ -89,12 +89,12 @@ export const News = () => {
                 )}
             </div>
             {selectedNews && (
-                <body className="overflow-hidden">
-                    <NewsModal
-                        news_item={selectedNews}
-                        onClose={() => setSelectedNews(null)}
-                    />
-                </body>
+
+                <NewsModal
+                    news_item={selectedNews}
+                    onClose={() => setSelectedNews(null)}
+                />
+
             )}
         </section>
     );

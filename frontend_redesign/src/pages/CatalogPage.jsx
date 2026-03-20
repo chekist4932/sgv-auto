@@ -67,7 +67,6 @@ export const CatalogPage = ({ onOpenModalCallBack }) => {
 
     const apiPath = useMemo(() => getApiPath(), [filters]);
 
-    console.log(apiPath);
     const {
         loading,
         currentPage,
