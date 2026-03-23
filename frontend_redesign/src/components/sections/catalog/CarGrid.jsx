@@ -3,6 +3,7 @@
 import React from 'react';
 import { CarCard } from '~/components/sections/home/Car/CarCard';
 import { formatLotForDisplay } from '~/lib/catalog_page/utils';
+import { useCustomsCalculator } from '~/hooks/useCustomsCalculator';
 
 
 const CarCardSkeleton = () => (
@@ -24,6 +25,7 @@ const CarCardSkeleton = () => (
 export const CarGrid = ({ cars, loading, onCardClick }) => {
 
     const skeletonArray = Array.from({ length: 12 });
+    const { rates } = useCustomsCalculator({ /* заглушка пропсов */ });
 
     return (
         <div className='flex justify-center'>
@@ -36,7 +38,7 @@ export const CarGrid = ({ cars, loading, onCardClick }) => {
                         ? cars.map((car) => (
                             <CarCard
                                 key={car.ID}
-                                car={formatLotForDisplay(car)}
+                                car={formatLotForDisplay(car, rates)}
                                 isActive={true}
                                 onClick={() => onCardClick(car)}
                             />

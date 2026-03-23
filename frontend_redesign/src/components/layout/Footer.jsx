@@ -50,13 +50,15 @@ export const Footer = ({ onOpenModalCallBack }) => {
                         </p>
                     </div>
                     <nav className="flex flex-col md:flex-c gap-3">
-                        {navLinks.map((item) => (
-                            <NavItem
-                                key={item.label}
-                                item={item}
-                                className="text-sm hover:opacity-80 transition-opacity"
-                            />
-                        ))}
+                            {navLinks.map((item) => (
+                                <NavItem
+                                    key={item.label}
+                                    item={item}
+                                    isMobile 
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className="hover:opacity-80 transition-opacity"
+                                />
+                            ))}
                     </nav>
 
 

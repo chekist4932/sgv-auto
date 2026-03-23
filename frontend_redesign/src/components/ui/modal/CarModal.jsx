@@ -8,9 +8,8 @@ import { Badge } from '../Badge';
 import { SocialChip } from '../SocialChip';
 import { useFetchLot } from '~/hooks/useFetchLot'; // ваш хук
 import { formatLotForModal } from '~/lib/catalog_page/utils';
-
+import { useCustomsCalculator } from '~/hooks/useCustomsCalculator';
 import { ModalSkeleton } from '~/components/ui/modal/ModalSkeleton'
-
 import { InfoSpecs } from '~/components/ui/modal/InfoSpecs'
 
 import { API_URL, requestOptions } from '~/config/index'
@@ -142,6 +141,8 @@ export const CarModal = ({ car: initialCar, onClose, onOpenModal, isLot }) => {
         : null;
 
     const { data, loading, error } = useFetchLot(api_path, requestOptions);
+    const { rates } = useCustomsCalculator({ /* заглушка пропсов */ });
+
 
     // 2. Вычисляем итоговые данные об авто
     const car = useMemo(() => {
@@ -151,7 +152,7 @@ export const CarModal = ({ car: initialCar, onClose, onOpenModal, isLot }) => {
 
             // Если данных внутри массива нет (пустой список), возвращаем null
             if (!rawCarData) return null;
-            return formatLotForModal(rawCarData);
+            return formatLotForModal(rawCarData, rates);
         }
         return null;
     }, [isLot, initialCar, data]);
@@ -205,9 +206,17 @@ export const CarModal = ({ car: initialCar, onClose, onOpenModal, isLot }) => {
                             <p className="text-xl font-bold text-primary-red">
                                 {price}
                             </p>
-                            <Badge>
-                                включая доставку и таможенное оформление
-                            </Badge>
+
+                            {car && car?.auction_country != 'korea' ? (
+                                <Badge>
+                                    включая доставку и таможенное оформление
+                                </Badge>
+                            ) : (
+                                <Badge>
+                                    без доставки и таможенного оформление
+                                </Badge>
+                            )}
+
                         </div>
                     </div>
 

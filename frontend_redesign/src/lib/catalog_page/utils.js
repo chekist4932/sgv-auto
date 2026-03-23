@@ -1,7 +1,9 @@
 import noResultImage from "/no-results.jpg";
 
 
-export const formatPrice = (price, country) => {
+import { calculateFullCarPrice } from '../calculator/auction_card';
+
+export const formatPrice = (price, country, rates = null, car = null) => {
     const currencySymbols = {
         china: '¥',
         korea: '₩',
@@ -10,41 +12,68 @@ export const formatPrice = (price, country) => {
         europe: '€'
     };
 
-    const symbol = currencySymbols[country] || '¥'; // по умолчанию юань
+    const symbol = currencySymbols[country] || '¥';
+    const originalPrice = `${price.toLocaleString('ru-RU')} ${symbol}`;
 
-    return `${price.toLocaleString('ru-RU', { maximumFractionDigits: 0 })} ${symbol}`;
+    // Если переданы курсы, считаем итоговую цену в рублях
+    if (rates && car && country != 'korea') {
+        const fullPriceRub = calculateFullCarPrice(car, rates);
+        if (fullPriceRub) {
+            return `~ ${fullPriceRub.toLocaleString('ru-RU')} ₽`;
+        }
+    }
+
+    return originalPrice;
 };
 
 
-export const formatLotForDisplay = (car) => {
+
+// export const formatPrice = (price, country) => {
+//     const currencySymbols = {
+//         china: '¥',
+//         korea: '₩',
+//         japan: 'JP¥',
+//         usa: '$',
+//         europe: '€'
+//     };
+
+//     const symbol = currencySymbols[country] || '¥'; // по умолчанию юань
+
+//     return `${price.toLocaleString('ru-RU', { maximumFractionDigits: 0 })} ${symbol}`;
+// };
+
+
+export const formatLotForDisplay = (car, rates = null) => {
 
 
     const imagesArray = car.IMAGES || [];
 
 
     return {
-        brand: car.MARKA_NAME || "Не указан",
-        model: car.MODEL_NAME || "Не указан",
-        year: car.YEAR || "Не указан",
-        price: formatPrice(car.FINISH, car.COUNTRY_AUCTION),
+        brand: car.MARKA_NAME || "н/д",
+        model: car.MODEL_NAME || "н/д",
+        year: car.YEAR || "н/д",
+        price: formatPrice(car.FINISH, car.COUNTRY_AUCTION, rates, car),
+        originalPrice: formatPrice(car.FINISH, car.COUNTRY_AUCTION),
         description: car.description || "",
+        auction_country: car.COUNTRY_AUCTION || undefined,
         images: imagesArray.map((img) => ({
             url: img || noResultImage,
             alt: car.name || `${car.MARKA_NAME} ${car.MODEL_NAME}`.trim() || "Автомобиль"
         })),
         specs: {
-            engine: car.ENG_V ? car.ENG_V + ' см3' : 'не указан',
-            power: car.PW || "Не указан",
-            transmission: car.KPP || "Не указан",
-            drivetrain: car.PRIV || "Не указан",
-            steering: car.steering || "Не указан",
-            mileage: car.MILEAGE || "Не указан",
+            engine: car.ENG_V ? car.ENG_V + ' см3' : 'н/д',
+            power: car.PW ? car.PW + " л.с." : "н/д",
+            transmission: car.KPP || "н/д",
+            drivetrain: car.PRIV || "н/д",
+            steering: car.steering || "н/д",
+            mileage: car.MILEAGE || "н/д",
         },
         status: car.status || "on_order",
     };
 };
 
-export const formatLotForModal = (car) => {
+export const formatLotForModal = (car, rates = null) => {
 
     const brand = car.MARKA_NAME;
     const model = car.MODEL_NAME;
@@ -60,16 +89,18 @@ export const formatLotForModal = (car) => {
             years: car.YEAR,
             specs: [
                 {
-                    engine: car.ENG_V ? car.ENG_V + ' см3' : 'не указан',
-                    power: car.PW + " л.с." || "Не указан",
+                    engine: car.ENG_V ? car.ENG_V + ' см3' : 'н/д',
+                    power: car.PW ? car.PW + " л.с." : "н/д",
                     transmission: car.KPP,
-                    drivetrain: car.PRIV || "Не указан",
-                    steering: car.steering || "Не указан",
+                    drivetrain: car.PRIV || "н/д",
+                    steering: car.steering || "н/д",
                 },
             ],
         },
-        price: formatPrice(car.FINISH, car.COUNTRY_AUCTION),
+        price: formatPrice(car.FINISH, car.COUNTRY_AUCTION, rates, car),
+        originalPrice: formatPrice(car.FINISH, car.COUNTRY_AUCTION),
         description: car.INFO || '',
+        auction_country: car.COUNTRY_AUCTION || undefined,
         images: imagesArray.map((img) => ({
             url: img || noResultImage,
             alt: car.name || `${car.MARKA_NAME} ${car.MODEL_NAME}`.trim() || "Автомобиль"
