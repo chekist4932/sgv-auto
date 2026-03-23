@@ -213,7 +213,7 @@ export const CarModal = ({ car: initialCar, onClose, onOpenModal, isLot }) => {
                                 </Badge>
                             ) : (
                                 <Badge>
-                                    без доставки и таможенного оформление
+                                    цена в Южной Корее
                                 </Badge>
                             )}
 
